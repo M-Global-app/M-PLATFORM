@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M PLATFORM - لوحة التحكم الرئيسية</title>
+    <style>
+        /* التنسيقات الأساسية الموحدة */
+        :root {
+            --primary-color: #3b82f6;
+            --sidebar-bg: #1e293b;
+            --body-bg: #f1f5f9;
+            --text-dark: #334155;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--body-bg); color: var(--text-dark); }
+
+        .layout { display: flex; min-height: 100vh; }
+
+        /* القائمة الجانبية الموحدة */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            color: white;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .logo-area {
+            padding: 30px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #334155;
+        }
+
+        .nav-links { padding: 20px 0; }
+        .nav-links a {
+            display: block;
+            padding: 15px 25px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: #334155;
+            color: white;
+            border-right: 4px solid var(--primary-color);
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content { flex: 1; margin-right: 280px; padding: 40px; }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        /* منطقة العمل - هنا ستتغير المحتويات فقط */
+        .content-area {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            min-height: 400px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <aside class="sidebar">
+        <div class="logo-area">M PLATFORM ⚡</div>
+        <nav class="nav-links">
+            <a href="#" class="active">📊 الرئيسية</a>
+            <a href="#">📦 المنتجات</a>
+            <a href="#">🛒 الطلبات</a>
+            <a href="#">💰 المحفظة</a>
+            <a href="#">⚙️ الإعدادات</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="header">
+            <h2>لوحة التحكم الرئيسية</h2>
+            <div class="user">مرحباً، المدير</div>
+        </div>
+
+        <div class="content-area">
+            <h3>أهلاً بك في منصتك الخاصة</h3>
+            <p style="margin-top: 20px; color: #64748b;">
+                هذا هو الأساس "الصلب" لمشروعك. لقد صممت الكود ليكون خفيفاً جداً على جهازك الحالي [cite: 2026-01-22].
+            </p>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
