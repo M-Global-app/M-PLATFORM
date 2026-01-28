@@ -3,104 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M PLATFORM - لوحة التحكم الرئيسية</title>
+    <title>M PLATFORM - لوحة التحكم</title>
     <style>
-        /* التنسيقات الأساسية الموحدة */
         :root {
-            --primary-color: #3b82f6;
-            --sidebar-bg: #1e293b;
-            --body-bg: #f1f5f9;
-            --text-dark: #334155;
+            --bg-color: #fcf6f6; /* لون خلفية ناعم من تصميمك السابق */
+            --card-bg: #ffffff;
+            --accent-red: #ff7e7e; /* اللون الأحمر الوردي الذي تفضله */
+            --text-main: #4a4a4a;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--body-bg); color: var(--text-dark); }
+        body { background: var(--bg-color); color: var(--text-main); padding-bottom: 80px; }
 
-        .layout { display: flex; min-height: 100vh; }
-
-        /* القائمة الجانبية الموحدة */
-        .sidebar {
-            width: 280px;
-            background: var(--sidebar-bg);
-            color: white;
-            position: fixed;
-            height: 100vh;
-        }
-
-        .logo-area {
-            padding: 30px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            border-bottom: 1px solid #334155;
-        }
-
-        .nav-links { padding: 20px 0; }
-        .nav-links a {
-            display: block;
-            padding: 15px 25px;
-            color: #cbd5e1;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .nav-links a:hover, .nav-links a.active {
-            background: #334155;
-            color: white;
-            border-right: 4px solid var(--primary-color);
-        }
-
-        /* المحتوى الرئيسي */
-        .main-content { flex: 1; margin-right: 280px; padding: 40px; }
-
+        /* الهيدر العلوي */
         .header {
+            padding: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
-            padding: 20px 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
 
-        /* منطقة العمل - هنا ستتغير المحتويات فقط */
-        .content-area {
+        .user-profile { display: flex; align-items: center; gap: 15px; }
+        .avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .welcome-text h2 { font-size: 22px; color: var(--accent-red); }
+        .welcome-text p { font-size: 12px; color: #aaa; }
+
+        /* كروت الإحصائيات (تصميمك المفضل) */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 0 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
             background: white;
-            padding: 30px;
             border-radius: 15px;
-            min-height: 400px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+        .stat-card.green { border-bottom: 4px solid #86efac; }
+        .stat-card.orange { border-bottom: 4px solid #fdba74; }
+        .stat-card.red { border-bottom: 4px solid #fca5a5; }
+
+        .stat-card span { font-size: 10px; color: #999; display: block; margin-bottom: 5px; }
+        .stat-card strong { font-size: 16px; color: #333; }
+
+        /* شريط البحث */
+        .search-box {
+            margin: 0 20px 30px;
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+        .search-box input { border: none; outline: none; width: 100%; text-align: right; font-size: 14px; }
+
+        /* شبكة الأيقونات الرئيسية (التي تعشقها) */
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 30px; /* زوايا دائرية كبيرة كما في صورتك */
+            padding: 30px 10px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            text-decoration: none;
+            color: var(--text-main);
+            transition: transform 0.2s;
+        }
+        .menu-item:active { transform: scale(0.95); }
+        .menu-item i { font-size: 40px; color: var(--accent-red); margin-bottom: 15px; display: block; }
+        .menu-item span { font-weight: bold; font-size: 15px; }
+
+        /* القائمة السفلية */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-<div class="layout">
-    <aside class="sidebar">
-        <div class="logo-area">M PLATFORM ⚡</div>
-        <nav class="nav-links">
-            <a href="#" class="active">📊 الرئيسية</a>
-            <a href="#">📦 المنتجات</a>
-            <a href="#">🛒 الطلبات</a>
-            <a href="#">💰 المحفظة</a>
-            <a href="#">⚙️ الإعدادات</a>
-        </nav>
-    </aside>
-
-    <main class="main-content">
-        <div class="header">
-            <h2>لوحة التحكم الرئيسية</h2>
-            <div class="user">مرحباً، المدير</div>
+    <div class="header">
+        <div class="user-profile">
+            <img src="https://via.placeholder.com/50" alt="Profile" class="avatar">
+            <div class="welcome-text">
+                <h2>مرحباً، هقتقت تشتقتق</h2>
+                <p>إليك ملخص متجرك اليوم</p>
+            </div>
         </div>
-
-        <div class="content-area">
-            <h3>أهلاً بك في منصتك الخاصة</h3>
-            <p style="margin-top: 20px; color: #64748b;">
-                هذا هو الأساس "الصلب" لمشروعك. لقد صممت الكود ليكون خفيفاً جداً على جهازك الحالي [cite: 2026-01-22].
-            </p>
+        <div class="icons">
+            <i class="fa-regular fa-bell" style="font-size: 20px; color: #ccc;"></i>
         </div>
-    </main>
-</div>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-card green">
+            <span>عدد المنتجات</span>
+            <strong>120 منتج</strong>
+        </div>
+        <div class="stat-card orange">
+            <span>على وشك النفاذ</span>
+            <strong>8 قطع</strong>
+        </div>
+        <div class="stat-card red">
+            <span>طلبات جديدة</span>
+            <strong>5 طلبات</strong>
+        </div>
+    </div>
+
+    <div class="search-box">
+        <input type="text" placeholder="ابحث عن منتج، طلب، أو عميل...">
+        <i class="fa-solid fa-magnifying-glass" style="color: #ddd;"></i>
+    </div>
+
+    <div class="main-grid">
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-user-gear"></i>
+            <span>اعدادات التاجر</span>
+        </a>
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-store"></i>
+            <span>اعدادات المتجر</span>
+        </a>
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            <span>المنتجات</span>
+        </a>
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-truck-fast"></i>
+            <span>الطلبات</span>
+        </a>
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-wallet"></i>
+            <span>المحفظة</span>
+        </a>
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>التقارير</span>
+        </a>
+    </div>
+
+    <nav class="bottom-nav">
+        <i class="fa-solid fa-house" style="color: var(--accent-red);"></i>
+        <i class="fa-solid fa-star" style="color: #ccc;"></i>
+        <i class="fa-solid fa-wand-magic-sparkles" style="color: #ccc;"></i>
+        <i class="fa-solid fa-bars" style="color: #ccc;"></i>
+    </nav>
 
 </body>
 </html>
