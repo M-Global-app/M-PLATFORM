@@ -155,6 +155,24 @@
     </div>
 
     <a href="index.html" class="back-link">← العودة للرئيسية</a>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = 'https://wwbyzuvbqamucp.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    document.querySelectorAll('.btn-action').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const card = this.closest('.card');
+            const planName = card.querySelector('.plan-name').innerText;
+            
+            // حفظ نوع الباقة المختارة للانتقال لصفحة التسجيل
+            localStorage.setItem('selectedPlan', planName);
+            window.location.href = 'signup.html';
+        });
+    });
+</script>
 
 </body>
 </html>
