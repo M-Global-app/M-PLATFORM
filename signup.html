@@ -3,35 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إنشاء حساب - M PLATFORM</title>
+    <title>انضم إلينا اليوم - M PLATFORM</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #FF0000; --bg: #f4f7f6; --card-bg: #ffffff; --text: #1a1a1a; }
-        @media (prefers-color-scheme: dark) { :root { --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; } }
+        :root { --primary: #FF0000; --bg: #fcfcfc; --text: #1a1a1a; }
+        @media (prefers-color-scheme: dark) { :root { --bg: #0f172a; --text: #f8fafc; } }
         
-        body { margin: 0; padding: 20px; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 400px; background: var(--card-bg); padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; }
-        .header-title { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
-        .sub-title { font-size: 13px; opacity: 0.7; margin-bottom: 25px; }
+        body { 
+            margin: 0; padding: 40px 0; 
+            background-color: var(--bg); color: var(--text); 
+            font-family: 'Cairo', sans-serif; 
+            display: flex; flex-direction: column; align-items: center; 
+        }
+
+        .container { width: 90%; max-width: 400px; text-align: center; }
         
-        .selected-plan-box { background: rgba(255,0,0,0.05); padding: 12px; border-radius: 15px; margin-bottom: 25px; font-weight: 800; color: var(--primary); border: 1px dashed var(--primary); }
-        .input-group { margin-bottom: 18px; text-align: right; }
-        label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 8px; }
-        input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); box-sizing: border-box; background: var(--bg); font-family: 'Cairo'; transition: 0.3s; color: var(--text); }
-        input:focus { outline: none; border-color: var(--primary); }
-        .btn-submit { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 10px; font-size: 17px; }
+        .header-title { font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
+        .sub-title { font-size: 15px; opacity: 0.6; margin-bottom: 30px; }
+
+        .selected-plan-box { 
+            background: rgba(255,0,0,0.05); padding: 15px; 
+            border-radius: 15px; margin-bottom: 30px; 
+            font-weight: 800; color: var(--primary);
+            border: 1px dashed rgba(255,0,0,0.3);
+        }
+
+        .input-group { margin-bottom: 20px; text-align: right; }
+        label { display: block; font-size: 15px; font-weight: 800; margin-bottom: 8px; margin-right: 5px; }
+        
+        input { 
+            width: 100%; padding: 15px; 
+            border-radius: 15px; border: 1px solid rgba(0,0,0,0.08); 
+            box-sizing: border-box; background: white; 
+            font-family: 'Cairo'; font-size: 16px;
+            transition: 0.3s ease;
+        }
+        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 4px 12px rgba(255,0,0,0.05); }
+
+        .btn-submit { 
+            width: 100%; padding: 16px; 
+            background: var(--primary); color: white; 
+            border: none; border-radius: 50px; 
+            font-weight: 800; cursor: pointer; 
+            margin-top: 25px; font-size: 18px;
+            transition: 0.3s;
+        }
+        .btn-submit:active { transform: scale(0.98); }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="header-title">انضم إلينا اليوم</h1>
         <p class="sub-title">ابدأ رحلتك في التجارة الإلكترونية مع M</p>
-        <div id="planDisplay" class="selected-plan-box">جاري تحميل الباقة...</div>
+        
+        <div id="planDisplay" class="selected-plan-box">جاري تحديد باقتك...</div>
+
         <form id="signupForm">
-            <div class="input-group"><label>رقم الجوال</label><input type="tel" id="phone" placeholder="05xxxxxxxx" required></div>
-            <div class="input-group"><label>اسم المتجر</label><input type="text" id="storeName" placeholder="مثال: متجر الأناقة" required></div>
-            <div class="input-group"><label>البريد الإلكتروني</label><input type="email" id="email" placeholder="example@mail.com" required></div>
-            <div class="input-group"><label>كلمة المرور</label><input type="password" id="password" placeholder="••••••••" required></div>
+            <div class="input-group">
+                <label>رقم الجوال</label>
+                <input type="tel" id="phone" placeholder="05xxxxxxxx" required>
+            </div>
+            
+            <div class="input-group">
+                <label>اسم المتجر</label>
+                <input type="text" id="storeName" placeholder="مثال: متجر الأناقة" required>
+            </div>
+
+            <div class="input-group">
+                <label>البريد الإلكتروني</label>
+                <input type="email" id="email" placeholder="example@mail.com" required>
+            </div>
+
+            <div class="input-group">
+                <label>كلمة المرور</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+
             <button type="submit" class="btn-submit">إنشاء متجري الآن</button>
         </form>
     </div>
@@ -47,18 +94,20 @@
 
         document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = e.target.querySelector('button');
-            btn.innerText = "جاري الإنشاء...";
-            btn.disabled = true;
-
             const { data, error } = await _supabase.auth.signUp({
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value,
-                options: { data: { phone: document.getElementById('phone').value, store_name: document.getElementById('storeName').value, plan: selectedPlan } }
+                options: { 
+                    data: { 
+                        phone: document.getElementById('phone').value, 
+                        store_name: document.getElementById('storeName').value, 
+                        plan: selectedPlan 
+                    } 
+                }
             });
 
-            if (error) { alert("حدث خطأ: " + error.message); btn.innerText = "إنشاء متجري الآن"; btn.disabled = false; }
-            else { alert("تم إنشاء الحساب! يرجى تفعيل البريد الإلكتروني المسجل."); window.location.href = "index.html"; }
+            if (error) alert("حدث خطأ: " + error.message);
+            else alert("مبروك! تم إنشاء متجرك بنجاح. يرجى تفعيل حسابك من البريد.");
         });
     </script>
 </body>
