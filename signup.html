@@ -13,15 +13,16 @@
         .header-title { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
         .sub-title { font-size: 14px; opacity: 0.7; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; }
         
-        /* تطبيق خط Aref Ruqaa على حرف M فقط */
+        /* ضبط حرف M: خط Aref Ruqaa مع رفعه قليلاً للتناسق */
         .m-logo-style { 
             font-family: 'Aref Ruqaa', serif; 
             font-weight: 700; 
             color: var(--primary); 
-            font-size: 26px; /* حجم يتناسب مع فخامة الخط */
+            font-size: 24px; 
             line-height: 1;
             position: relative;
-            top: 2px;
+            top: -2px; /* تم رفعه قليلاً ليتناسب مع محاذاة النص العربي */
+            display: inline-block;
         }
 
         .selected-plan-box { background: rgba(255,0,0,0.05); padding: 10px; border-radius: 12px; margin-bottom: 20px; font-weight: 700; color: var(--primary); font-size: 14px; border: 1px dashed rgba(255,0,0,0.2); }
@@ -32,10 +33,9 @@
         
         .btn-submit { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 16px; box-shadow: 0 4px 12px rgba(255,0,0,0.15); }
 
-        /* رسالة التنبيه الأنيقة */
+        /* نافذة التنبيه الاحترافية */
         #customAlert { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
-        .alert-content { background: white; padding: 30px; border-radius: 20px; width: 80%; max-width: 300px; text-align: center; animation: slideIn 0.3s ease-out; border: 1px solid rgba(255,0,0,0.1); }
-        .alert-icon { font-size: 45px; margin-bottom: 10px; }
+        .alert-content { background: white; padding: 30px; border-radius: 20px; width: 80%; max-width: 300px; text-align: center; animation: slideIn 0.3s ease-out; }
         .alert-btn { background: var(--primary); color: white; border: none; padding: 12px 40px; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 20px; font-family: 'Cairo'; }
         @keyframes slideIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
@@ -45,7 +45,7 @@
         <h1 class="header-title">انضم إلينا اليوم</h1>
         <p class="sub-title">ابدأ تجارتك الإلكترونية مع <span class="m-logo-style">M</span></p>
         
-        <div id="planDisplay" class="selected-plan-box">الباقة المختارة: كبار التجار</div>
+        <div id="planDisplay" class="selected-plan-box">جاري تحميل الباقة...</div>
 
         <form id="signupForm">
             <div class="input-group"><label>رقم الجوال</label><input type="tel" id="phone" placeholder="05xxxxxxxx" required></div>
@@ -58,8 +58,7 @@
 
     <div id="customAlert">
         <div class="alert-content">
-            <div class="alert-icon" id="alertIcon">🎉</div>
-            <h3 id="alertTitle" style="margin:0; font-weight:800;">مبروك!</h3>
+            <h3 id="alertTitle" style="margin:0; font-weight:800; color:#FF0000;">مبروك!</h3>
             <p id="alertMsg" style="font-size:14px; color:#555; margin-top:10px;"></p>
             <button class="alert-btn" onclick="closeAlert()">موافق</button>
         </div>
@@ -67,13 +66,15 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        // الربط بعنوان مشروعك الصحيح كما في الصورة
         const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
-        function showAlert(title, msg, isSuccess = true) {
+        const selectedPlan = localStorage.getItem('selectedPlan') || 'الرئيسية';
+        document.getElementById('planDisplay').innerText = `الباقة المختارة: ${selectedPlan}`;
+
+        function showAlert(title, msg) {
             document.getElementById('alertTitle').innerText = title;
             document.getElementById('alertMsg').innerText = msg;
-            document.getElementById('alertIcon').innerText = isSuccess ? '🎉' : '⚠️';
-            document.getElementById('alertTitle').style.color = isSuccess ? '#FF0000' : '#333';
             document.getElementById('customAlert').style.display = 'flex';
         }
 
@@ -93,15 +94,15 @@
             const { data, error } = await _supabase.auth.signUp({
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value,
-                options: { data: { phone: document.getElementById('phone').value, store_name: document.getElementById('storeName').value } }
+                options: { data: { phone: document.getElementById('phone').value, store_name: document.getElementById('storeName').value, plan: selectedPlan } }
             });
 
             if (error) {
-                showAlert('عذراً', error.message, false);
+                showAlert('خطأ!', error.message);
                 btn.innerText = "إنشاء متجري الآن";
                 btn.disabled = false;
             } else {
-                showAlert('مبروك!', 'تم إنشاء المتجر بنجاح. تفقّد بريدك الإلكتروني للتفعيل.');
+                showAlert('مبروك!', 'تم إنشاء متجرك بنجاح. تفقّد بريدك الإلكتروني للتفعيل.');
             }
         });
     </script>
