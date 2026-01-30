@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M PLATFORM - باقاتنا</title>
-    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>M PLATFORM - اختر خطتك</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #ffffff;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
             --text-main: #0f172a;
             --primary-red: #FF0000;
+            --border-soft: rgba(0,0,0,0.05);
         }
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-color: #0f172a;
+                --card-bg: #1e293b;
                 --text-main: #f8fafc;
+                --border-soft: rgba(255,255,255,0.1);
             }
         }
         body {
@@ -24,80 +28,80 @@
             font-family: 'Cairo', sans-serif;
             display: flex;
             justify-content: center;
-            min-height: 100vh;
+            padding: 40px 0;
         }
-        .container {
-            text-align: center;
-            width: 90%;
-            max-width: 450px;
-            padding: 3vh 20px;
-        }
-        .logo-m {
-            font-family: 'Aref Ruqaa', serif;
-            font-size: 60px;
-            color: var(--primary-red);
+        .container { width: 90%; max-width: 400px; text-align: center; }
+        .logo-m { font-family: 'Aref Ruqaa', serif; font-size: 50px; color: var(--primary-red); margin-bottom: 30px; }
+        
+        .price-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 25px;
             margin-bottom: 20px;
-        }
-        .price-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .rect-card {
-            background: rgba(255, 0, 0, 0.01);
-            border: 1.5px solid rgba(255, 0, 0, 0.1);
-            border-radius: 15px;
-            padding: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border: 1px solid var(--border-soft);
             text-align: right;
-            transition: 0.3s;
+            transition: transform 0.3s ease;
         }
-        .rect-card:hover { border-color: var(--primary-red); background: white; }
-        .plan-name { font-size: 19px; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
-        .plan-price { font-size: 18px; color: var(--primary-red); font-weight: 700; margin-bottom: 8px; }
-        .details { font-size: 14px; line-height: 1.5; color: var(--text-main); }
-        .details span { display: block; margin-bottom: 4px; }
-        .btn-back {
-            display: inline-block;
-            margin-top: 25px;
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 14px;
-            border-bottom: 1px solid var(--primary-red);
+        .price-card:hover { transform: translateY(-5px); border-color: var(--primary-red); }
+        .featured { border: 2px solid var(--primary-red); position: relative; }
+        .featured::after { 
+            content: "الأكثر طلباً"; position: absolute; top: -12px; left: 20px; 
+            background: var(--primary-red); color: white; padding: 2px 12px; 
+            border-radius: 20px; font-size: 12px; font-weight: bold;
         }
+
+        .plan-name { font-size: 18px; font-weight: 700; margin-bottom: 5px; opacity: 0.9; }
+        .plan-price { font-size: 28px; font-weight: 700; color: var(--primary-red); margin-bottom: 15px; }
+        .plan-price span { font-size: 14px; color: var(--text-main); opacity: 0.6; }
+        
+        .feature-item { display: flex; align-items: center; margin-bottom: 10px; font-size: 14px; }
+        .feature-item::before { content: "✓"; color: var(--primary-red); margin-left: 10px; font-weight: bold; }
+
+        .btn-select {
+            display: block; width: 100%; padding: 12px; margin-top: 15px;
+            background: transparent; border: 1.5px solid var(--primary-red);
+            color: var(--primary-red); border-radius: 12px; text-decoration: none;
+            text-align: center; font-weight: 700; transition: 0.3s;
+        }
+        .btn-select:hover { background: var(--primary-red); color: white; }
+        .btn-back { display: inline-block; margin-top: 20px; color: var(--text-main); text-decoration: none; font-size: 14px; opacity: 0.6; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="logo-m">M</div>
         
-        <div class="price-stack">
-            <div class="rect-card">
-                <div class="plan-name">الباقة الرئيسية</div>
-                <div class="plan-price">0 اشتراك شهري</div>
-                <div class="details">
-                    <span>• 0 رسوم</span>
-                    <span>• عمولة <b>2.5%</b> مع كل عملية بيع</span>
-                </div>
-            </div>
-            
-            <div class="rect-card">
-                <div class="plan-name">باقة النخبة</div>
-                <div class="plan-price">99 اشتراك شهري</div>
-                <div class="details">
-                    <span>• 0 رسوم</span>
-                    <span>• عمولة <b>1%</b> مع كل عملية بيع</span>
-                </div>
-            </div>
+        <div class="price-card">
+            <div class="plan-name">الباقة الرئيسية</div>
+            <div class="plan-price">0 <span>ريال / شهر</span></div>
+            <div class="feature-item">0 رسوم تأسيس</div>
+            <div class="feature-item">عمولة 2.5% فقط</div>
+            <a href="#" class="btn-select">ابدأ مجاناً</a>
+        </div>
 
-            <div class="rect-card" style="border-color: var(--primary-red); background: white;">
-                <div class="plan-name" style="color: var(--primary-red);">باقة كبار التجار</div>
-                <div class="plan-price">199 اشتراك شهري</div>
-                <div class="details">
-                    <span>• 0 رسوم</span>
-                    <span>• عمولة <b>0.5%</b> فقط مع كل عملية بيع</span>
-                </div>
-            </div>
+        <div class="price-card">
+            <div class="plan-name">باقة النخبة</div>
+            <div class="plan-price">99 <span>ريال / شهر</span></div>
+            <div class="feature-item">0 رسوم تأسيس</div>
+            <div class="feature-item">عمولة 1% فقط</div>
+            <a href="#" class="btn-select">اشترك الآن</a>
+        </div>
+
+        <div class="price-card featured">
+            <div class="plan-name">كبار التجار</div>
+            <div class="plan-price">199 <span>ريال / شهر</span></div>
+            <div class="feature-item">دعم فني مخصص</div>
+            <div class="feature-item">عمولة 0.5% فقط</div>
+            <a href="#" class="btn-select" style="background: var(--primary-red); color: white;">اشترك الآن</a>
+        </div>
+
+        <div class="price-card">
+            <div class="plan-name">باقة القمة</div>
+            <div class="plan-price">299 <span>ريال / شهر</span></div>
+            <div class="feature-item">0 عمولة مبيعات</div>
+            <div class="feature-item">كل الأرباح لك</div>
+            <a href="#" class="btn-select">اشترك الآن</a>
         </div>
 
         <a href="index.html" class="btn-back">← العودة للرئيسية</a>
