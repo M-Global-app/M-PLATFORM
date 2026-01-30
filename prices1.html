@@ -29,67 +29,78 @@
         .container {
             text-align: center;
             width: 90%;
-            max-width: 800px;
-            padding: 5vh 20px;
+            max-width: 500px; /* تصغير العرض لجعلها مستطيلة وليست مربعة */
+            padding: 4vh 20px;
         }
         .logo-m {
             font-family: 'Aref Ruqaa', serif;
-            font-size: 80px;
+            font-size: 70px;
             color: var(--primary-red);
-            margin-bottom: 10px;
+            margin-bottom: 30px;
         }
-        .price-grid {
+        .price-stack {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            margin-top: 40px;
+            gap: 15px;
         }
-        .card {
-            background: rgba(255, 0, 0, 0.02);
-            border: 2px solid rgba(255, 0, 0, 0.1);
-            border-radius: 20px;
-            padding: 30px;
+        .rect-card {
+            background: rgba(255, 0, 0, 0.01);
+            border: 1.5px solid rgba(255, 0, 0, 0.1);
+            border-radius: 15px;
+            padding: 20px;
             transition: 0.3s;
+            text-align: right; /* محاذاة النص لليمين للوضوح */
             outline: none;
             -webkit-tap-highlight-color: transparent;
         }
-        .card:hover {
+        .rect-card:hover {
             border-color: var(--primary-red);
-            transform: translateY(-5px);
+            background: white;
+            box-shadow: 0 10px 25px rgba(255,0,0,0.05);
         }
-        .price-title { font-size: 24px; font-weight: 700; margin-bottom: 10px; }
-        .price-val { font-size: 36px; font-weight: 700; color: var(--primary-red); }
+        .plan-name { font-size: 20px; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
+        .plan-price { font-size: 18px; color: var(--primary-red); font-weight: 700; margin-bottom: 10px; }
+        .details { font-size: 15px; line-height: 1.6; color: var(--text-main); }
+        .details span { display: block; margin-bottom: 4px; }
+        
         .btn-back {
             display: inline-block;
-            margin-top: 40px;
+            margin-top: 30px;
             color: var(--text-main);
             text-decoration: none;
             font-weight: 700;
-            border-bottom: 2px solid var(--primary-red);
+            font-size: 14px;
+            opacity: 0.7;
+            transition: 0.3s;
         }
+        .btn-back:hover { opacity: 1; color: var(--primary-red); }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="logo-m">M</div>
-        <h1 style="font-family: 'Aref Ruqaa', serif;">باقات النجاح</h1>
         
-        <div class="price-grid">
-            <div class="card">
-                <div class="price-title">باقة الانطلاق</div>
-                <div class="price-val">مباشرة</div>
-                <p>أنشئ متجرك الآن وابدأ البيع فوراً بدون تعقيدات.</p>
+        <div class="price-stack">
+            <div class="rect-card">
+                <div class="plan-name">الباقة الرئيسية</div>
+                <div class="plan-price">0 اشتراك شهري</div>
+                <div class="details">
+                    <span>• 0 رسوم</span>
+                    <span>• ابدأ البيع فوراً مقابل <b>2.5%</b> عمولة لنا مع كل عملية بيع</span>
+                </div>
             </div>
             
-            <div class="card" style="border-color: var(--primary-red);">
-                <div class="price-title" style="color: var(--primary-red);">باقة الشركاء</div>
-                <div class="price-val">دعم كامل</div>
-                <p>نحن نربح عندما تربح أنت؛ دعم تقني وتسويقي متكامل.</p>
+            <div class="rect-card" style="border-color: var(--primary-red); background: white;">
+                <div class="plan-name" style="color: var(--primary-red);">باقة النخبة</div>
+                <div class="plan-price">99 اشتراك شهري</div>
+                <div class="details">
+                    <span>• 0 رسوم</span>
+                    <span>• <b>1%</b> عمولة لنا عند كل عملية بيع</span>
+                </div>
             </div>
         </div>
 
-        <a href="index.html" class="btn-back">العودة للرئيسية</a>
+        <a href="index.html" class="btn-back">← العودة للرئيسية</a>
     </div>
 </body>
 </html>
-
