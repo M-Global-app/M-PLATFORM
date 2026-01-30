@@ -3,61 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>انضم إلينا اليوم - M PLATFORM</title>
+    <title>انضم إلينا - M PLATFORM</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #FF0000; --bg: #fcfcfc; --text: #1a1a1a; }
         @media (prefers-color-scheme: dark) { :root { --bg: #0f172a; --text: #f8fafc; } }
         
         body { 
-            margin: 0; padding: 40px 0; 
+            margin: 0; padding: 20px 0; /* تقليل الحشو العلوي */
             background-color: var(--bg); color: var(--text); 
             font-family: 'Cairo', sans-serif; 
             display: flex; flex-direction: column; align-items: center; 
         }
 
-        .container { width: 90%; max-width: 400px; text-align: center; }
+        .container { width: 90%; max-width: 380px; text-align: center; }
         
-        .header-title { font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
-        .sub-title { font-size: 15px; opacity: 0.6; margin-bottom: 30px; }
+        .header-title { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
+        
+        /* تنسيق حرف M الصغير المائل */
+        .sub-title { font-size: 14px; opacity: 0.7; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .m-logo-small { color: var(--primary); font-weight: 900; font-style: italic; font-size: 18px; }
 
         .selected-plan-box { 
-            background: rgba(255,0,0,0.05); padding: 15px; 
-            border-radius: 15px; margin-bottom: 30px; 
-            font-weight: 800; color: var(--primary);
-            border: 1px dashed rgba(255,0,0,0.3);
+            background: rgba(255,0,0,0.05); padding: 10px; /* تصغير الصندوق */
+            border-radius: 12px; margin-bottom: 20px; 
+            font-weight: 700; color: var(--primary); font-size: 14px;
+            border: 1px dashed rgba(255,0,0,0.2);
         }
 
-        .input-group { margin-bottom: 20px; text-align: right; }
-        label { display: block; font-size: 15px; font-weight: 800; margin-bottom: 8px; margin-right: 5px; }
+        .input-group { margin-bottom: 12px; text-align: right; } /* تقليل المسافة بين الخانات */
+        label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; margin-right: 5px; }
         
         input { 
-            width: 100%; padding: 15px; 
-            border-radius: 15px; border: 1px solid rgba(0,0,0,0.08); 
+            width: 100%; padding: 10px 15px; /* تصغير حجم الخانة */
+            border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); 
             box-sizing: border-box; background: white; 
-            font-family: 'Cairo'; font-size: 16px;
+            font-family: 'Cairo'; font-size: 14px;
             transition: 0.3s ease; color: #1a1a1a;
         }
-        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 4px 12px rgba(255,0,0,0.05); }
+        input:focus { outline: none; border-color: var(--primary); }
 
         .btn-submit { 
-            width: 100%; padding: 16px; 
+            width: 100%; padding: 14px; 
             background: var(--primary); color: white; 
             border: none; border-radius: 50px; 
             font-weight: 800; cursor: pointer; 
-            margin-top: 25px; font-size: 18px;
-            box-shadow: 0 4px 15px rgba(255,0,0,0.2);
-            transition: 0.3s;
+            margin-top: 15px; font-size: 16px;
+            box-shadow: 0 4px 12px rgba(255,0,0,0.15);
         }
-        .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="header-title">انضم إلينا اليوم</h1>
-        <p class="sub-title">ابدأ رحلتك في التجارة الإلكترونية مع M</p>
+        <p class="sub-title">ابدأ رحلتك في التجارة الإلكترونية مع <span class="m-logo-small">M</span></p>
         
-        <div id="planDisplay" class="selected-plan-box">جاري تحميل باقتك...</div>
+        <div id="planDisplay" class="selected-plan-box">جاري تحميل الباقة...</div>
 
         <form id="signupForm">
             <div class="input-group">
@@ -86,7 +87,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // الرابط المحدث من لوحة تحكمك
         const SUPABASE_URL = 'https://wwbyzuvbqamucptnnlpf.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -97,7 +97,7 @@
         document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "جاري الاتصال بالسيرفر...";
+            btn.innerText = "جاري الحفظ...";
             btn.disabled = true;
 
             const { data, error } = await _supabase.auth.signUp({
@@ -113,12 +113,11 @@
             });
 
             if (error) {
-                alert("عذراً، حدث خطأ: " + error.message);
+                alert("خطأ: " + error.message);
                 btn.innerText = "إنشاء متجري الآن";
                 btn.disabled = false;
             } else {
-                alert("مبروك! تم إنشاء المتجر بنجاح. تفقد بريدك الإلكتروني للتفعيل.");
-                // التوجيه لصفحة لوحة التحكم بعد نجاح الإرسال
+                alert("تم بنجاح! تفقّد بريدك للتفعيل.");
                 window.location.href = "dashboard.html";
             }
         });
