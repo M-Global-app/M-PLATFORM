@@ -118,21 +118,22 @@
             font-weight: 700;
             font-size: 19px;
             transition: 0.3s ease;
-            /* حل مشكلة المربع البشع عند الضغط */
             outline: none;
             -webkit-tap-highlight-color: transparent;
+            display: inline-block; /* لضمان ظهور التنسيق */
         }
 
         .btn-primary {
             background-color: var(--primary-red);
             color: white;
             box-shadow: 0 6px 15px rgba(255, 0, 0, 0.18);
+            border: none;
         }
 
         .btn-secondary {
             background-color: transparent;
             color: var(--primary-red);
-            border: 2px solid var(--primary-red);
+            border: 2px solid var(--primary-red) !important; /* ضمان ظهور البرواز الأحمر */
         }
 
         .floating-btn {
@@ -149,7 +150,6 @@
             text-decoration: none;
             transition: transform 0.3s ease;
             opacity: 0;
-            /* حل مشكلة المربع البشع للأزرار العائمة */
             outline: none;
             -webkit-tap-highlight-color: transparent;
         }
@@ -196,12 +196,7 @@
 
         <div class="btn-group animate">
             <a href="login.html" class="btn btn-primary">ابدأ الآن</a>
-            <a href="prices.html" class="btn btn-se">أسعارنا</a>
-
-
-
-</button>
-
+            <a href="prices.html" class="btn btn-secondary">أسعارنا</a>
         </div>
     </div>
 
