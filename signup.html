@@ -7,48 +7,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #FF0000; --bg: #fcfcfc; --text: #1a1a1a; }
-        @media (prefers-color-scheme: dark) { :root { --bg: #0f172a; --text: #f8fafc; } }
-        
-        body { 
-            margin: 0; padding: 40px 0; 
-            background-color: var(--bg); color: var(--text); 
-            font-family: 'Cairo', sans-serif; 
-            display: flex; flex-direction: column; align-items: center; 
-        }
-
+        body { margin: 0; padding: 40px 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: flex; flex-direction: column; align-items: center; }
         .container { width: 90%; max-width: 400px; text-align: center; }
-        
         .header-title { font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
         .sub-title { font-size: 15px; opacity: 0.6; margin-bottom: 30px; }
-
-        .selected-plan-box { 
-            background: rgba(255,0,0,0.05); padding: 15px; 
-            border-radius: 15px; margin-bottom: 30px; 
-            font-weight: 800; color: var(--primary);
-            border: 1px dashed rgba(255,0,0,0.3);
-        }
-
+        .selected-plan-box { background: rgba(255,0,0,0.05); padding: 15px; border-radius: 15px; margin-bottom: 30px; font-weight: 800; color: var(--primary); border: 1px dashed rgba(255,0,0,0.3); }
         .input-group { margin-bottom: 20px; text-align: right; }
-        label { display: block; font-size: 15px; font-weight: 800; margin-bottom: 8px; margin-right: 5px; }
-        
-        input { 
-            width: 100%; padding: 15px; 
-            border-radius: 15px; border: 1px solid rgba(0,0,0,0.08); 
-            box-sizing: border-box; background: white; 
-            font-family: 'Cairo'; font-size: 16px;
-            transition: 0.3s ease; color: #1a1a1a;
-        }
+        label { display: block; font-size: 15px; font-weight: 800; margin-bottom: 8px; }
+        input { width: 100%; padding: 15px; border-radius: 15px; border: 1px solid rgba(0,0,0,0.08); box-sizing: border-box; background: white; font-family: 'Cairo'; font-size: 16px; transition: 0.3s; }
         input:focus { outline: none; border-color: var(--primary); box-shadow: 0 4px 12px rgba(255,0,0,0.05); }
-
-        .btn-submit { 
-            width: 100%; padding: 16px; 
-            background: var(--primary); color: white; 
-            border: none; border-radius: 50px; 
-            font-weight: 800; cursor: pointer; 
-            margin-top: 25px; font-size: 18px;
-            box-shadow: 0 4px 15px rgba(255,0,0,0.2);
-            transition: 0.3s;
-        }
+        .btn-submit { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 25px; font-size: 18px; box-shadow: 0 4px 15px rgba(255,0,0,0.2); }
         .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
     </style>
 </head>
@@ -56,74 +24,52 @@
     <div class="container">
         <h1 class="header-title">انضم إلينا اليوم</h1>
         <p class="sub-title">ابدأ رحلتك في التجارة الإلكترونية مع M</p>
-        
-        <div id="planDisplay" class="selected-plan-box">جاري تحميل باقتك...</div>
+        <div id="planDisplay" class="selected-plan-box">جاري تحديد باقتك...</div>
 
         <form id="signupForm">
-            <div class="input-group">
-                <label>رقم الجوال</label>
-                <input type="tel" id="phone" placeholder="05xxxxxxxx" required>
-            </div>
-            
-            <div class="input-group">
-                <label>اسم المتجر</label>
-                <input type="text" id="storeName" placeholder="مثال: متجر الأناقة" required>
-            </div>
-
-            <div class="input-group">
-                <label>البريد الإلكتروني</label>
-                <input type="email" id="email" placeholder="example@mail.com" required>
-            </div>
-
-            <div class="input-group">
-                <label>كلمة المرور</label>
-                <input type="password" id="password" placeholder="••••••••" required>
-            </div>
-
+            <div class="input-group"><label>رقم الجوال</label><input type="tel" id="phone" placeholder="05xxxxxxxx" required></div>
+            <div class="input-group"><label>اسم المتجر</label><input type="text" id="storeName" placeholder="مثال: متجر الأناقة" required></div>
+            <div class="input-group"><label>البريد الإلكتروني</label><input type="email" id="email" placeholder="example@mail.com" required></div>
+            <div class="input-group"><label>كلمة المرور</label><input type="password" id="password" placeholder="••••••••" required></div>
             <button type="submit" class="btn-submit" id="submitBtn">إنشاء متجري الآن</button>
         </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const SUPABASE_URL = 'https://wwbyzuvbqamucp.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2';
+        // التحديث للرابط الجديد من صورتك الأخيرة
+        const SUPABASE_URL = 'https://wwbyzuvbqamucptnnlpf.supabase.co'; //
+        const SUPABASE_KEY = 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2'; 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // جلب الباقة من الذاكرة
         const selectedPlan = localStorage.getItem('selectedPlan') || 'الرئيسية';
         document.getElementById('planDisplay').innerText = `الباقة المختارة: ${selectedPlan}`;
 
         document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "جاري الاتصال بالسيرفر...";
+            btn.innerText = "جاري الحفظ في النظام...";
             btn.disabled = true;
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const phone = document.getElementById('phone').value;
-            const storeName = document.getElementById('storeName').value;
-
             const { data, error } = await _supabase.auth.signUp({
-                email: email,
-                password: password,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
                 options: { 
                     data: { 
-                        phone_number: phone, 
-                        store_name: storeName, 
-                        plan_type: selectedPlan 
+                        phone: document.getElementById('phone').value, 
+                        store_name: document.getElementById('storeName').value, 
+                        plan: selectedPlan 
                     } 
                 }
             });
 
             if (error) {
-                alert("عذراً، حدث خطأ: " + error.message);
+                alert("حدث خطأ: " + error.message);
                 btn.innerText = "إنشاء متجري الآن";
                 btn.disabled = false;
             } else {
-                alert("مبروك! تم إنشاء متجر " + storeName + " بنجاح. يرجى تفعيل حسابك من البريد.");
-                window.location.href = "dashboard.html"; // التوجه لصفحة النجاح لمنع خطأ الـ Fetch
+                alert("مبروك! تم إنشاء المتجر بنجاح. تفقّد بريدك الإلكتروني للتفعيل.");
+                window.location.href = "dashboard.html";
             }
         });
     </script>
