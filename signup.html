@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>انضم إلينا اليوم - M PLATFORM</title>
+    <title>إنشاء حساب - M PLATFORM</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #FF0000; --bg: #fcfcfc; --text: #1a1a1a; }
@@ -18,37 +18,37 @@
 
         .container { width: 90%; max-width: 400px; text-align: center; }
         
-        .header-title { font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
-        .sub-title { font-size: 15px; opacity: 0.6; margin-bottom: 30px; }
+        .header-title { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
+        .sub-title { font-size: 14px; opacity: 0.7; margin-bottom: 25px; }
 
+        /* صندوق الباقة المختارة */
         .selected-plan-box { 
-            background: rgba(255,0,0,0.05); padding: 15px; 
-            border-radius: 15px; margin-bottom: 30px; 
+            background: rgba(255,0,0,0.05); padding: 12px; 
+            border-radius: 15px; margin-bottom: 25px; 
             font-weight: 800; color: var(--primary);
-            border: 1px dashed rgba(255,0,0,0.3);
+            border: 1px dashed var(--primary);
         }
 
-        .input-group { margin-bottom: 20px; text-align: right; }
-        label { display: block; font-size: 15px; font-weight: 800; margin-bottom: 8px; margin-right: 5px; }
+        .input-group { margin-bottom: 18px; text-align: right; }
+        label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 8px; margin-right: 5px; }
         
         input { 
-            width: 100%; padding: 15px; 
-            border-radius: 15px; border: 1px solid rgba(0,0,0,0.08); 
+            width: 100%; padding: 14px; 
+            border-radius: 15px; border: 1px solid rgba(0,0,0,0.1); 
             box-sizing: border-box; background: white; 
-            font-family: 'Cairo'; font-size: 16px;
-            transition: 0.3s ease;
+            font-family: 'Cairo'; font-size: 15px;
+            transition: 0.3s;
         }
-        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 4px 12px rgba(255,0,0,0.05); }
+        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 8px rgba(255,0,0,0.1); }
 
         .btn-submit { 
             width: 100%; padding: 16px; 
             background: var(--primary); color: white; 
             border: none; border-radius: 50px; 
             font-weight: 800; cursor: pointer; 
-            margin-top: 25px; font-size: 18px;
-            transition: 0.3s;
+            margin-top: 20px; font-size: 17px;
+            box-shadow: 0 4px 15px rgba(255,0,0,0.2);
         }
-        .btn-submit:active { transform: scale(0.98); }
     </style>
 </head>
 <body>
@@ -94,20 +94,25 @@
 
         document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const phone = document.getElementById('phone').value;
+            const storeName = document.getElementById('storeName').value;
+
             const { data, error } = await _supabase.auth.signUp({
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value,
+                email,
+                password,
                 options: { 
                     data: { 
-                        phone: document.getElementById('phone').value, 
-                        store_name: document.getElementById('storeName').value, 
+                        phone_number: phone, 
+                        store_name: storeName, 
                         plan: selectedPlan 
                     } 
                 }
             });
 
-            if (error) alert("حدث خطأ: " + error.message);
-            else alert("مبروك! تم إنشاء متجرك بنجاح. يرجى تفعيل حسابك من البريد.");
+            if (error) alert("عذراً: " + error.message);
+            else alert("مبروك! تم إنشاء متجر " + storeName + " بنجاح.");
         });
     </script>
 </body>
