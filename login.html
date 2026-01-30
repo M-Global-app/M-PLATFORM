@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M PLATFORM - Supabase Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #FF0000;
+            --bg-white: #ffffff;
+            --text-dark: #0f172a;
+            --text-gray: #64748b;
+        }
+
+        /* منع المربعات البشعة نهائياً */
+        * {
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent !important;
+        }
+
+        body { 
+            margin: 0; padding: 0; background-color: var(--bg-white); 
+            display: flex; justify-content: center; align-items: flex-start; 
+            min-height: 100vh; font-family: 'Cairo', sans-serif;
+            color: var(--text-dark);
+        }
+
+        .main-wrapper {
+            display: flex; flex-direction: column; align-items: center;
+            width: 100%; padding-top: 8vh; opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(20px); } }
+
+        .container { width: 90%; max-width: 400px; text-align: center; }
+
+        .logo-m { 
+            font-family: 'Aref Ruqaa', serif; font-size: 130px; 
+            color: var(--primary-red); margin-bottom: 5px; line-height: 0.8;
+        }
+        
+        .brand-subtext { font-size: 14px; letter-spacing: 4px; font-weight: 700; margin-bottom: 40px; }
+
+        .tabs { display: flex; justify-content: center; margin-bottom: 30px; gap: 30px; }
+        .tab { padding: 8px 0; cursor: pointer; font-weight: 700; color: var(--text-gray); font-size: 19px; position: relative; }
+        .tab.active { color: var(--primary-red); border-bottom: 3px solid var(--primary-red); }
+        
+        .form-section { display: none; text-align: right; }
+        .form-section.active { display: block; } 
+        
+        input { 
+            width: 100%; padding: 18px; margin-bottom: 15px; 
+            border: 1px solid #f1f5f9; border-radius: 14px; 
+            font-family: 'Cairo'; box-sizing: border-box; font-size: 16px; 
+            background-color: #f8fafc;
+        }
+
+        .btn-main { 
+            width: 100%; padding: 18px; border: none; border-radius: 14px; 
+            background-color: var(--primary-red); color: white; font-size: 18px; 
+            font-weight: 700; cursor: pointer; transition: 0.3s;
+        }
+
+        .back-home { margin-top: 30px; display: inline-block; color: var(--text-gray); text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body> 
+
+    <div class="main-wrapper">
+        <div class="logo-m">M</div> 
+        <div class="brand-subtext">PLATFORM</div>
+        
+        <div class="container">
+            <div class="tabs">
+                <div class="tab active" onclick="showForm('login', this)">دخول</div>
+                <div class="tab" onclick="showForm('register', this)">انضمام</div>
+            </div> 
+
+            <div id="login-form" class="form-section active">
+                <input type="email" id="login-email" placeholder="البريد الإلكتروني">
+                <input type="password" id="login-pass" placeholder="كلمة المرور">
+                <button class="btn-main" id="login-btn">تسجيل الدخول</button>
+            </div> 
+
+            <div id="register-form" class="form-section">
+                <input type="text" id="reg-shop" placeholder="اسم المتجر الإلكتروني">
+                <input type="email" id="reg-email" placeholder="البريد الإلكتروني">
+                <input type="password" id="reg-pass" placeholder="كلمة المرور">
+                <button class="btn-main" id="reg-btn">ابدأ الآن مع Supabase</button>
+            </div> 
+
+            <a href="index.html" class="back-home">← العودة للرئيسية</a>
+        </div> 
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // إعدادات Supabase (سنضع قيمك هنا لاحقاً)
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        function showForm(type, element) {
+            document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(type + '-form').classList.add('active');
+            element.classList.add('active');
+        }
+
+        // هنا سنضيف لاحقاً وظائف الـ Auth الخاصة بـ Supabase
+    </script> 
+</body>
+</html>
+
