@@ -1,151 +1,41 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>باقات M PLATFORM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #FF0000;
-            --bg: #fcfcfc;
-            --card-bg: #ffffff;
-            --text: #1a1a1a;
-        }
-        @media (prefers-color-scheme: dark) {
-            :root { --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; }
-        }
-
-        body {
-            margin: 0;
-            padding: 40px 0;
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Cairo', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .header-title {
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 30px;
-            color: var(--primary);
-            text-align: center;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            border: 1px solid rgba(255, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* لضمان توسيط كل شيء */
-            transition: 0.3s ease;
-        }
-
-        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
-
-        .plan-name { font-size: 20px; font-weight: 800; margin-bottom: 5px; }
-        .plan-price { font-size: 32px; font-weight: 800; color: var(--primary); margin-bottom: 15px; }
-        .plan-price span { font-size: 14px; color: var(--text); opacity: 0.6; }
-
-        .features { width: 100%; margin-bottom: 20px; }
-        .feature-item { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            margin-bottom: 10px; 
-            font-size: 14px;
-            gap: 8px;
-        }
-        .feature-item svg { color: var(--primary); flex-shrink: 0; }
-
-        .btn-action {
-            width: 80%;
-            padding: 12px;
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 800;
-            text-align: center;
-            transition: 0.3s;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .btn-action:hover { background: var(--primary); color: white; }
-        .featured-card { border: 2px solid var(--primary); background: #fffaff; }
-        @media (prefers-color-scheme: dark) { .featured-card { background: #1e293b; } }
-
-        .back-link {
-            margin-top: 30px;
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 600;
-            opacity: 0.5;
-        }
-    </style>
-</head>
-<body>
-
-    <h1 class="header-title">خطط تناسب طموحك</h1>
-
-    <div class="container">
-        <div class="card">
-            <div class="plan-name">الرئيسية</div>
-            <div class="plan-price">0 <span>ريال</span></div>
-            <div class="features">
-                <div class="feature-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg> 0 رسوم تأسيس</div>
-                <div class="feature-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg> عمولة 2.5%</div>
-            </div>
-            <a href="#" class="btn-action">ابدأ مجاناً</a>
+<div class="container">
+    <div class="card">
+        <div class="plan-name">الرئيسية</div>
+        <div class="plan-price">0 <span>ريال</span></div>
+        <div class="features">
+            <div class="feature-item">عمولة 3%</div>
+            <div class="feature-item">0 رسوم تأسيس</div>
         </div>
-
-        <div class="card">
-            <div class="plan-name">النخبة</div>
-            <div class="plan-price">99 <span>ريال</span></div>
-            <div class="features">
-                <div class="feature-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg> ميزات متقدمة</div>
-                <div class="feature-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg> عمولة 1% فقط</div>
-            </div>
-            <a href="#" class="btn-action">اشترك الآن</a>
-        </div>
-
-        <div class="card featured-card">
-            <div class="plan-name">كبار التجار</div>
-            <div class="plan-price">199 <span>ريال</span></div>
-            <div class="features">
-                <div class="feature-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg> دعم فني VIP</div>
-                <div class="feature-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg> عمولة 0.5% فقط</div>
-            </div>
-            <a href="#" class="btn-action" style="background: var(--primary); color: white;">الأكثر طلباً</a>
-        </div>
-
-        <div class="card">
-            <div class="plan-name">القمة</div>
-            <div class="plan-price">299 <span>ريال</span></div>
-            <div class="features">
-                <div class="feature-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg> 0% عمولة مبيعات</div>
-                <div class="feature-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg> تحكم كامل بالارباح</div>
-            </div>
-            <a href="#" class="btn-action">امتلك القمة</a>
-        </div>
+        <a href="#" class="btn-action">ابدأ مجاناً</a>
     </div>
 
-    <a href="index.html" class="back-link">العودة للرئيسية</a>
+    <div class="card">
+        <div class="plan-name">النخبة</div>
+        <div class="plan-price">129 <span>ريال</span></div>
+        <div class="features">
+            <div class="feature-item">عمولة 2%</div>
+            <div class="feature-item">دعم فني سريع</div>
+        </div>
+        <a href="#" class="btn-action">اشترك الآن</a>
+    </div>
 
-</body>
-</html>
+    <div class="card featured-card">
+        <div class="plan-name">كبار التجار</div>
+        <div class="plan-price">249 <span>ريال</span></div>
+        <div class="features">
+            <div class="feature-item">عمولة 1%</div>
+            <div class="feature-item">VIP دعم مخصص</div>
+        </div>
+        <a href="#" class="btn-action" style="background: #FF0000; color: white;">الأكثر طلباً</a>
+    </div>
+
+    <div class="card">
+        <div class="plan-name">القمة</div>
+        <div class="plan-price">349 <span>ريال</span></div>
+        <div class="features">
+            <div class="feature-item">عمولة 0.5%</div>
+            <div class="feature-item">كل الميزات مفتوحة</div>
+        </div>
+        <a href="#" class="btn-action">امتلك القمة</a>
+    </div>
+</div>
