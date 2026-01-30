@@ -4,121 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>انضم إلينا - M PLATFORM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #FF0000; --bg: #fcfcfc; --text: #1a1a1a; }
-        @media (prefers-color-scheme: dark) { :root { --bg: #0f172a; --text: #f8fafc; } }
-        
-        body { 
-            margin: 0; padding: 20px 0; /* تقليل الحشو العلوي */
-            background-color: var(--bg); color: var(--text); 
-            font-family: 'Cairo', sans-serif; 
-            display: flex; flex-direction: column; align-items: center; 
-        }
-
+        body { margin: 0; padding: 20px 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: flex; flex-direction: column; align-items: center; }
         .container { width: 90%; max-width: 380px; text-align: center; }
         
         .header-title { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
+        .sub-title { font-size: 14px; opacity: 0.7; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; }
         
-        /* تنسيق حرف M الصغير المائل */
-        .sub-title { font-size: 14px; opacity: 0.7; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .m-logo-small { color: var(--primary); font-weight: 900; font-style: italic; font-size: 18px; }
-
-        .selected-plan-box { 
-            background: rgba(255,0,0,0.05); padding: 10px; /* تصغير الصندوق */
-            border-radius: 12px; margin-bottom: 20px; 
-            font-weight: 700; color: var(--primary); font-size: 14px;
-            border: 1px dashed rgba(255,0,0,0.2);
+        /* تطبيق خط Aref Ruqaa على حرف M فقط */
+        .m-logo-style { 
+            font-family: 'Aref Ruqaa', serif; 
+            font-weight: 700; 
+            color: var(--primary); 
+            font-size: 26px; /* حجم يتناسب مع فخامة الخط */
+            line-height: 1;
+            position: relative;
+            top: 2px;
         }
 
-        .input-group { margin-bottom: 12px; text-align: right; } /* تقليل المسافة بين الخانات */
+        .selected-plan-box { background: rgba(255,0,0,0.05); padding: 10px; border-radius: 12px; margin-bottom: 20px; font-weight: 700; color: var(--primary); font-size: 14px; border: 1px dashed rgba(255,0,0,0.2); }
+        .input-group { margin-bottom: 12px; text-align: right; }
         label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; margin-right: 5px; }
-        
-        input { 
-            width: 100%; padding: 10px 15px; /* تصغير حجم الخانة */
-            border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); 
-            box-sizing: border-box; background: white; 
-            font-family: 'Cairo'; font-size: 14px;
-            transition: 0.3s ease; color: #1a1a1a;
-        }
+        input { width: 100%; padding: 10px 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); box-sizing: border-box; font-family: 'Cairo'; font-size: 14px; transition: 0.3s; }
         input:focus { outline: none; border-color: var(--primary); }
+        
+        .btn-submit { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 16px; box-shadow: 0 4px 12px rgba(255,0,0,0.15); }
 
-        .btn-submit { 
-            width: 100%; padding: 14px; 
-            background: var(--primary); color: white; 
-            border: none; border-radius: 50px; 
-            font-weight: 800; cursor: pointer; 
-            margin-top: 15px; font-size: 16px;
-            box-shadow: 0 4px 12px rgba(255,0,0,0.15);
-        }
+        /* رسالة التنبيه الأنيقة */
+        #customAlert { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
+        .alert-content { background: white; padding: 30px; border-radius: 20px; width: 80%; max-width: 300px; text-align: center; animation: slideIn 0.3s ease-out; border: 1px solid rgba(255,0,0,0.1); }
+        .alert-icon { font-size: 45px; margin-bottom: 10px; }
+        .alert-btn { background: var(--primary); color: white; border: none; padding: 12px 40px; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 20px; font-family: 'Cairo'; }
+        @keyframes slideIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="header-title">انضم إلينا اليوم</h1>
-        <p class="sub-title">ابدأ رحلتك في التجارة الإلكترونية مع <span class="m-logo-small">M</span></p>
+        <p class="sub-title">ابدأ تجارتك الإلكترونية مع <span class="m-logo-style">M</span></p>
         
-        <div id="planDisplay" class="selected-plan-box">جاري تحميل الباقة...</div>
+        <div id="planDisplay" class="selected-plan-box">الباقة المختارة: كبار التجار</div>
 
         <form id="signupForm">
-            <div class="input-group">
-                <label>رقم الجوال</label>
-                <input type="tel" id="phone" placeholder="05xxxxxxxx" required>
-            </div>
-            
-            <div class="input-group">
-                <label>اسم المتجر</label>
-                <input type="text" id="storeName" placeholder="مثال: متجر الأناقة" required>
-            </div>
-
-            <div class="input-group">
-                <label>البريد الإلكتروني</label>
-                <input type="email" id="email" placeholder="example@mail.com" required>
-            </div>
-
-            <div class="input-group">
-                <label>كلمة المرور</label>
-                <input type="password" id="password" placeholder="••••••••" required>
-            </div>
-
+            <div class="input-group"><label>رقم الجوال</label><input type="tel" id="phone" placeholder="05xxxxxxxx" required></div>
+            <div class="input-group"><label>اسم المتجر</label><input type="text" id="storeName" placeholder="مثال: متجر الأناقة" required></div>
+            <div class="input-group"><label>البريد الإلكتروني</label><input type="email" id="email" placeholder="example@mail.com" required></div>
+            <div class="input-group"><label>كلمة المرور</label><input type="password" id="password" placeholder="••••••••" required></div>
             <button type="submit" class="btn-submit" id="submitBtn">إنشاء متجري الآن</button>
         </form>
     </div>
 
+    <div id="customAlert">
+        <div class="alert-content">
+            <div class="alert-icon" id="alertIcon">🎉</div>
+            <h3 id="alertTitle" style="margin:0; font-weight:800;">مبروك!</h3>
+            <p id="alertMsg" style="font-size:14px; color:#555; margin-top:10px;"></p>
+            <button class="alert-btn" onclick="closeAlert()">موافق</button>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const SUPABASE_URL = 'https://wwbyzuvbqamucptnnlpf.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2';
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
-        const selectedPlan = localStorage.getItem('selectedPlan') || 'الرئيسية';
-        document.getElementById('planDisplay').innerText = `الباقة المختارة: ${selectedPlan}`;
+        function showAlert(title, msg, isSuccess = true) {
+            document.getElementById('alertTitle').innerText = title;
+            document.getElementById('alertMsg').innerText = msg;
+            document.getElementById('alertIcon').innerText = isSuccess ? '🎉' : '⚠️';
+            document.getElementById('alertTitle').style.color = isSuccess ? '#FF0000' : '#333';
+            document.getElementById('customAlert').style.display = 'flex';
+        }
+
+        function closeAlert() {
+            document.getElementById('customAlert').style.display = 'none';
+            if (document.getElementById('alertTitle').innerText === 'مبروك!') {
+                window.location.href = "dashboard.html";
+            }
+        }
 
         document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "جاري الحفظ...";
+            btn.innerText = "جاري المعالجة...";
             btn.disabled = true;
 
             const { data, error } = await _supabase.auth.signUp({
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value,
-                options: { 
-                    data: { 
-                        phone_number: document.getElementById('phone').value, 
-                        store_name: document.getElementById('storeName').value, 
-                        plan_type: selectedPlan 
-                    } 
-                }
+                options: { data: { phone: document.getElementById('phone').value, store_name: document.getElementById('storeName').value } }
             });
 
             if (error) {
-                alert("خطأ: " + error.message);
+                showAlert('عذراً', error.message, false);
                 btn.innerText = "إنشاء متجري الآن";
                 btn.disabled = false;
             } else {
-                alert("تم بنجاح! تفقّد بريدك للتفعيل.");
-                window.location.href = "dashboard.html";
+                showAlert('مبروك!', 'تم إنشاء المتجر بنجاح. تفقّد بريدك الإلكتروني للتفعيل.');
             }
         });
     </script>
