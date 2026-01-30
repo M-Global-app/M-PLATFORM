@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M PLATFORM - خطط الأسعار</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+        body { font-family: 'Cairo', sans-serif; }
+        .m-logo { color: #e11d48; font-weight: bold; }
+        /* منع المربعات البشعة */
+        button:focus { outline: none; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <div class="max-w-6xl mx-auto px-6 py-20 text-center">
+        <h1 class="text-4xl font-bold mb-4">خطط الأسعار في منصة <span class="m-logo">M</span></h1>
+        <p class="text-slate-500 mb-16">اختر الخطة التي تناسب نمو مشروعك</p>
+
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-xl transition-shadow">
+                <h3 class="text-xl font-bold mb-4">الخطة الأساسية</h3>
+                <div class="text-4xl font-bold mb-6">0 <span class="text-sm text-slate-400">ريال</span></div>
+                <ul class="text-right space-y-4 mb-8 text-slate-600">
+                    <li>✅ إنشاء متجر إلكتروني</li>
+                    <li>✅ دعم فني محدود</li>
+                </ul>
+                <button class="w-full py-4 rounded-xl border-2 border-red-600 text-red-600 font-bold hover:bg-red-50 transition">ابدأ مجاناً</button>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-lg border-2 border-red-600 relative overflow-hidden">
+                <div class="bg-red-600 text-white text-xs py-1 px-4 absolute top-4 left-[-30px] rotate-[-45¦] w-[120px]">الأكثر طلباً</div>
+                <h3 class="text-xl font-bold mb-4 text-red-600">الخطة الاحترافية</h3>
+                <div class="text-4xl font-bold mb-6">99 <span class="text-sm text-slate-400">ريال/شهرياً</span></div>
+                <ul class="text-right space-y-4 mb-8 text-slate-600">
+                    <li>✅ جميع ميزات الأساسية</li>
+                    <li>✅ دومين خاص باسمك</li>
+                    <li>✅ دعم فني 24/7</li>
+                </ul>
+                <button class="w-full py-4 rounded-xl bg-red-600 text-white font-bold shadow-lg shadow-red-200 hover:bg-red-700 transition">اشترك الآن</button>
+            </div>
+        </div>
+        <a href="index.html" class="inline-block mt-12 text-slate-400 hover:text-red-600 transition">← العودة للرئيسية</a>
+    </div>
+</body>
+</html>
