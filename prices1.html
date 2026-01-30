@@ -1,28 +1,106 @@
-<div class="price-stack">
-    <div class="rect-card">
-        <div class="plan-name">الباقة الرئيسية</div>
-        <div class="plan-price">0 اشتراك شهري</div>
-        <div class="details">
-            <span>• 0 رسوم</span>
-            <span>• عمولة <b>2.5%</b> مع كل عملية بيع</span>
-        </div>
-    </div>
-    
-    <div class="rect-card">
-        <div class="plan-name">باقة النخبة</div>
-        <div class="plan-price">99 اشتراك شهري</div>
-        <div class="details">
-            <span>• 0 رسوم</span>
-            <span>• عمولة <b>1%</b> مع كل عملية بيع</span>
-        </div>
-    </div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M PLATFORM - باقاتنا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #0f172a;
+            --primary-red: #FF0000;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #0f172a;
+                --text-main: #f8fafc;
+            }
+        }
+        body {
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            padding: 3vh 20px;
+        }
+        .logo-m {
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 60px;
+            color: var(--primary-red);
+            margin-bottom: 20px;
+        }
+        .price-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .rect-card {
+            background: rgba(255, 0, 0, 0.01);
+            border: 1.5px solid rgba(255, 0, 0, 0.1);
+            border-radius: 15px;
+            padding: 18px;
+            text-align: right;
+            transition: 0.3s;
+        }
+        .rect-card:hover { border-color: var(--primary-red); background: white; }
+        .plan-name { font-size: 19px; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
+        .plan-price { font-size: 18px; color: var(--primary-red); font-weight: 700; margin-bottom: 8px; }
+        .details { font-size: 14px; line-height: 1.5; color: var(--text-main); }
+        .details span { display: block; margin-bottom: 4px; }
+        .btn-back {
+            display: inline-block;
+            margin-top: 25px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            border-bottom: 1px solid var(--primary-red);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-m">M</div>
+        
+        <div class="price-stack">
+            <div class="rect-card">
+                <div class="plan-name">الباقة الرئيسية</div>
+                <div class="plan-price">0 اشتراك شهري</div>
+                <div class="details">
+                    <span>• 0 رسوم</span>
+                    <span>• عمولة <b>2.5%</b> مع كل عملية بيع</span>
+                </div>
+            </div>
+            
+            <div class="rect-card">
+                <div class="plan-name">باقة النخبة</div>
+                <div class="plan-price">99 اشتراك شهري</div>
+                <div class="details">
+                    <span>• 0 رسوم</span>
+                    <span>• عمولة <b>1%</b> مع كل عملية بيع</span>
+                </div>
+            </div>
 
-    <div class="rect-card" style="border-color: var(--primary-red); background: white; border-width: 2px;">
-        <div class="plan-name" style="color: var(--primary-red);">باقة كبار التجار</div>
-        <div class="plan-price">199 اشتراك شهري</div>
-        <div class="details">
-            <span>• 0 رسوم</span>
-            <span>• عمولة <b>0.5%</b> فقط مع كل عملية بيع</span>
+            <div class="rect-card" style="border-color: var(--primary-red); background: white;">
+                <div class="plan-name" style="color: var(--primary-red);">باقة كبار التجار</div>
+                <div class="plan-price">199 اشتراك شهري</div>
+                <div class="details">
+                    <span>• 0 رسوم</span>
+                    <span>• عمولة <b>0.5%</b> فقط مع كل عملية بيع</span>
+                </div>
+            </div>
         </div>
+
+        <a href="index.html" class="btn-back">← العودة للرئيسية</a>
     </div>
-</div>
+</body>
+</html>
