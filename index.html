@@ -16,6 +16,7 @@
             --transition-speed: 0.5s;
         }
 
+        /* دعم الوضع الليلي التلقائي */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-color: #0f172a;
@@ -39,11 +40,12 @@
 
         .container {
             text-align: center;
-            width: 90%;
+            width: 95%;
             max-width: 500px;
-            padding: 5vh 20px;
+            padding: 4vh 20px;
         }
 
+        /* أنيميشن الظهور التدريجي الناعم */
         @keyframes smoothFadeUp {
             0% { opacity: 0; transform: translateY(15px); filter: blur(3px); }
             100% { opacity: 1; transform: translateY(0); filter: blur(0); }
@@ -54,29 +56,33 @@
             animation: smoothFadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
+        /* تكبير حرف M ليكون ضخماً ومسيطراً */
         .logo-m {
             font-family: 'Aref Ruqaa', serif;
-            font-size: clamp(100px, 22vw, 140px);
+            font-size: clamp(160px, 45vw, 260px); 
             color: var(--primary-red);
-            line-height: 0.8;
+            line-height: 0.75;
             margin: 0;
+            display: block;
+            font-weight: 700;
             animation-delay: 0.1s;
         }
 
         .brand-text {
-            font-size: 16px;
-            letter-spacing: 6px;
+            font-size: 20px;
+            letter-spacing: 8px;
             font-weight: 700;
-            margin-top: 5px;
+            margin-top: -15px; /* لتقريب الكلمة من الحرف الضخم */
+            color: var(--text-main);
             animation-delay: 0.2s;
         }
 
-        .content-box { margin-top: 35px; }
+        .content-box { margin-top: 30px; }
 
         .main-text {
-            font-size: 20px;
+            font-size: 19px;
             color: var(--text-sub);
-            line-height: 1.6;
+            line-height: 1.7;
             margin-bottom: 25px;
         }
 
@@ -87,7 +93,7 @@
 
         .highlight-black {
             font-family: 'Aref Ruqaa', serif;
-            font-size: 30px;
+            font-size: 32px;
             display: block;
         }
 
@@ -107,19 +113,19 @@
         }
 
         .btn {
-            width: 80%;
-            padding: 14px;
+            width: 85%;
+            padding: 15px;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 19px;
             transition: 0.3s ease;
         }
 
         .btn-primary {
             background-color: var(--primary-red);
             color: white;
-            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.15);
+            box-shadow: 0 6px 15px rgba(255, 0, 0, 0.18);
         }
 
         .btn-secondary {
@@ -128,11 +134,11 @@
             border: 2px solid var(--primary-red);
         }
 
-        /* توحيد تصميم الأزرار العائمة وتأثير النبض */
+        /* تصميم الأزرار العائمة الموحد (جيمي وواتساب) */
         .floating-btn {
             position: fixed;
-            bottom: 20px;
-            width: 42px; /* الحجم المصغر الموحد */
+            bottom: 25px;
+            width: 42px;
             height: 42px;
             border-radius: 50%;
             display: flex;
@@ -145,31 +151,26 @@
             opacity: 0;
         }
 
-        /* تأثير النبض الناعم الموحد للزرين */
+        /* تأثير النبض الناعم الموحد */
         @keyframes soft-pulse-unified {
             0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); }
             70% { box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
             100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
         }
 
-        .floating-btn:hover { transform: scale(1.1); }
+        .floating-btn:hover { transform: scale(1.15); }
 
-        /* زر جيمي المساعد الرقمي */
         .jimmy-btn {
-            left: 20px;
+            left: 25px;
             background: var(--jimmy-color);
             animation: soft-pulse-unified 3s infinite, smoothFadeUp 0.8s 1.2s forwards;
-            box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
         }
 
-        /* زر الواتساب */
         .whatsapp-btn {
-            right: 20px;
+            right: 25px;
             background-color: var(--whatsapp-color);
             animation: soft-pulse-unified 3s infinite 0.5s, smoothFadeUp 0.8s 1.4s forwards;
-            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4);
         }
-
     </style>
 </head>
 <body>
