@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>M PRIME | إدارة المنتجات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root { --m-red: #dc2626; --m-bg: #ffffff; --m-text: #1a1a1a; --m-shadow: rgba(220, 38, 38, 0.12); }
+        .dark-mode { --m-bg: #121212; --m-text: #ffffff; --m-shadow: rgba(220, 38, 38, 0.35); }
+
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: var(--m-bg); color: var(--m-text); transition: 0.3s; -webkit-tap-highlight-color: transparent; }
+        
+        /* الهيدر */
+        .header { display: flex; align-items: center; justify-content: space-between; padding: 20px; position: sticky; top: 0; background: var(--m-bg); z-index: 100; box-shadow: 0 2px 10px var(--m-shadow); }
+        .btn-back { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--m-bg); box-shadow: 0 4px 10px var(--m-shadow); border: 1px solid rgba(220,38,38,0.1); cursor: pointer; color: var(--m-red); }
+
+        .container { padding: 20px; }
+        .page-title { font-size: 24px; font-weight: 900; color: var(--m-red); margin-bottom: 20px; }
+
+        /* زر إضافة منتج */
+        .btn-add { width: 100%; padding: 15px; background: var(--m-red); color: white; border: none; border-radius: 15px; font-weight: 800; font-size: 16px; margin-bottom: 25px; box-shadow: 0 8px 20px var(--m-shadow); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-add:active { transform: scale(0.97); }
+
+        /* قائمة المنتجات */
+        .product-card { background: var(--m-bg); border-radius: 20px; padding: 15px; display: flex; align-items: center; gap: 15px; margin-bottom: 15px; box-shadow: 0 10px 25px var(--m-shadow); border: 1px solid rgba(220,38,38,0.05); }
+        .product-img { width: 70px; height: 70px; border-radius: 12px; background: #f0f0f0; object-fit: cover; }
+        .product-info { flex: 1; }
+        .product-info h3 { margin: 0; font-size: 15px; font-weight: 800; }
+        .product-info p { margin: 3px 0 0; font-size: 12px; color: var(--m-red); font-weight: 700; }
+        .product-status { font-size: 10px; padding: 4px 8px; border-radius: 8px; background: rgba(34, 197, 94, 0.1); color: #22c55e; font-weight: 800; }
+
+        .loading-text { text-align: center; font-weight: 700; opacity: 0.6; padding: 40px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="btn-back" onclick="location.href='dashboard.html'"><i class="fa-solid fa-chevron-right"></i></div>
+        <div style="font-weight: 900; font-size: 18px;">المنتجات</div>
+        <div style="width: 40px;"></div> </div>
+
+    <div class="container">
+        <h2 class="page-title">قائمة منتجاتك</h2>
+        
+        <button class="btn-add">
+            <i class="fa-solid fa-plus"></i> إضافة منتج جديد
+        </button>
+
+        <div id="productsList">
+            <div class="loading-text">جاري تحميل منتجاتك...</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
+
+        async function loadProducts() {
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (!user) return;
+
+            // جلب المنتجات المرتبطة بهذا التاجر فقط
+            const { data: products, error } = await _supabase
+                .from('products') 
+                .select('*')
+                .eq('merchant_id', user.id);
+
+            const listDiv = document.getElementById('productsList');
+            if (error || !products || products.length === 0) {
+                listDiv.innerHTML = '<div class="loading-text">لا توجد منتجات حالياً. ابدأ بإضافة منتجك الأول!</div>';
+                return;
+            }
+
+            listDiv.innerHTML = products.map(p => `
+                <div class="product-card">
+                    <img src="${p.image_url || 'https://via.placeholder.com/70'}" class="product-img">
+                    <div class="product-info">
+                        <h3>${p.name}</h3>
+                        <p>${p.price} ريال</p>
+                    </div>
+                    <span class="product-status">${p.stock > 0 ? 'متوفر' : 'نفذ'}</span>
+                </div>
+            `).join('');
+        }
+
+        // تطبيق الوضع الليلي
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        loadProducts();
+    </script>
+</body>
+</html>
