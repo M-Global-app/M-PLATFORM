@@ -3,75 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M Platform | Active UI</title>
+    <title>M Platform | Stable UI</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-red: #ff3b30; --glow-red: rgba(255, 59, 48, 0.4); }
         
-        /* أنيميشن التموج للدوائر [cite: 2026-01-31] */
-        @keyframes ripple {
-            0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.3); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
-        }
-
-        /* أنيميشن النبض لزر الإضافة (+) [cite: 2026-01-31] */
-        @keyframes pulse-red {
-            0% { transform: scale(1); box-shadow: 0 10px 25px var(--glow-red); }
-            50% { transform: scale(1.05); box-shadow: 0 15px 35px var(--glow-red); }
-            100% { transform: scale(1); box-shadow: 0 10px 25px var(--glow-red); }
-        }
+        /* تأثيرات الحركة [cite: 2026-01-31] */
+        @keyframes ripple { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.3); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
+        @keyframes pulse-red { 0%, 100% { transform: scale(1); box-shadow: 0 10px 25px var(--glow-red); } 50% { transform: scale(1.05); box-shadow: 0 15px 35px var(--glow-red); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
-        body { padding: 15px 8px 100px; font-family: 'Cairo', sans-serif; background: #fff; }
+        body { padding: 50px 8px 100px; font-family: 'Cairo', sans-serif; background: #fff; animation: fadeIn 0.5s ease-out; }
 
-        /* الهيدر العائم [cite: 2026-01-22] */
-        .floating-header { 
-            position: fixed; top: 12px; left: 12px; right: 12px; 
-            display: flex; justify-content: flex-end; gap: 10px; z-index: 2500; 
-        }
-        .pill { 
-            width: 30px; height: 30px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 11px; font-weight: 900; color: #fff; background: #000; 
-            animation: ripple 2s infinite; 
-        }
+        /* الهيدر العائم والدوائر المنفصلة بتموج [cite: 2026-01-22] */
+        .floating-header { position: fixed; top: 10px; left: 10px; right: 10px; display: flex; justify-content: flex-end; gap: 8px; z-index: 2500; }
+        .pill { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: #fff; background: #000; animation: ripple 2s infinite; }
         .pill.red { background: var(--main-red); }
         .pill.orange { background: #ffae42; }
 
-        /* البطاقات مصغرة 10% [cite: 2026-01-22] */
-        .m-grid-new { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .m-card-new { 
-            position: relative; background: #fff; border-radius: 12px; 
-            box-shadow: 0 0 12px var(--glow-red); overflow: hidden; 
-            transform: scale(0.92); 
-        }
+        /* العناوين الحمراء المكثفة [cite: 2026-01-22] */
+        .section-label { font-size: 11px; font-weight: 900; margin: 15px 0 8px; color: var(--main-red); display: flex; align-items: center; gap: 4px; border-right: 3px solid var(--main-red); padding-right: 8px; }
+
+        /* شبكة المنتجات (تصغير 10%) [cite: 2026-01-22] */
+        .m-grid-new { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; row-gap: 15px; }
+        .m-card-new { position: relative; background: #fff; border-radius: 12px; box-shadow: 0 0 12px var(--glow-red); overflow: hidden; display: flex; flex-direction: column; transform: scale(0.95); }
+
+        .m-frame { width: 100%; aspect-ratio: 1/1; overflow: hidden; position: relative; }
+        .m-frame img { width: 100%; height: 100%; object-fit: cover; }
 
         /* زر التعديل الأحمر [cite: 2026-01-31] */
-        .m-edit-btn { 
-            position: absolute; bottom: 6px; left: 6px; background: var(--main-red); 
-            width: 24px; height: 24px; border-radius: 6px; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 12px; text-decoration: none; color: #fff; z-index: 10;
-        }
+        .m-edit-btn { position: absolute; bottom: 5px; left: 5px; background: var(--main-red); width: 22px; height: 22px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 10px; text-decoration: none; color: #fff; z-index: 10; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
 
-        /* زر الإضافة (+) مع تأثير النبض [cite: 2026-01-31] */
-        .m-fab-main { 
-            position: fixed; bottom: 30px; left: 20px; 
-            width: 65px; height: 65px; background: var(--main-red); color: #fff; 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            z-index: 3000; border: 3px solid #fff; text-decoration: none;
-            animation: pulse-red 2.5s infinite ease-in-out; /* إضافة التأثير هنا */
-        }
-        .m-fab-main span { font-size: 40px; margin-top: -5px; }
+        .m-content { padding: 4px 1px 0; text-align: center; }
+        .m-name-txt { font-size: 8px; font-weight: 800; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .m-price-txt { font-size: 9.5px; font-weight: 900; color: #000; }
+        
+        .m-stock-label { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.8); color: #fff; font-size: 7px; padding: 1px 4px; border-radius: 4px; font-weight: 900; z-index: 5; }
+
+        /* زر الإضافة العائم الموزون والنابض [cite: 2026-01-31] */
+        .m-fab-main { position: fixed; bottom: 25px; left: 15px; width: 62px; height: 62px; background: var(--main-red); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 10px 25px var(--glow-red); z-index: 3000; border: 3.5px solid #fff; animation: pulse-red 2.5s infinite ease-in-out; }
+        .m-fab-main span { font-size: 40px; margin-top: -4px; font-weight: 400; }
     </style>
 </head>
 <body>
+
     <div class="floating-header">
         <div class="pill red" id="outCount">0</div>
         <div class="pill orange" id="lowCount">0</div>
         <div class="pill" id="totalCount">0</div>
     </div>
+
+    <div id="outSection" style="display:none;">
+        <div class="section-label">منتهية</div>
+        <div class="m-grid-new" id="outGrid"></div>
+    </div>
+
+    <div id="lowSection" style="display:none;">
+        <div class="section-label" style="color:#ffae42; border-right-color:#ffae42;">وشيكة النفاذ</div>
+        <div class="m-grid-new" id="lowGrid"></div>
+    </div>
+
+    <div class="section-label" style="color:#000; border-right-color:#000;">المخزون الكامل</div>
+    <div class="m-grid-new" id="mainGrid"></div>
+
     <a href="add-product.html" class="m-fab-main"><span>+</span></a>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
+
+        async function initInventory() {
+            try {
+                // التأكد من تسجيل الدخول
+                const { data: { user } } = await _s.auth.getUser();
+                if(!user) {
+                    console.error("No user found");
+                    return;
+                }
+
+                // جلب المنتجات
+                const { data: products, error } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
+                
+                if(error) throw error;
+                if(!products || products.length === 0) {
+                    document.getElementById('mainGrid').innerHTML = "<p style='text-align:center; font-size:12px; margin-top:20px;'>لا يوجد منتجات حالياً</p>";
+                    return;
+                }
+
+                let mainH = '', outH = '', lowH = '', cOut=0, cLow=0;
+                const imgBase = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
+
+                products.forEach(p => {
+                    const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : imgBase + p.image_url) : 'https://via.placeholder.com/150';
+                    const isOut = p.stock == 0;
+                    const isLow = p.stock > 0 && p.stock <= 5;
+
+                    const card = `
+                        <div class="m-card-new">
+                            <div class="m-stock-label">${p.stock} Q</div>
+                            <div class="m-frame">
+                                <img src="${img}" onerror="this.src='https://via.placeholder.com/150'">
+                                <a href="edit-product.html?id=${p.id}" class="m-edit-btn">✎</a>
+                            </div>
+                            <div class="m-content">
+                                <div class="m-name-txt">${p.name}</div>
+                                <div class="m-price-txt">${p.price} ر.س</div>
+                            </div>
+                        </div>`;
+
+                    mainH += card;
+                    if(isOut) { outH += card; cOut++; }
+                    if(isLow) { lowH += card; cLow++; }
+                });
+
+                document.getElementById('mainGrid').innerHTML = mainH;
+                document.getElementById('totalCount').innerText = products.length;
+                document.getElementById('outCount').innerText = cOut;
+                document.getElementById('lowCount').innerText = cLow;
+
+                if(cOut > 0) { document.getElementById('outGrid').innerHTML = outH; document.getElementById('outSection').style.display = 'block'; }
+                if(cLow > 0) { document.getElementById('lowGrid').innerHTML = lowH; document.getElementById('lowSection').style.display = 'block'; }
+
+            } catch(e) { 
+                console.error("Error loading products:", e);
+                alert("حدث خطأ أثناء تحميل المنتجات. تأكد من اتصال الإنترنت.");
+            }
+        }
+        initInventory();
+    </script>
 </body>
 </html>
