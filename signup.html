@@ -16,12 +16,20 @@
         .m-logo-style { font-family: 'Aref Ruqaa', serif; font-weight: 700; color: var(--primary); font-size: 24px; line-height: 1; position: relative; top: -3px; display: inline-block; }
         .input-group { margin-bottom: 12px; text-align: right; }
         label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; margin-right: 5px; }
-        input { width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); box-sizing: border-box; font-family: 'Cairo'; font-size: 14px; transition: 0.3s; }
-        input:focus { outline: none; border-color: var(--primary); }
-        .btn-submit { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 16px; box-shadow: 0 4px 12px rgba(255,0,0,0.15); transition: 0.3s; }
+        input { width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); box-sizing: border-box; font-family: 'Cairo'; font-size: 14px; transition: 0.3s; outline: none; }
+        input:focus { border-color: var(--primary); }
+        
+        /* ✨ إزالة المربع الأزرق البشع وتحسين الزر */
+        .btn-submit { 
+            width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 50px; 
+            font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 16px; box-shadow: 0 4px 12px rgba(255,0,0,0.15); 
+            transition: 0.3s; outline: none; -webkit-tap-highlight-color: transparent; 
+        }
+        .btn-submit:active { transform: scale(0.98); background: #e60000; }
+
         #customAlert { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
         .alert-content { background: white; padding: 30px; border-radius: 20px; width: 80%; max-width: 300px; text-align: center; }
-        .alert-btn { background: var(--primary); color: white; border: none; padding: 12px 40px; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 20px; font-family: 'Cairo'; }
+        .alert-btn { background: var(--primary); color: white; border: none; padding: 12px 40px; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 20px; font-family: 'Cairo'; outline: none; }
     </style>
 </head>
 <body>
@@ -37,23 +45,38 @@
         </form>
     </div>
     <div id="customAlert"><div class="alert-content"><h3 id="alertTitle" style="margin:0; font-weight:800; color:#FF0000;">تنبيه</h3><p id="alertMsg" style="font-size:14px; color:#555; margin-top:10px;"></p><button class="alert-btn" onclick="closeAlert()">موافق</button></div></div>
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
         const urlParams = new URLSearchParams(window.location.search);
         const refCode = urlParams.get('ref') || "direct";
+        
         function showAlert(title, msg) { document.getElementById('alertTitle').innerText = title; document.getElementById('alertMsg').innerText = msg; document.getElementById('customAlert').style.display = 'flex'; }
         function closeAlert() { document.getElementById('customAlert').style.display = 'none'; if (document.getElementById('alertTitle').innerText === 'مبروك!') window.location.href = "dashboard.html"; }
+
         document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn'); btn.innerText = "جاري الحفظ..."; btn.disabled = true;
+            
             const { error } = await _supabase.auth.signUp({
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value,
                 options: { data: { phone: document.getElementById('phone').value, store_name: document.getElementById('storeName').value, referrer: refCode } }
             });
-            if (error) { showAlert('خطأ!', error.message); btn.innerText = "إنشاء متجري الآن"; btn.disabled = false; }
-            else { showAlert('مبروك!', 'تم إنشاء المتجر بنجاح. يمكنك الدخول الآن.'); }
+
+            if (error) { 
+                // 🌍 ترجمة الأخطاء للعربية لضمان تجربة مستخدم ممتازة
+                let friendlyMsg = error.message;
+                if (error.message.includes("already registered")) friendlyMsg = "هذا البريد الإلكتروني مسجل مسبقاً!";
+                if (error.message.includes("Password should be")) friendlyMsg = "يجب أن تكون كلمة المرور 6 أحرف على الأقل";
+                
+                showAlert('خطأ!', friendlyMsg); 
+                btn.innerText = "إنشاء متجري الآن"; 
+                btn.disabled = false; 
+            } else { 
+                showAlert('مبروك!', 'تم إنشاء المتجر بنجاح. يمكنك الدخول الآن.'); 
+            }
         });
     </script>
 </body>
