@@ -3,55 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المخزون الشامل</title>
+    <title>إدارة المخزون الملكية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; font-family: 'Cairo', sans-serif; background: #fff; padding: 10px; }
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: #fff; padding: 10px; padding-bottom: 100px; }
         
-        /* إحصائيات مصغرة جداً في سطر واحد */
-        .mini-stats { display: flex; justify-content: space-around; background: #f9f9f9; padding: 10px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
-        .stat { text-align: center; }
-        .stat span { display: block; font-size: 16px; font-weight: 900; }
-        .stat label { font-size: 10px; color: #888; }
+        .stats-nav { display: flex; gap: 8px; margin-bottom: 20px; position: sticky; top: 0; background: #fff; z-index: 100; padding: 5px 0; }
+        .stat-btn { flex: 1; border: 1px solid #eee; padding: 8px; border-radius: 12px; text-align: center; cursor: pointer; }
+        .stat-btn span { display: block; font-size: 16px; font-weight: 900; }
+        .stat-btn label { font-size: 9px; color: #888; pointer-events: none; }
+        .active-red { border-color: #ff0000; background: #fff5f5; }
 
-        /* الشبكة المصغرة: 3 أعمدة */
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 8px; 
-        }
+        .section-title { font-size: 14px; font-weight: 900; margin: 15px 0 10px; color: #333; border-right: 3px solid #ff0000; padding-right: 8px; }
 
-        .card { 
-            border: 1px solid #eee; 
-            border-radius: 10px; 
-            overflow: hidden; 
-            position: relative;
-            background: #fff;
-        }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 
-        .img-container { width: 100%; aspect-ratio: 1/1; background: #fafafa; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .card { border: 1px solid #eee; border-radius: 12px; overflow: hidden; position: relative; background: #fff; display: flex; flex-direction: column; }
+        .img-box { width: 100%; aspect-ratio: 1/1; position: relative; background: #f9f9f9; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* زر التعديل فوق الصورة مباشرة */
+        .edit-btn { position: absolute; bottom: 5px; left: 5px; background: rgba(255,255,255,0.9); width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; border: 1px solid #ddd; text-decoration: none; color: #000; font-weight: bold; }
 
         .info { padding: 5px; text-align: center; }
         .name { font-size: 10px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .price { font-size: 11px; font-weight: 900; color: #ff0000; }
         
-        /* تنبيه الكمية - صغير جداً */
-        .q-tag { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); color: #fff; font-size: 8px; padding: 2px 5px; border-radius: 4px; }
+        .q-tag { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.7); color: #fff; font-size: 8px; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
         .out { background: #ff0000; }
 
-        .btn-plus { position: fixed; bottom: 20px; left: 20px; width: 50px; height: 50px; background: #ff0000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; text-decoration: none; box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
+        .btn-plus { position: fixed; bottom: 25px; left: 25px; width: 55px; height: 55px; background: #ff0000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; text-decoration: none; box-shadow: 0 8px 20px rgba(255,0,0,0.3); z-index: 1000; }
     </style>
 </head>
 <body>
 
-    <div class="mini-stats">
-        <div class="stat"><span id="c1" style="color:#ff0000">0</span><label>منتهية</label></div>
-        <div class="stat"><span id="c2" style="color:#ffae42">0</span><label>أوشكت</label></div>
-        <div class="stat"><span id="c3">0</span><label>متوفرة</label></div>
+    <div class="stats-nav">
+        <div class="stat-btn active-red" onclick="filter('all')"><span id="cAll">0</span><label>الكل</label></div>
+        <div class="stat-btn" onclick="filter('out')"><span id="cOut" style="color:#ff0000">0</span><label>منتهية</label></div>
+        <div class="stat-btn" onclick="filter('low')"><span id="cLow" style="color:#ffae42">0</span><label>أوشكت</label></div>
     </div>
 
-    <div class="grid" id="g"></div>
+    <div id="sections">
+        <div id="outSection" style="display:none;"><div class="section-title">نفذت الكمية</div><div class="grid" id="outGrid"></div></div>
+        <div id="lowSection" style="display:none;"><div class="section-title">على وشك النفاذ</div><div class="grid" id="lowGrid"></div></div>
+        <div class="section-title">جميع المنتجات</div><div class="grid" id="allGrid"></div>
+    </div>
 
     <a href="add-product.html" class="btn-plus">+</a>
 
@@ -63,28 +59,39 @@
             const { data: { user } } = await _s.auth.getUser();
             const { data: prods } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
             
-            let h = '', c1=0, c2=0, c3=0;
+            let allH = '', outH = '', lowH = '';
+            let cOut=0, cLow=0;
             const url = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
 
             prods.forEach(p => {
                 const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : url + p.image_url) : 'https://via.placeholder.com/100';
-                if(p.stock == 0) c1++; else if(p.stock <= 5) c2++; else c3++;
-                
-                h += `
+                const card = `
                     <div class="card">
                         <div class="q-tag ${p.stock==0?'out':''}">${p.stock} ق</div>
-                        <div class="img-container"><img src="${img}" onerror="this.src='https://via.placeholder.com/100'"></div>
+                        <div class="img-box">
+                            <img src="${img}" onerror="this.src='https://via.placeholder.com/100'">
+                            <a href="edit-product.html?id=${p.id}" class="edit-btn">✎</a>
+                        </div>
                         <div class="info">
                             <div class="name">${p.name}</div>
                             <div class="price">${p.price} ريال</div>
                         </div>
                     </div>`;
+
+                allH += card;
+                if(p.stock == 0) { outH += card; cOut++; }
+                else if(p.stock <= 5) { lowH += card; cLow++; }
             });
 
-            document.getElementById('g').innerHTML = h;
-            document.getElementById('c1').innerText = c1;
-            document.getElementById('c2').innerText = c2;
-            document.getElementById('c3').innerText = c3;
+            document.getElementById('allGrid').innerHTML = allH;
+            document.getElementById('outGrid').innerHTML = outH;
+            document.getElementById('lowGrid').innerHTML = lowH;
+            document.getElementById('cAll').innerText = prods.length;
+            document.getElementById('cOut').innerText = cOut;
+            document.getElementById('cLow').innerText = cLow;
+
+            if(cOut > 0) document.getElementById('outSection').style.display = 'block';
+            if(cLow > 0) document.getElementById('lowSection').style.display = 'block';
         }
         load();
     </script>
