@@ -3,210 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر بريق | التصميم الأحمر</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <title>متجر ريد زجاجي | RED GLASS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-red: #e63946;
-            --dark-red: #a82a33;
-            --soft-red: #fff1f2;
-            --pure-white: #ffffff;
-            --text-gray: #333333;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Noto Kufi Arabic', sans-serif;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --primary-red: #d90429;
+            --soft-red: #ef233c;
         }
 
         body {
-            background-color: var(--pure-white);
-            color: var(--text-gray);
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            /* خلفية متدرجة بين الأبيض والأحمر لتعزيز تأثير الزجاج */
+            background: radial-gradient(circle at top right, #fff5f5, #ffffff, #ffe3e3);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #2b2d42;
         }
 
-        /* الهيدر */
+        /* الهيدر الزجاجي */
         header {
-            background: var(--pure-white);
-            padding: 20px 8%;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 10%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--soft-red);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
-        .logo { 
-            font-size: 1.8rem; 
-            font-weight: 700; 
-            color: var(--primary-red);
-            letter-spacing: -1px;
-        }
+        .logo { font-size: 1.6rem; font-weight: 800; color: var(--primary-red); }
 
-        nav a {
-            color: var(--text-gray);
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
+        nav a { text-decoration: none; color: #2b2d42; margin: 0 15px; font-weight: 600; transition: 0.3s; }
         nav a:hover { color: var(--primary-red); }
 
-        /* قسم البطل */
-        .hero {
-            background-color: var(--soft-red);
-            padding: 80px 8%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-        }
-
-        .hero-text h1 {
-            font-size: 3rem;
-            color: var(--primary-red);
-            margin-bottom: 20px;
-        }
-
-        .hero-text p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #555;
-        }
-
-        /* المنتجات */
-        .container { padding: 60px 8%; }
-
-        .section-title {
-            border-right: 5px solid var(--primary-red);
-            padding-right: 15px;
-            margin-bottom: 40px;
-            font-size: 2rem;
-        }
-
-        .product-grid {
+        /* حاوية المنتجات */
+        .main-content {
+            padding: 50px 10%;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
         }
 
-        .product-card {
-            background: var(--pure-white);
-            border: 1px solid #eee;
-            border-radius: 15px;
-            padding: 20px;
+        /* بطاقة المنتج بنمط Glassmorphism */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 30px;
             text-align: center;
-            transition: 0.3s ease;
+            box-shadow: 0 8px 32px 0 rgba(217, 4, 41, 0.08);
+            transition: 0.4s ease;
         }
 
-        .product-card:hover {
+        .glass-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(217, 4, 41, 0.15);
+            background: rgba(255, 255, 255, 0.9);
             border-color: var(--primary-red);
-            box-shadow: 0 10px 25px rgba(230, 57, 70, 0.1);
-            transform: translateY(-5px);
         }
 
-        .product-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: contain;
-            margin-bottom: 20px;
+        .product-icon {
+            font-size: 4rem;
+            background: rgba(217, 4, 41, 0.1);
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
         }
 
         .price {
             display: block;
             color: var(--primary-red);
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            margin: 10px 0;
+            margin: 15px 0;
         }
 
-        .btn-add {
+        .buy-btn {
             background: var(--primary-red);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
+            padding: 12px 30px;
+            border-radius: 15px;
+            font-weight: bold;
             cursor: pointer;
             width: 100%;
-            font-weight: bold;
-            font-size: 1rem;
             transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(217, 4, 41, 0.3);
         }
 
-        .btn-add:hover {
-            background: var(--dark-red);
+        .buy-btn:hover {
+            background: var(--soft-red);
+            transform: scale(1.02);
         }
 
-        footer {
-            background: var(--primary-red);
-            color: white;
-            padding: 40px 8%;
-            text-align: center;
-            margin-top: 60px;
-        }
-
-        @media (max-width: 768px) {
-            .hero { flex-direction: column; text-align: center; }
-            .hero-text h1 { font-size: 2rem; }
+        /* لمسة جمالية في الخلفية */
+        .bg-blob {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: rgba(217, 4, 41, 0.05);
+            filter: blur(80px);
+            border-radius: 50%;
+            z-index: -1;
         }
     </style>
 </head>
 <body>
 
+<div class="bg-blob" style="top: 10%; left: 5%;"></div>
+<div class="bg-blob" style="bottom: 10%; right: 5%;"></div>
+
 <header>
-    <div class="logo">RED<span>STORE</span></div>
+    <div class="logo">RED GLASS</div>
     <nav>
         <a href="#">الرئيسية</a>
-        <a href="#">الرجالية</a>
-        <a href="#">النسائية</a>
+        <a href="#">الكتالوج</a>
     </nav>
-    <div style="font-size: 1.2rem; cursor: pointer;">🛒 <span style="background: var(--primary-red); color: white; border-radius: 50%; padding: 2px 8px; font-size: 0.8rem;">2</span></div>
+    <div style="font-size: 1.4rem; cursor: pointer;">🛍️</div>
 </header>
 
-<section class="hero">
-    <div class="hero-text">
-        <h1>مجموعة الشتاء <br> باللون الأحمر</h1>
-        <p>الأناقة تبدأ بلمسة من الجرأة. تسوق الآن واحصل على خصم 20%.</p>
-        <button class="btn-add" style="width: auto; padding: 15px 40px; border-radius: 30px;">اكتشف الآن</button>
-    </div>
-    <div class="hero-image">
-        <div style="width: 300px; height: 300px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
-            <span style="font-size: 100px;">👟</span>
-        </div>
-    </div>
-</section>
+<h1 style="text-align: center; margin-top: 50px; color: var(--primary-red);">تشكيلة النخبة</h1>
 
-<div class="container">
-    <h2 class="section-title">الأكثر مبيعاً</h2>
-    <div class="product-grid">
-        <div class="product-card">
-            <div style="font-size: 80px;">⌚</div>
-            <h3>ساعة كلاسيكية حمراء</h3>
-            <span class="price">450 ر.س</span>
-            <button class="btn-add">أضف للسلة</button>
-        </div>
-        <div class="product-card">
-            <div style="font-size: 80px;">🎒</div>
-            <h3>حقيبة سفر ذكية</h3>
-            <span class="price">280 ر.س</span>
-            <button class="btn-add">أضف للسلة</button>
-        </div>
-        <div class="product-card">
-            <div style="font-size: 80px;">🧥</div>
-            <h3>معطف الصوف الفاخر</h3>
-            <span class="price">990 ر.س</span>
-            <button class="btn-add">أضف للسلة</button>
-        </div>
+<div class="main-content">
+    <div class="glass-card">
+        <div class="product-icon">🕶️</div>
+        <h3>نظارات حمراء عصرية</h3>
+        <span class="price">199 ر.س</span>
+        <button class="buy-btn">أضف للسلة</button>
+    </div>
+
+    <div class="glass-card">
+        <div class="product-icon">👠</div>
+        <h3>حذاء السهرة الفاخر</h3>
+        <span class="price">550 ر.س</span>
+        <button class="buy-btn">أضف للسلة</button>
+    </div>
+
+    <div class="glass-card">
+        <div class="product-icon">📱</div>
+        <h3>غطاء هاتف ذكي</h3>
+        <span class="price">85 ر.س</span>
+        <button class="buy-btn">أضف للسلة</button>
     </div>
 </div>
-
-<footer>
-    <p>© 2026 جميع الحقوق محفوظة لمتجر بريق الأحمر</p>
-</footer>
 
 </body>
 </html>
