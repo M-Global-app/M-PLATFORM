@@ -7,9 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* 🎨 تعديل الألوان للأحمر الملكي الساطع */
-        :root { --m-red: #FF0000; --m-bg: #ffffff; --m-text: #1a1a1a; --m-shadow-red: rgba(255, 0, 0, 0.15); }
-        .dark-mode { --m-bg: #121212; --m-text: #ffffff; --m-shadow-red: rgba(255, 0, 0, 0.35); }
+        /* 🎨 توحيد الألوان للأحمر الملكي الساطع (الصافي) */
+        :root { --m-red: #FF0000; --m-bg: #ffffff; --m-text: #1a1a1a; --m-shadow-red: rgba(255, 0, 0, 0.2); }
+        .dark-mode { --m-bg: #0f0f0f; --m-text: #ffffff; --m-shadow-red: rgba(255, 0, 0, 0.45); }
 
         body { 
             margin: 0; font-family: 'Cairo', sans-serif; background-color: var(--m-bg); 
@@ -17,45 +17,47 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        .fade-in { opacity: 0; animation: fadeIn 0.5s ease forwards; }
+        .fade-in { opacity: 0; animation: fadeIn 0.6s ease forwards; }
         @keyframes fadeIn { to { opacity: 1; } }
 
-        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; }
-        .m-logo { font-family: 'Aref Ruqaa', serif; font-size: 32px; color: var(--m-red); }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
+        .m-logo { font-family: 'Aref Ruqaa', serif; font-size: 36px; color: var(--m-red); text-shadow: 0 4px 10px var(--m-shadow-red); }
         .header-icons { display: flex; gap: 12px; }
-        .circle-btn { width: 40px; height: 40px; background: var(--m-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px var(--m-shadow-red); border: 1px solid rgba(255,0,0,0.05); cursor: pointer; }
+        .circle-btn { width: 42px; height: 42px; background: var(--m-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 15px var(--m-shadow-red); border: 1px solid rgba(255,0,0,0.1); cursor: pointer; color: var(--m-red); }
 
-        .container { padding: 0 18px; }
+        .container { padding: 0 20px; }
         
-        .welcome-section { margin-top: 5px; margin-bottom: 20px; text-align: right; }
-        /* 📍 السطر 70 المعدل هنا */
-        .welcome-section h1 { font-size: 26px; font-weight: 900; color: var(--m-red); margin: 0; }
-        .welcome-section p { font-size: 13px; font-weight: 700; opacity: 0.8; margin-top: 2px; }
+        .welcome-section { margin-top: 10px; margin-bottom: 25px; text-align: right; }
+        /* تصحيح التصميم ليكون أضخم وأفخم */
+        .welcome-section h1 { font-size: 28px; font-weight: 900; color: var(--m-red); margin: 0; line-height: 1.2; }
+        .welcome-section p { font-size: 14px; font-weight: 700; opacity: 0.7; margin-top: 5px; }
 
-        .stats-grid-6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
+        .stats-grid-6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 30px; }
         .stat-box { 
-            background: var(--m-bg); padding: 15px 5px; border-radius: 20px; text-align: center; 
-            box-shadow: 0 8px 20px var(--m-shadow-red); border: 1px solid rgba(255,0,0,0.08);
+            background: var(--m-bg); padding: 18px 5px; border-radius: 22px; text-align: center; 
+            box-shadow: 0 10px 25px var(--m-shadow-red); border: 1px solid rgba(255,0,0,0.05);
+            transition: 0.3s;
         }
-        .stat-box b { font-size: 18px; display: block; color: var(--m-red); }
-        .stat-box span { font-size: 10px; font-weight: 800; display: block; margin-top: 3px; }
+        .stat-box:active { transform: scale(0.95); }
+        .stat-box b { font-size: 20px; display: block; color: var(--m-red); font-weight: 900; }
+        .stat-box span { font-size: 11px; font-weight: 800; display: block; margin-top: 4px; opacity: 0.8; }
 
         .search-area { 
-            background: var(--m-bg); padding: 12px 18px; border-radius: 50px; 
-            display: flex; align-items: center; gap: 10px; border: 1.5px solid var(--m-red); 
-            box-shadow: 0 5px 15px var(--m-shadow-red); margin-bottom: 30px;
+            background: var(--m-bg); padding: 14px 20px; border-radius: 50px; 
+            display: flex; align-items: center; gap: 12px; border: 2px solid var(--m-red); 
+            box-shadow: 0 8px 20px var(--m-shadow-red); margin-bottom: 35px;
         }
-        .search-area input { border: none; outline: none; width: 100%; font-family: 'Cairo'; font-size: 13px; background: transparent; color: var(--m-text); }
+        .search-area input { border: none; outline: none; width: 100%; font-family: 'Cairo'; font-size: 14px; background: transparent; color: var(--m-text); font-weight: 700; }
 
-        .menu-grid-8 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .menu-grid-8 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
         .menu-item { 
-            background: var(--m-bg); padding: 25px 12px; border-radius: 30px; text-align: center; 
-            box-shadow: 0 10px 25px var(--m-shadow-red); border: 1px solid rgba(255,0,0,0.05);
+            background: var(--m-bg); padding: 28px 15px; border-radius: 32px; text-align: center; 
+            box-shadow: 0 12px 30px var(--m-shadow-red); border: 1px solid rgba(255,0,0,0.05);
             transition: 0.2s; cursor: pointer;
         }
-        .menu-item:active { transform: scale(0.96); }
-        .menu-item i { font-size: 30px; color: var(--m-red); margin-bottom: 10px; display: block; }
-        .menu-item h3 { margin: 0; font-size: 13px; font-weight: 800; }
+        .menu-item:active { transform: scale(0.94); background: rgba(255,0,0,0.02); }
+        .menu-item i { font-size: 32px; color: var(--m-red); margin-bottom: 12px; display: block; }
+        .menu-item h3 { margin: 0; font-size: 14px; font-weight: 800; }
     </style>
 </head>
 <body>
@@ -70,7 +72,7 @@
 
     <div class="container">
         <div class="welcome-section fade-in">
-            <h1>مرحباً، <span id="mName">تحميل...</span></h1>
+            <h1>مرحباً، <span id="mName">جاري التحميل...</span></h1>
             <p>إليك ملخص إمبراطوريتك التجارية اليوم</p>
         </div>
 
