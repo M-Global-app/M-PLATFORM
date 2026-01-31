@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>M-PLATFORM | ULTIMATE LUXE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;500;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --main: #ff3b30; 
+            --glow: rgba(255, 59, 48, 0.08); 
+            --bg: #f5f5f7; 
+        }
+
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
+        body { font-family: 'Alexandria', sans-serif; background: var(--bg); color: #000; overflow-x: hidden; }
+
+        /* الهيدر: شفافية زجاجية مع هوية عائمة [cite: 2026-01-30] */
+        .glass-nav {
+            position: sticky; top: 0; background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(25px) saturate(180%); z-index: 1000;
+            padding: 20px 25px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 0.5px solid rgba(0,0,0,0.05);
+        }
+        .store-name { font-size: 22px; font-weight: 900; letter-spacing: -1px; }
+
+        /* شبكة المنتجات بنظام الأبعاد الذهبية [cite: 2026-01-22] */
+        .luxe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px 18px 120px; }
+
+        .luxe-card {
+            position: relative; display: flex; flex-direction: column;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .luxe-card:active { transform: scale(0.93); }
+
+        /* التوهج الرباعي "الأقصى": ناعم، عميق، وموحد [cite: 2026-01-31] */
+        .img-holder {
+            width: 100%; aspect-ratio: 0.85; border-radius: 35px; 
+            background: #fff; overflow: hidden; margin-bottom: 12px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 45px var(--glow); /* التوهج المطلوب [cite: 2026-01-31] */
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+        .img-holder img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* زر الإضافة: مدمج بذكاء [cite: 2026-01-31] */
+        .add-action {
+            position: absolute; bottom: 85px; left: 15px; width: 40px; height: 40px;
+            background: #000; color: #fff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .meta-data { padding: 0 8px; }
+        .meta-data h3 { font-size: 14px; font-weight: 500; color: #1c1c1e; margin-bottom: 4px; opacity: 0.9; }
+        .meta-data .price { font-size: 17px; font-weight: 800; color: var(--main); }
+        .meta-data .price span { font-size: 11px; margin-right: 2px; font-weight: 400; color: #8e8e93; }
+
+        /* الـ Dock العائم: قمة الفخامة الرقمية [cite: 2026-01-30] */
+        .ultimate-dock {
+            position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 450px; height: 75px;
+            background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(25px);
+            border-radius: 40px; display: flex; justify-content: space-around;
+            align-items: center; z-index: 2000; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .dock-link { color: #fff; font-size: 24px; opacity: 0.4; transition: 0.4s; cursor: pointer; }
+        .dock-link.active { opacity: 1; transform: translateY(-8px); text-shadow: 0 0 15px #fff; }
+    </style>
+</head>
+<body>
+
+    <nav class="glass-nav">
+        <div style="font-size:24px;">🛒</div>
+        <div class="store-name">M PREMIUM</div>
+        <div style="font-size:24px;">☰</div>
+    </nav>
+
+    <main class="luxe-grid" id="mainGrid"></main>
+
+    <div class="ultimate-dock">
+        <div class="dock-link active">🏠</div>
+        <div class="dock-link">🔍</div>
+        <div class="dock-link">📦</div>
+        <div class="dock-link">👤</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
+        
+        // المحرك اللوني الذكي: يحسب التوهج الرباعي برياضيات دقيقة [cite: 2026-01-31]
+        function setMerchantVibe(hex) {
+            document.documentElement.style.setProperty('--main', hex);
+            const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+            document.documentElement.style.setProperty('--glow', `rgba(${r},${g},${b},0.12)`);
+        }
+
+        async function init() {
+            setMerchantVibe("#ff3b30"); // اللون الافتراضي
+            const { data } = await _s.from('products').select('*').order('created_at', {ascending: false});
+            const grid = document.getElementById('mainGrid');
+            const imgBase = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
+
+            grid.innerHTML = data.map(p => `
+                <div class="luxe-card">
+                    <div class="img-holder">
+                        <img src="${p.image_url ? (p.image_url.includes('http') ? p.image_url : imgBase + p.image_url) : 'https://via.placeholder.com/600'}" alt="${p.name}">
+                    </div>
+                    <div class="add-action">+</div>
+                    <div class="meta-data">
+                        <h3>${p.name}</h3>
+                        <p class="price">${p.price}<span>ر.س</span></p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        init();
+    </script>
+</body>
+</html>
