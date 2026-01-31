@@ -7,77 +7,102 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #FF0000; --bg: #fcfcfc; --card: #ffffff; --text: #1a1a1a; }
-        body { margin: 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: none; /* إخفاء الصفحة حتى التأكد من الهوية */ }
+        body { margin: 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: none; overflow-x: hidden; }
         
         /* الهيدر الفخم */
-        .header { background: var(--card); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .header { background: var(--card); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 100; }
         .m-logo { font-family: 'Aref Ruqaa', serif; font-size: 28px; color: var(--primary); font-weight: 700; text-decoration: none; }
-        .user-info { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; }
-        .logout-btn { background: none; border: 1px solid #eee; padding: 5px 12px; border-radius: 8px; cursor: pointer; font-family: 'Cairo'; font-size: 12px; transition: 0.3s; outline: none; -webkit-tap-highlight-color: transparent; }
-        .logout-btn:hover { background: #fff5f5; color: var(--primary); border-color: var(--primary); }
+        .logout-btn { background: #f5f5f5; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; font-family: 'Cairo'; font-size: 13px; font-weight: 700; outline: none; -webkit-tap-highlight-color: transparent; transition: 0.3s; }
+        .logout-btn:active { transform: scale(0.95); background: #eee; }
 
-        .container { width: 90%; max-width: 500px; margin: 20px auto; }
-        
-        /* الإحصائيات السريعة بدون مربعات بشعة */
-        .stats-flow { margin-bottom: 30px; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .stat-item { margin-bottom: 15px; }
-        .stat-value { font-size: 32px; font-weight: 800; color: var(--text); display: block; line-height: 1; }
-        .stat-label { font-size: 14px; color: #888; font-weight: 400; }
-        .stat-line { width: 40px; height: 3px; background: var(--primary); margin-top: 8px; border-radius: 2px; }
+        .container { width: 92%; max-width: 500px; margin: 20px auto; }
+        .welcome-msg { font-size: 22px; font-weight: 800; margin-bottom: 5px; }
+        .sub-text { font-size: 13px; color: #888; margin-bottom: 25px; }
 
-        /* الأقسام التفاعلية */
-        .section-title { font-size: 18px; font-weight: 800; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .action-card { background: var(--card); padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 15px; transition: 0.3s; cursor: pointer; border: 1px solid rgba(0,0,0,0.02); outline: none; -webkit-tap-highlight-color: transparent; }
-        .action-card:active { transform: scale(0.98); }
-        .action-card h3 { margin: 0; font-size: 16px; color: var(--primary); }
-        .action-card p { margin: 5px 0 0; font-size: 13px; color: #666; }
+        /* نظام البطاقات العلوية (Slider Style) */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 30px; }
+        .stat-card { background: var(--card); padding: 15px 10px; border-radius: 18px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); }
+        .stat-card .num { font-size: 24px; font-weight: 800; display: block; line-height: 1; }
+        .stat-card .label { font-size: 10px; color: #888; font-weight: 700; margin-top: 5px; display: block; }
+        .stat-line { width: 25px; height: 3px; background: var(--primary); margin: 8px auto 0; border-radius: 10px; }
 
-        /* قسم الباقة */
-        .plan-status { background: #1a1a1a; color: white; padding: 20px; border-radius: 20px; margin-top: 30px; position: relative; overflow: hidden; }
-        .plan-status h4 { margin: 0; font-size: 13px; opacity: 0.7; }
-        .plan-name { font-size: 20px; font-weight: 800; margin: 5px 0; display: block; }
-        .upgrade-link { color: var(--primary); font-weight: 700; font-size: 13px; text-decoration: none; border-bottom: 1px solid var(--primary); }
+        /* شبكة الأدوات (Grid Actions) */
+        .actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .action-item { background: var(--card); padding: 25px 15px; border-radius: 24px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.01); transition: 0.3s; cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; }
+        .action-item:active { transform: scale(0.96); }
+        .action-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+        .action-item h3 { margin: 0; font-size: 15px; font-weight: 800; color: var(--primary); }
+        .action-item p { margin: 5px 0 0; font-size: 11px; color: #999; }
 
-        /* تأثير الظهور */
-        .fade-up { animation: fadeUp 0.6s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        /* باقة المتجر الفخمة */
+        .plan-section { background: #1a1a1a; color: white; padding: 25px; border-radius: 28px; margin-top: 25px; position: relative; overflow: hidden; }
+        .plan-label { font-size: 11px; opacity: 0.6; font-weight: 700; }
+        .plan-name { font-size: 22px; font-weight: 800; display: block; margin: 5px 0; }
+        .plan-btn { display: inline-block; margin-top: 10px; color: var(--primary); font-weight: 800; font-size: 13px; text-decoration: none; }
+
+        /* أنيميشن */
+        .fade-up { animation: fadeUp 0.6s ease-out forwards; opacity: 0; transform: translateY(15px); }
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <div class="user-info">
-            <span>مرحباً، <span id="merchantName">التاجر</span></span>
-        </div>
-        <a href="#" class="m-logo">M</a>
         <button class="logout-btn" onclick="handleLogout()">تسجيل خروج</button>
-    </header>
+        <a href="#" class="m-logo">M</a>
+        <div style="width: 80px;"></div> </header>
 
     <div class="container">
-        <div class="stats-flow fade-up" style="animation-delay: 0.1s;">
-            <div class="stat-item">
-                <span class="stat-value">0</span>
-                <span class="stat-label">طلبات بانتظار التجهيز</span>
+        <div class="fade-up">
+            <h2 class="welcome-msg">مرحباً، <span id="merchantName">التاجر</span></h2>
+            <p class="sub-text">إليك ملخص متجرك لهذا اليوم</p>
+        </div>
+
+        <div class="stats-grid fade-up" style="animation-delay: 0.1s;">
+            <div class="stat-card">
+                <span class="num">0</span>
+                <span class="label">طلبات بانتظار التجهيز</span>
                 <div class="stat-line"></div>
+            </div>
+            <div class="stat-card">
+                <span class="num">0</span>
+                <span class="label">طلبات الشحن</span>
+                <div class="stat-line" style="background: #eee;"></div>
+            </div>
+            <div class="stat-card">
+                <span class="num">0</span>
+                <span class="label">إجمالي المبيعات</span>
+                <div class="stat-line" style="background: #eee;"></div>
             </div>
         </div>
 
-        <div class="section-title fade-up" style="animation-delay: 0.2s;">إدارة المتجر</div>
-        
-        <div class="action-card fade-up" style="animation-delay: 0.3s;">
-            <h3>المنتجات</h3>
-            <p>إضافة وتعديل المنتجات في متجرك</p>
+        <div class="actions-grid">
+            <div class="action-item fade-up" style="animation-delay: 0.2s;">
+                <span class="action-icon">📦</span>
+                <h3>المنتجات</h3>
+                <p>إضافة وتعديل المنتجات</p>
+            </div>
+            <div class="action-item fade-up" style="animation-delay: 0.3s;">
+                <span class="action-icon">🧾</span>
+                <h3>الطلبات</h3>
+                <p>متابعة المبيعات والعملاء</p>
+            </div>
+            <div class="action-item fade-up" style="animation-delay: 0.4s;">
+                <span class="action-icon">⚙️</span>
+                <h3>إعدادات المتجر</h3>
+                <p>تخصيص الهوية والروابط</p>
+            </div>
+            <div class="action-item fade-up" style="animation-delay: 0.5s;">
+                <span class="action-icon">🎨</span>
+                <h3>الثيمات</h3>
+                <p>تغيير مظهر متجرك</p>
+            </div>
         </div>
 
-        <div class="action-card fade-up" style="animation-delay: 0.4s;">
-            <h3>الطلبات</h3>
-            <p>متابعة حالة الشحن والمبيعات</p>
-        </div>
-
-        <div class="plan-status fade-up" style="animation-delay: 0.5s;">
-            <h4>باقة المتجر الحالية</h4>
-            <span class="plan-name">باقة التجربة المجانية</span>
-            <a href="#" class="upgrade-link" onclick="alert('قريباً: صفحة ترقية الباقات')">ترقية الاشتراك الآن ←</a>
+        <div class="plan-section fade-up" style="animation-delay: 0.6s;">
+            <span class="plan-label">حالة الحساب حالياً</span>
+            <span class="plan-name">الباقة المجانية</span>
+            <a href="#" class="plan-btn">ترقية الاشتراك الآن ←</a>
         </div>
     </div>
 
@@ -85,11 +110,10 @@
     <script>
         const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
-        // حارس البوابة: التأكد من تسجيل الدخول
         async function checkUser() {
             const { data: { user } } = await _supabase.auth.getUser();
             if (!user) {
-                window.location.href = "login.html"; // توجيه لصفحة الدخول إذا لم يسجل
+                window.location.href = "login.html";
             } else {
                 document.body.style.display = "block";
                 document.getElementById('merchantName').innerText = user.user_metadata.store_name || "تاجر M";
