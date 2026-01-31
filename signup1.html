@@ -3,115 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إنشاء حساب - M PLATFORM</title>
+    <title>انضم إلينا - M PLATFORM</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #FF0000; --bg: #fcfcfc; --text: #1a1a1a; }
-        body { margin: 0; padding: 40px 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
+        body { margin: 0; padding: 20px 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
         
-        /* ✨ تأثير الظهور التدريجي السريع */
+        /* ✨ إضافة تأثير الظهور التدريجي السريع */
         .fade-in-item { opacity: 0; transform: translateY(15px); animation: quickFade 0.5s ease-out forwards; }
         @keyframes quickFade { to { opacity: 1; transform: translateY(0); } }
 
         .container { width: 90%; max-width: 380px; text-align: center; }
         
-        .header-title { font-size: 26px; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
-        .sub-title { font-size: 14px; opacity: 0.7; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .header-title { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
+        .sub-title { font-size: 14px; opacity: 0.7; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; }
         
-        /* حرف M المرفوع بخط الرقعة */
         .m-logo-style { 
             font-family: 'Aref Ruqaa', serif; 
             font-weight: 700; 
             color: var(--primary); 
             font-size: 24px; 
-            position: relative; 
-            top: -3px; 
+            line-height: 1;
+            position: relative;
+            top: -3px; /* الرفع المثالي المعتمد */
             display: inline-block;
         }
 
-        .input-group { margin-bottom: 15px; text-align: right; }
-        label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 8px; margin-right: 5px; }
-        input { width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); box-sizing: border-box; font-family: 'Cairo'; font-size: 15px; transition: 0.3s; }
-        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 10px rgba(255,0,0,0.05); }
-
-        .btn-signup { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 20px; font-size: 17px; box-shadow: 0 4px 15px rgba(255,0,0,0.2); transition: 0.3s; }
-        .btn-signup:hover { transform: scale(1.02); }
+        .selected-plan-box { background: rgba(255,0,0,0.05); padding: 10px; border-radius: 12px; margin-bottom: 20px; font-weight: 700; color: var(--primary); font-size: 14px; border: 1px dashed rgba(255,0,0,0.2); }
+        .input-group { margin-bottom: 12px; text-align: right; }
+        label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; margin-right: 5px; }
+        input { width: 100%; padding: 10px 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); box-sizing: border-box; font-family: 'Cairo'; font-size: 14px; transition: 0.3s; }
+        input:focus { outline: none; border-color: var(--primary); }
         
-        .login-footer { margin-top: 25px; font-size: 14px; color: #666; }
-        .btn-link { color: var(--primary); font-weight: 800; text-decoration: none; margin-right: 5px; }
+        .btn-submit { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 16px; box-shadow: 0 4px 12px rgba(255,0,0,0.15); transition: 0.3s; }
+        .btn-submit:hover { transform: scale(1.02); }
+
+        #customAlert { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
+        .alert-content { background: white; padding: 30px; border-radius: 20px; width: 80%; max-width: 300px; text-align: center; }
+        .alert-btn { background: var(--primary); color: white; border: none; padding: 12px 40px; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 20px; font-family: 'Cairo'; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="header-title fade-in-item" style="animation-delay: 0.1s;">ابدأ رحلتك معنا</h1>
-        <p class="sub-title fade-in-item" style="animation-delay: 0.2s;">انضم الآن إلى منصة <span class="m-logo-style">M</span></p>
-
+        <h1 class="header-title fade-in-item" style="animation-delay: 0.1s;">انضم إلينا اليوم</h1>
+        <p class="sub-title fade-in-item" style="animation-delay: 0.2s;">ابدأ تجارتك الإلكترونية مع <span class="m-logo-style">M</span></p>
+        
+        <div id="planDisplay" class="selected-plan-box fade-in-item" style="animation-delay: 0.3s;">جاري تحميل الباقة...</div>
+        
         <form id="signupForm">
-            <div class="input-group fade-in-item" style="animation-delay: 0.3s;">
+            <div class="input-group fade-in-item" style="animation-delay: 0.4s;">
+                <label>رقم الجوال</label>
+                <input type="tel" id="phone" placeholder="05xxxxxxxx" required>
+            </div>
+            <div class="input-group fade-in-item" style="animation-delay: 0.5s;">
                 <label>اسم المتجر</label>
                 <input type="text" id="storeName" placeholder="مثال: متجر الأناقة" required>
             </div>
-
-            <div class="input-group fade-in-item" style="animation-delay: 0.4s;">
+            <div class="input-group fade-in-item" style="animation-delay: 0.6s;">
                 <label>البريد الإلكتروني</label>
                 <input type="email" id="email" placeholder="example@mail.com" required>
             </div>
-
-            <div class="input-group fade-in-item" style="animation-delay: 0.5s;">
+            <div class="input-group fade-in-item" style="animation-delay: 0.7s;">
                 <label>كلمة المرور</label>
                 <input type="password" id="password" placeholder="••••••••" required>
             </div>
-
-            <button type="submit" class="btn-signup fade-in-item" id="signupBtn" style="animation-delay: 0.6s;">إنشاء المتجر</button>
+            <button type="submit" class="btn-submit fade-in-item" id="submitBtn" style="animation-delay: 0.8s;">إنشاء متجري الآن</button>
         </form>
-
-        <div class="login-footer fade-in-item" style="animation-delay: 0.7s;">
-            لديك حساب بالفعل؟ 
-            <a href="login.html" class="btn-link">تسجيل الدخول</a>
-        </div>
     </div>
 
-    <div id="customAlert" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center;">
-        <div style="background: white; padding: 30px; border-radius: 20px; width: 80%; max-width: 300px; text-align: center;">
-            <h3 id="alertTitle" style="margin:0; font-weight:800; color:#FF0000;">تنبيه</h3>
+    <div id="customAlert">
+        <div class="alert-content">
+            <h3 id="alertTitle" style="margin:0; font-weight:800; color:#FF0000;">مبروك!</h3>
             <p id="alertMsg" style="font-size:14px; color:#555; margin-top:10px;"></p>
-            <button style="background: var(--primary); color: white; border: none; padding: 10px 30px; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 20px;" onclick="document.getElementById('customAlert').style.display='none'">موافق</button>
+            <button class="alert-btn" onclick="closeAlert()">موافق</button>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
+        const selectedPlan = localStorage.getItem('selectedPlan') || 'الرئيسية';
+        document.getElementById('planDisplay').innerText = `الباقة المختارة: ${selectedPlan}`;
+
+        function showAlert(title, msg) { 
+            document.getElementById('alertTitle').innerText = title; 
+            document.getElementById('alertMsg').innerText = msg; 
+            document.getElementById('customAlert').style.display = 'flex'; 
+        }
+        
+        function closeAlert() { 
+            document.getElementById('customAlert').style.display = 'none'; 
+            if (document.getElementById('alertTitle').innerText === 'مبروك!') window.location.href = "dashboard.html"; 
+        }
 
         document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('signupBtn');
-            btn.innerText = "جاري الإنشاء...";
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "جاري الحفظ...";
             btn.disabled = true;
-
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const storeName = document.getElementById('storeName').value;
-
-            const { data, error } = await _supabase.auth.signUp({
-                email: email,
-                password: password,
-                options: {
-                    data: { store_name: storeName }
-                }
+            const { error } = await _supabase.auth.signUp({
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                options: { data: { phone: document.getElementById('phone').value, store_name: document.getElementById('storeName').value, plan: selectedPlan } }
             });
-
-            if (error) {
-                document.getElementById('alertMsg').innerText = error.message;
-                document.getElementById('customAlert').style.display = 'flex';
-                btn.innerText = "إنشاء المتجر";
-                btn.disabled = false;
-            } else {
-                document.getElementById('alertMsg').innerText = "تم إنشاء الحساب! يرجى التحقق من بريدك الإلكتروني لتفعيل المتجر.";
-                document.getElementById('customAlert').style.display = 'flex';
+            if (error) { 
+                showAlert('خطأ!', error.message); 
+                btn.innerText = "إنشاء متجري الآن"; 
+                btn.disabled = false; 
+            }
+            else { 
+                showAlert('مبروك!', 'تم إنشاء المتجر بنجاح. تفقّد بريدك الإلكتروني.'); 
             }
         });
     </script>
 </body>
 </html>
-
