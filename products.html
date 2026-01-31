@@ -3,111 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M | إدارة المخزون</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>M | Boutique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&family=Noto+Kufi+Arabic:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
-        :root { --m-red: #FF0000; --m-white: #ffffff; --m-gray: #f4f4f4; }
-        body { margin: 0; font-family: 'Cairo', sans-serif; background: var(--m-gray); padding-bottom: 90px; color: #1a1a1a; }
+        :root { --m-red: #FF0000; --m-black: #121212; --m-gray: #f8f9fa; }
+        body { margin: 0; font-family: 'Noto Kufi Arabic', sans-serif; background: var(--m-gray); padding-bottom: 100px; }
         
-        /* الهيدر الملكي */
-        .header { background: var(--m-white); padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--m-red); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .m-brand { font-size: 32px; font-weight: 900; color: var(--m-red); }
-        .back-btn { font-size: 20px; color: #333; cursor: pointer; }
+        /* هيدر ملكي بسيط */
+        .header { background: #fff; padding: 25px 20px; text-align: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 28px; font-weight: 900; color: var(--m-red); letter-spacing: -1.5px; }
 
-        .container { padding: 15px; }
-        .section-header { display: flex; align-items: center; gap: 10px; margin: 20px 0 10px; }
-        .section-header h2 { font-size: 18px; font-weight: 900; margin: 0; color: #333; }
-        .line { flex: 1; height: 2px; background: #ddd; }
+        .container { padding: 20px; max-width: 500px; margin: 0 auto; }
+        .section-title { font-size: 14px; font-weight: 600; color: #888; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title::after { content: ""; flex: 1; height: 1px; background: #eee; }
 
-        /* كروت المنتجات */
-        .product-card { background: var(--m-white); border-radius: 15px; padding: 12px; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.02); }
-        .p-img { width: 80px; height: 80px; border-radius: 12px; object-fit: cover; background: #eee; border: 1px solid #eee; }
-        .p-info { flex: 1; }
-        .p-info h3 { margin: 0; font-size: 16px; font-weight: 800; }
-        .p-info p { margin: 5px 0 0; color: var(--m-red); font-weight: 900; font-size: 15px; }
+        /* كرت المنتج الاحترافي */
+        .p-card { background: #fff; border-radius: 20px; padding: 15px; display: flex; align-items: center; gap: 15px; margin-bottom: 15px; transition: 0.3s; border: 1px solid transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .p-card:hover { border-color: #eee; transform: translateY(-3px); }
         
-        .stock-tag { font-size: 11px; font-weight: 900; padding: 5px 12px; border-radius: 8px; background: #f0f0f0; color: #666; }
-        .low-stock { background: rgba(255,0,0,0.1); color: var(--m-red); }
+        .p-img-wrapper { width: 90px; height: 90px; border-radius: 15px; overflow: hidden; background: #fdfdfd; border: 1px solid #f5f5f5; flex-shrink: 0; }
+        .p-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .p-details { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .p-name { font-size: 15px; font-weight: 600; color: var(--m-black); }
+        .p-price { font-size: 18px; font-weight: 900; color: var(--m-red); }
+        
+        .p-stock-wrapper { display: flex; align-items: center; gap: 6px; }
+        .p-stock { font-size: 11px; background: #f0f0f0; padding: 4px 10px; border-radius: 6px; color: #777; font-weight: 600; }
 
-        /* زر الإضافة العائم */
-        .add-btn { position: fixed; bottom: 30px; left: 30px; width: 65px; height: 65px; background: var(--m-red); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 10px 25px rgba(255,0,0,0.3); text-decoration: none; z-index: 1000; transition: transform 0.2s; }
-        .add-btn:active { transform: scale(0.9); }
+        /* زر الإضافة الأنيق */
+        .btn-add { position: fixed; bottom: 35px; left: 35px; width: 60px; height: 60px; background: var(--m-black); color: #fff; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 30px; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.2); transition: 0.3s; }
+        .btn-add:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="back-btn" onclick="history.back()"><i class="fa-solid fa-arrow-right"></i></div>
-        <div class="m-brand">M</div>
-        <div style="width:20px;"></div>
-    </div>
+    <div class="header"><div class="logo">M</div></div>
 
     <div class="container">
-        <div class="section-header">
-            <h2>قائمة المنتجات</h2>
-            <div class="line"></div>
-        </div>
-
+        <div class="section-title">المجموعة الحالية</div>
         <div id="productList">
-            <p style="text-align: center; color: #888; padding-top: 50px;">جاري تحميل مخزونك الملكي...</p>
-        </div>
+            </div>
     </div>
 
-    <a href="add-product.html" class="add-btn"><i class="fa-solid fa-plus"></i></a>
+    <a href="add-product.html" class="btn-add">+</a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
+        const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
-        async function loadProducts() {
+        async function load() {
+            const list = document.getElementById('productList');
             try {
-                const { data: { user } } = await _supabase.auth.getUser();
-                if (!user) { window.location.href = 'login.html'; return; }
+                const { data: { user } } = await _s.auth.getUser();
+                const { data: products } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', { ascending: false });
 
-                // جلب البيانات مع ترتيبها من الأحدث
-                const { data: products, error } = await _supabase
-                    .from('products')
-                    .select('*')
-                    .eq('merchant_id', user.id)
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-
-                const listContainer = document.getElementById('productList');
-                if (products.length === 0) {
-                    listContainer.innerHTML = `
-                        <div style="text-align:center; padding:60px 20px;">
-                            <i class="fa-solid fa-box-open" style="font-size:50px; color:#ddd; margin-bottom:15px;"></i>
-                            <p style="color:#999;">لا توجد منتجات حالياً. ابدأ بإضافة أول منتج.</p>
-                        </div>`;
-                    return;
-                }
-
-                listContainer.innerHTML = '';
+                list.innerHTML = '';
                 products.forEach(p => {
-                    // رابط الصورة المباشر من الحاوية العامة
-                    const bucketUrl = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
-                    const imageUrl = p.image_url ? (p.image_url.includes('http') ? p.image_url : bucketUrl + p.image_url) : 'https://via.placeholder.com/80/FF0000/FFFFFF?text=M';
-
-                    listContainer.innerHTML += `
-                        <div class="product-card">
-                            <img src="${imageUrl}" class="p-img" onerror="this.src='https://via.placeholder.com/80/FF0000/FFFFFF?text=M'">
-                            <div class="p-info">
-                                <h3>${p.name}</h3>
-                                <p>${p.price} ريال</p>
+                    const img = p.image_url ? `https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/${p.image_url}` : 'https://via.placeholder.com/150';
+                    
+                    list.innerHTML += `
+                        <div class="p-card">
+                            <div class="p-img-wrapper">
+                                <img src="${img}" class="p-img" onerror="this.src='https://via.placeholder.com/150'">
                             </div>
-                            <div class="stock-tag ${p.stock <= 5 ? 'low-stock' : ''}">
-                                الكمية: ${p.stock}
+                            <div class="p-details">
+                                <div class="p-name">${p.name}</div>
+                                <div class="p-price">${p.price} <span style="font-size:11px; font-weight:300;">ر.س</span></div>
+                                <div class="p-stock-wrapper">
+                                    <span class="p-stock">المتوفر: ${p.stock}</span>
+                                </div>
                             </div>
                         </div>`;
                 });
             } catch (e) {
-                document.getElementById('productList').innerHTML = `<p style="color:red; text-align:center;">خطأ في الاتصال: ${e.message}</p>`;
+                list.innerHTML = '<p style="text-align:center;">نواجه مشكلة في جلب القطع..</p>';
             }
         }
-
-        document.addEventListener('DOMContentLoaded', loadProducts);
+        load();
     </script>
 </body>
 </html>
