@@ -3,69 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M PRIME | إضافة قطعة ملكية</title>
+    <title>M PRIME | إضافة ملكية شاملة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root { --m-red: #FF0000; --m-bg: #ffffff; --m-text: #1a1a1a; --m-shadow: rgba(255, 0, 0, 0.2); }
         .dark-mode { --m-bg: #0f0f0f; --m-text: #ffffff; --m-shadow: rgba(255, 0, 0, 0.45); }
-
-        body { margin: 0; font-family: 'Cairo', sans-serif; background: var(--m-bg); color: var(--m-text); transition: 0.4s; overflow-x: hidden; }
-        
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: var(--m-bg); color: var(--m-text); transition: 0.4s; padding-bottom: 40px; }
         .header { display: flex; align-items: center; justify-content: space-between; padding: 20px; border-bottom: 1px solid rgba(255,0,0,0.05); }
         .btn-close { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--m-bg); box-shadow: 0 4px 12px var(--m-shadow); color: var(--m-red); cursor: pointer; }
-
-        .container { padding: 30px 20px; }
-        .page-title { font-size: 24px; font-weight: 900; color: var(--m-red); margin-bottom: 5px; }
-        .page-desc { font-size: 13px; opacity: 0.6; margin-bottom: 30px; font-weight: 700; }
-
-        /* ستايل المدخلات الفخم */
+        .container { padding: 25px; }
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 14px; font-weight: 800; margin-bottom: 10px; color: var(--m-text); }
-        .form-group input, .form-group select { 
-            width: 100%; padding: 16px; border-radius: 18px; border: 2px solid rgba(255,0,0,0.1); 
-            background: var(--m-bg); color: var(--m-text); font-family: 'Cairo'; font-weight: 700; box-sizing: border-box; 
-            transition: 0.3s;
-        }
+        .form-group label { display: block; font-size: 14px; font-weight: 800; margin-bottom: 10px; }
+        .form-group input, .form-group select { width: 100%; padding: 16px; border-radius: 18px; border: 2px solid rgba(255,0,0,0.1); background: var(--m-bg); color: var(--m-text); font-family: 'Cairo'; font-weight: 700; box-sizing: border-box; }
         .form-group input:focus { border-color: var(--m-red); outline: none; box-shadow: 0 0 15px var(--m-shadow); }
-
-        .btn-submit { 
-            width: 100%; padding: 18px; background: var(--m-red); color: white; border: none; 
-            border-radius: 50px; font-weight: 900; font-size: 18px; margin-top: 20px; 
-            box-shadow: 0 10px 25px var(--m-shadow); cursor: pointer; transition: 0.3s;
-        }
-        .btn-submit:active { transform: scale(0.95); opacity: 0.9; }
-
-        /* منطقة رفع الصورة التجريبية */
-        .image-upload { 
-            width: 100%; height: 150px; border: 2px dashed rgba(255,0,0,0.2); 
-            border-radius: 20px; display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; gap: 10px; cursor: pointer; margin-bottom: 25px;
-            color: var(--m-red); font-size: 13px; font-weight: 800;
-        }
+        
+        /* منطقة الصورة المحدثة */
+        .image-preview-area { width: 100%; height: 200px; border: 2px dashed var(--m-red); border-radius: 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; position: relative; cursor: pointer; margin-bottom: 25px; background: rgba(255,0,0,0.02); }
+        .image-preview-area img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .image-preview-area i { font-size: 40px; color: var(--m-red); margin-bottom: 10px; }
+        
+        .btn-submit { width: 100%; padding: 18px; background: var(--m-red); color: white; border: none; border-radius: 50px; font-weight: 900; font-size: 18px; box-shadow: 0 10px 25px var(--m-shadow); cursor: pointer; }
+        .btn-submit:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="btn-close" onclick="history.back()"><i class="fa-solid fa-xmark"></i></div>
-        <div style="font-weight: 900; font-size: 18px; letter-spacing: 1px;">M PRIME</div>
+        <div class="btn-close" onclick="history.back()"><i class="fa-solid fa-arrow-right"></i></div>
+        <div style="font-weight: 900; font-size: 18px;">M PRIME</div>
         <div style="width: 40px;"></div>
     </div>
 
     <div class="container">
-        <h2 class="page-title">إضافة منتج جديد</h2>
-        <p class="page-desc">املأ التفاصيل لتوسيع إمبراطوريتك التجارية</p>
+        <h2 style="font-weight: 900; color: var(--m-red); margin:0;">إضافة قطعة ملكية</h2>
+        <p style="font-size: 13px; opacity: 0.6; margin-bottom: 25px;">ارفع الصورة واملأ البيانات بصلابة</p>
 
-        <form id="addProductForm">
-            <div class="image-upload" onclick="alert('قريباً: تفعيل نظام رفع الصور الحقيقي')">
-                <i class="fa-solid fa-camera-retro" style="font-size: 30px;"></i>
-                <span>اضغط لإضافة صورة المنتج</span>
+        <form id="fullProductForm">
+            <div class="image-preview-area" onclick="document.getElementById('fileInput').click()">
+                <i class="fa-solid fa-camera" id="uploadIcon"></i>
+                <span id="uploadText" style="font-weight: 800; font-size: 13px; color: var(--m-red);">اضغط لالتقاط أو اختيار صورة</span>
+                <img id="imagePreview" src="">
             </div>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
 
             <div class="form-group">
-                <label>اسم المنتج الملكي</label>
-                <input type="text" id="pName" placeholder="مثال: ساعة M الإصدار الأول" required>
+                <label>اسم المنتج</label>
+                <input type="text" id="pName" placeholder="مثلاً: حذاء M الناري" required>
             </div>
 
             <div style="display: flex; gap: 15px;">
@@ -74,55 +58,78 @@
                     <input type="number" id="pPrice" placeholder="0.00" required>
                 </div>
                 <div class="form-group" style="flex: 1;">
-                    <label>الكمية المتوفرة</label>
+                    <label>الكمية</label>
                     <input type="number" id="pStock" placeholder="0" required>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>الفئة</label>
-                <select id="pCategory">
-                    <option value="electronics">إلكترونيات</option>
-                    <option value="fashion">أزياء</option>
-                    <option value="luxury">كماليات فاخرة</option>
-                </select>
-            </div>
-
-            <button type="submit" class="btn-submit" id="saveBtn">تعميد المنتج في المخزون</button>
+            <button type="submit" class="btn-submit" id="saveBtn">تعميد المنتج في الإمبراطورية</button>
         </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
+        let selectedFile = null;
 
-        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+        // معالجة اختيار الصورة
+        document.getElementById('fileInput').onchange = (e) => {
+            selectedFile = e.target.files[0];
+            if (selectedFile) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    document.getElementById('imagePreview').src = event.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                    document.getElementById('uploadIcon').style.display = 'none';
+                    document.getElementById('uploadText').style.display = 'none';
+                };
+                reader.readAsDataURL(selectedFile);
+            }
+        };
+
+        // تعميد البيانات
+        document.getElementById('fullProductForm').onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('saveBtn');
-            btn.innerText = "جاري التعميد...";
             btn.disabled = true;
+            btn.innerText = "جاري الحفظ في الخزنة...";
 
-            const { data: { user } } = await _supabase.auth.getUser();
-            
-            const productData = {
-                name: document.getElementById('pName').value,
-                price: parseFloat(document.getElementById('pPrice').value),
-                stock: parseInt(document.getElementById('pStock').value),
-                merchant_id: user.id
-            };
+            try {
+                const { data: { user } } = await _supabase.auth.getUser();
+                let imageUrl = "https://via.placeholder.com/300/FF0000/FFFFFF?text=M+PRIME";
 
-            const { error } = await _supabase.from('products').insert([productData]);
+                // رفع الصورة لـ Storage (إذا تم اختيار صورة)
+                if (selectedFile) {
+                    const fileName = `${Date.now()}_${selectedFile.name}`;
+                    const { data: uploadData, error: uploadError } = await _supabase.storage
+                        .from('products-bucket') // تأكد أن لديك Bucket بهذا الاسم
+                        .upload(fileName, selectedFile);
+                    
+                    if (uploadData) {
+                        const { data: urlData } = _supabase.storage.from('products-bucket').getPublicUrl(fileName);
+                        imageUrl = urlData.publicUrl;
+                    }
+                }
 
-            if (error) {
-                alert("حدث خطأ تقني: " + error.message);
-                btn.innerText = "حاول مرة أخرى";
+                // حفظ المنتج
+                const { error } = await _supabase.from('products').insert([{
+                    name: document.getElementById('pName').value,
+                    price: parseFloat(document.getElementById('pPrice').value),
+                    stock: parseInt(document.getElementById('pStock').value),
+                    image_url: imageUrl,
+                    merchant_id: user.id
+                }]);
+
+                if (error) throw error;
+
+                alert("تم تعميد المنتج بنجاح!");
+                window.location.href = 'products.html';
+            } catch (err) {
+                alert("خطأ: " + err.message);
                 btn.disabled = false;
-            } else {
-                alert("تم إضافة القطعة الملكية بنجاح!");
-                window.location.href = 'products.html'; // العودة لصفحة المخزون
+                btn.innerText = "حاول مرة أخرى";
             }
-        });
-
+        };
         if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
     </script>
 </body>
