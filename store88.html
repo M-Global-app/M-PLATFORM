@@ -3,185 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر الكريستال الأحمر</title>
+    <title>متجر الزجاج الأحمر الفاخر</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --glass-red: rgba(230, 57, 70, 0.15); /* لون أحمر زجاجي خفيف */
-            --solid-red: #e63946;
-            --bg-white: #ffffff;
+            --deep-red: #d90429;
+            --glass-red: rgba(217, 4, 41, 0.15); /* زيادة كثافة اللون الأحمر في الزجاج */
+            --glass-border: rgba(217, 4, 41, 0.3);
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
         }
 
         body {
-            background-color: var(--bg-white);
-            background-image: radial-gradient(#f0f0f0 1px, transparent 1px);
-            background-size: 30px 30px; /* شبكة خلفية خفيفة جداً لإضافة عمق */
-            color: #333;
+            background: #ffffff;
+            /* إضافة دوائر حمراء في الخلفية لتظهر من خلف الزجاج وتثبت التأثير */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(217, 4, 41, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(217, 4, 41, 0.05) 0%, transparent 20%);
             min-height: 100vh;
+            color: #2b2d42;
         }
 
-        /* هيدر زجاجي أحمر */
+        /* الهيدر الزجاجي الأحمر الواضح */
         header {
-            background: rgba(230, 57, 70, 0.05);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(230, 57, 70, 0.1);
-            padding: 15px 8%;
+            background: rgba(217, 4, 41, 0.1); /* خلفية حمراء زجاجية */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--glass-border);
+            padding: 20px 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            position: sticky; top: 0; z-index: 1000;
         }
 
-        .logo { font-weight: 900; font-size: 1.5rem; color: var(--solid-red); }
-
-        nav a { text-decoration: none; color: #444; margin: 0 15px; font-weight: 600; transition: 0.3s; }
-        nav a:hover { color: var(--solid-red); }
-
-        /* قسم العرض */
-        .hero {
-            text-align: center;
-            padding: 80px 5%;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            color: #1a1a1a;
-            margin-bottom: 10px;
-        }
-
-        .hero span { color: var(--solid-red); }
+        .logo { font-weight: 900; font-size: 1.8rem; color: var(--deep-red); }
 
         /* حاوية البطاقات */
         .container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 40px 8%;
+            gap: 40px;
+            padding: 60px 8%;
         }
 
-        /* البطاقة الزجاجية الحمراء */
+        /* بطاقة الزجاج الأحمر - التأثير المطلوب هنا */
         .card {
-            background: rgba(230, 57, 70, 0.03); /* شفافية حمراء خفيفة */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(230, 57, 70, 0.1);
+            background: rgba(217, 4, 41, 0.08); /* لون أحمر زجاجي */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid var(--glass-border); /* حدود حمراء شفافة */
             border-radius: 30px;
-            padding: 25px;
+            padding: 40px 20px;
             text-align: center;
-            transition: 0.4s ease;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
 
         .card:hover {
-            background: rgba(230, 57, 70, 0.08);
-            transform: translateY(-10px);
-            border-color: var(--solid-red);
-            box-shadow: 0 20px 40px rgba(230, 57, 70, 0.1);
+            transform: translateY(-15px);
+            background: rgba(217, 4, 41, 0.15); /* يغمق اللون عند التمرير */
+            border-color: var(--deep-red);
+            box-shadow: 0 15px 35px rgba(217, 4, 41, 0.2);
         }
 
-        .card img {
-            width: 100%;
-            height: 250px;
-            object-fit: contain; /* ليظهر المنتج بوضوح على الأبيض */
+        .card .icon {
+            font-size: 4rem;
             margin-bottom: 20px;
-            border-radius: 20px;
+            display: inline-block;
+            filter: drop-shadow(0 5px 15px rgba(217, 4, 41, 0.3));
         }
 
         .price {
             display: block;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 800;
-            color: var(--solid-red);
-            margin: 15px 0;
+            color: var(--deep-red);
+            margin: 20px 0;
         }
 
         .buy-btn {
-            background: var(--solid-red);
+            background: var(--deep-red);
             color: white;
             border: none;
-            padding: 12px 0;
-            width: 100%;
-            border-radius: 15px;
+            padding: 15px 40px;
+            border-radius: 50px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(217, 4, 41, 0.4);
         }
 
         .buy-btn:hover {
-            background: #b91c1c;
-            box-shadow: 0 8px 20px rgba(230, 57, 70, 0.3);
+            background: #800000;
+            transform: scale(1.1);
         }
 
-        /* دوائر زخرفية خلف الزجاج */
-        .decoration {
+        /* تمويج خلف البطاقة ليظهر التغبيش */
+        .glass-bg-effect {
             position: absolute;
-            width: 150px;
-            height: 150px;
-            background: var(--solid-red);
-            filter: blur(80px);
-            opacity: 0.1;
-            z-index: -1;
+            top: -10%; left: -10%;
+            width: 40px; height: 40px;
+            background: var(--deep-red);
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0.2;
         }
     </style>
 </head>
 <body>
 
-<div class="decoration" style="top: 20%; right: 10%;"></div>
-<div class="decoration" style="bottom: 10%; left: 5%;"></div>
-
 <header>
     <div class="logo">RED<span>GLOSS</span></div>
-    <nav>
-        <a href="#">الرئيسية</a>
-        <a href="#">المنتجات</a>
-        <a href="#">من نحن</a>
+    <nav style="display: flex; gap: 20px;">
+        <span style="font-weight: bold; cursor: pointer;">الرئيسية</span>
+        <span style="font-weight: bold; cursor: pointer;">المتجر</span>
     </nav>
-    <div style="font-size: 1.3rem;">🛒</div>
+    <div style="font-size: 1.5rem; cursor: pointer;">🛒</div>
 </header>
-
-<section class="hero">
-    <h1>مجموعة <span>الكريستال</span> الشتوية</h1>
-    <p>لمسة من الأحمر الفاخر في كل تفصيلة.</p>
-</section>
 
 <div class="container">
     <div class="card">
-        <div style="font-size: 5rem;">🎧</div>
-        <h3>سماعة لاسلكية برو</h3>
-        <p style="color: #666; font-size: 0.9rem;">صوت نقي بتصميم أحمر شفاف</p>
-        <span class="price">750 ر.س</span>
-        <button class="buy-btn">أضف للسلة</button>
+        <div class="glass-bg-effect"></div>
+        <div class="icon">💎</div>
+        <h3>خاتم الياقوت</h3>
+        <span class="price">2,500 ر.س</span>
+        <button class="buy-btn">اقتنِ الآن</button>
     </div>
 
     <div class="card">
-        <div style="font-size: 5rem;">⌚</div>
-        <h3>ساعة ذكية عصرية</h3>
-        <p style="color: #666; font-size: 0.9rem;">مقاومة للماء بهيكل كريستالي</p>
-        <span class="price">1,100 ر.س</span>
-        <button class="buy-btn">أضف للسلة</button>
+        <div class="glass-bg-effect" style="right: -10%; left: auto; background: #000;"></div>
+        <div class="icon">🏎️</div>
+        <h3>سيارة تحكم ذكية</h3>
+        <span class="price">890 ر.س</span>
+        <button class="buy-btn">اقتنِ الآن</button>
     </div>
 
     <div class="card">
-        <div style="font-size: 5rem;">📷</div>
-        <h3>كاميرا فورية</h3>
-        <p style="color: #666; font-size: 0.9rem;">وثق لحظاتك بأناقة</p>
-        <span class="price">420 ر.س</span>
-        <button class="buy-btn">أضف للسلة</button>
+        <div class="glass-bg-effect" style="bottom: -10%; top: auto;"></div>
+        <div class="icon">🌹</div>
+        <h3>عطر الورد الأحمر</h3>
+        <span class="price">350 ر.س</span>
+        <button class="buy-btn">اقتنِ الآن</button>
     </div>
 </div>
-
-<footer style="text-align: center; padding: 40px; color: #999; font-size: 0.8rem;">
-    &copy; 2026 متجر رد غلوس - الأناقة في البساطة
-</footer>
 
 </body>
 </html>
