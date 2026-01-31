@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M Platform | Pro</title>
+    <title>M Platform | Active UI</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-red: #ff3b30; --glow-red: rgba(255, 59, 48, 0.4); }
@@ -15,10 +15,17 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
         }
 
+        /* أنيميشن النبض لزر الإضافة (+) [cite: 2026-01-31] */
+        @keyframes pulse-red {
+            0% { transform: scale(1); box-shadow: 0 10px 25px var(--glow-red); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 35px var(--glow-red); }
+            100% { transform: scale(1); box-shadow: 0 10px 25px var(--glow-red); }
+        }
+
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
         body { padding: 15px 8px 100px; font-family: 'Cairo', sans-serif; background: #fff; }
 
-        /* الهيدر العائم والدوائر المنفصلة بتموج [cite: 2026-01-22, 2026-01-31] */
+        /* الهيدر العائم [cite: 2026-01-22] */
         .floating-header { 
             position: fixed; top: 12px; left: 12px; right: 12px; 
             display: flex; justify-content: flex-end; gap: 10px; z-index: 2500; 
@@ -27,115 +34,44 @@
             width: 30px; height: 30px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
             font-size: 11px; font-weight: 900; color: #fff; background: #000; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: ripple 2s infinite; 
+            animation: ripple 2s infinite; 
         }
         .pill.red { background: var(--main-red); }
         .pill.orange { background: #ffae42; }
 
-        .section-label { 
-            font-size: 11px; font-weight: 900; margin: 20px 0 8px; color: var(--main-red); 
-            display: flex; align-items: center; gap: 5px; border-right: 3px solid var(--main-red); padding-right: 8px; 
-        }
-
-        /* المربعات مصغرة 10% [cite: 2026-01-22] */
+        /* البطاقات مصغرة 10% [cite: 2026-01-22] */
         .m-grid-new { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
         .m-card-new { 
             position: relative; background: #fff; border-radius: 12px; 
             box-shadow: 0 0 12px var(--glow-red); overflow: hidden; 
-            display: flex; flex-direction: column; transform: scale(0.92); /* تصغير 10% [cite: 2026-01-22] */
+            transform: scale(0.92); 
         }
 
-        .m-frame { width: 100%; aspect-ratio: 1/1; overflow: hidden; position: relative; }
-        .m-frame img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* زر التعديل بالأحمر كما طلبت [cite: 2026-01-31] */
+        /* زر التعديل الأحمر [cite: 2026-01-31] */
         .m-edit-btn { 
-            position: absolute; bottom: 6px; left: 6px; 
-            background: var(--main-red); 
+            position: absolute; bottom: 6px; left: 6px; background: var(--main-red); 
             width: 24px; height: 24px; border-radius: 6px; 
             display: flex; align-items: center; justify-content: center; 
             font-size: 12px; text-decoration: none; color: #fff; z-index: 10;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
-        .m-content { padding: 5px 2px; text-align: center; }
-        .m-name-txt { font-size: 8.5px; font-weight: 800; color: #333; }
-        .m-price-txt { font-size: 10px; font-weight: 900; color: #000; margin-top: 2px; }
-        
-        .m-stock-label { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.8); color: #fff; font-size: 7px; padding: 2px 5px; border-radius: 5px; font-weight: 900; z-index: 5; }
-
-        /* زر الإضافة الكبير يساراً [cite: 2026-01-31] */
+        /* زر الإضافة (+) مع تأثير النبض [cite: 2026-01-31] */
         .m-fab-main { 
             position: fixed; bottom: 30px; left: 20px; 
             width: 65px; height: 65px; background: var(--main-red); color: #fff; 
             border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 10px 25px var(--glow-red); z-index: 3000; border: 3px solid #fff;
+            z-index: 3000; border: 3px solid #fff; text-decoration: none;
+            animation: pulse-red 2.5s infinite ease-in-out; /* إضافة التأثير هنا */
         }
         .m-fab-main span { font-size: 40px; margin-top: -5px; }
     </style>
 </head>
 <body>
-
     <div class="floating-header">
         <div class="pill red" id="outCount">0</div>
         <div class="pill orange" id="lowCount">0</div>
         <div class="pill" id="totalCount">0</div>
     </div>
-
-    <div id="outSection" style="display:none; margin-top: 25px;">
-        <div class="section-label">منتجات منتهية</div>
-        <div class="m-grid-new" id="outGrid"></div>
-    </div>
-
-    <div id="lowSection" style="display:none;">
-        <div class="section-label">على وشك النفاذ</div>
-        <div class="m-grid-new" id="lowGrid"></div>
-    </div>
-
-    <div class="section-label" style="color:#000; border-right-color:#000; margin-top: 15px;">المخزون الكامل</div>
-    <div class="m-grid-new" id="mainGrid"></div>
-
-    <a href="add-product.html" class="m-fab-main" style="text-decoration:none;"><span>+</span></a>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
-
-        async function initInventory() {
-            try {
-                const { data: { user } } = await _s.auth.getUser();
-                if(!user) return;
-                const { data: products } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
-                
-                let mainH = '', outH = '', lowH = '', cOut=0, cLow=0;
-                const imgBase = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
-
-                products.forEach(p => {
-                    const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : imgBase + p.image_url) : 'https://via.placeholder.com/150';
-                    const isOut = p.stock == 0;
-                    const isLow = p.stock > 0 && p.stock <= 5;
-                    const card = `<div class="m-card-new">
-                        <div class="m-stock-label">${p.stock} Q</div>
-                        <div class="m-frame">
-                            <img src="${img}">
-                            <a href="edit-product.html?id=${p.id}" class="m-edit-btn">✎</a>
-                        </div>
-                        <div class="m-content"><div class="m-name-txt">${p.name}</div><div class="m-price-txt">${p.price} ر.س</div></div>
-                    </div>`;
-                    mainH += card;
-                    if(isOut) { outH += card; cOut++; }
-                    if(isLow) { lowH += card; cLow++; }
-                });
-
-                document.getElementById('mainGrid').innerHTML = mainH;
-                document.getElementById('totalCount').innerText = products.length;
-                document.getElementById('outCount').innerText = cOut;
-                document.getElementById('lowCount').innerText = cLow;
-                if(outH) { document.getElementById('outGrid').innerHTML = outH; document.getElementById('outSection').style.display = 'block'; }
-                if(lowH) { document.getElementById('lowGrid').innerHTML = lowH; document.getElementById('lowSection').style.display = 'block'; }
-            } catch(e) { console.error(e); }
-        }
-        initInventory();
-    </script>
+    <a href="add-product.html" class="m-fab-main"><span>+</span></a>
 </body>
 </html>
