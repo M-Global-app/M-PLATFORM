@@ -9,17 +9,14 @@
         :root { --primary: #FF0000; --bg: #fcfcfc; --text: #1a1a1a; }
         body { margin: 0; padding: 20px 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
         
-        /* ✨ تأثير الظهور التدريجي السريع */
         .fade-in-item { opacity: 0; transform: translateY(15px); animation: quickFade 0.5s ease-out forwards; }
         @keyframes quickFade { to { opacity: 1; transform: translateY(0); } }
 
         .container { width: 90%; max-width: 380px; text-align: center; }
         .header-title { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
         .sub-title { font-size: 14px; opacity: 0.7; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        
         .m-logo-style { font-family: 'Aref Ruqaa', serif; font-weight: 700; color: var(--primary); font-size: 24px; line-height: 1; position: relative; top: -3px; display: inline-block; }
 
-        /* تم إزالة تنسيق selected-plan-box لضمان عدم ظهور المربع القبيح */
         .input-group { margin-bottom: 12px; text-align: right; }
         label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; margin-right: 5px; }
         input { width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); box-sizing: border-box; font-family: 'Cairo'; font-size: 14px; transition: 0.3s; }
@@ -71,7 +68,7 @@
     <script>
         const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
         
-        const selectedPlan = localStorage.getItem('selectedPlan') || 'الرئيسية';
+        // نظام المسوقين فقط
         const urlParams = new URLSearchParams(window.location.search);
         const refCode = urlParams.get('ref') || "direct";
 
@@ -99,7 +96,6 @@
                     data: { 
                         phone: document.getElementById('phone').value, 
                         store_name: document.getElementById('storeName').value, 
-                        plan: selectedPlan,
                         referrer: refCode 
                     } 
                 }
@@ -110,7 +106,7 @@
                 btn.innerText = "إنشاء متجري الآن"; 
                 btn.disabled = false; 
             } else { 
-                showAlert('مبروك!', 'تم إنشاء المتجر بنجاح ويرتبط بنظام العمولات.'); 
+                showAlert('مبروك!', 'تم إنشاء المتجر بنجاح. يمكنك اختيار باقتك من الإعدادات لاحقاً.'); 
             }
         });
     </script>
