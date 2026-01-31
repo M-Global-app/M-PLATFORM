@@ -3,86 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M | إدارة المنتجات</title>
+    <title>M | إدارة المخزون</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        :root { --m-red: #FF0000; --m-bg: #ffffff; --m-text: #1a1a1a; }
-        body { margin: 0; font-family: 'Cairo', sans-serif; background: #f9f9f9; color: var(--m-text); }
-        
-        /* هيدر بسيط وفخم */
-        .header { background: var(--m-bg); padding: 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .m-brand { font-size: 28px; font-weight: 900; color: var(--m-red); }
-
-        .container { padding: 20px; }
-        .section-title { font-size: 18px; font-weight: 900; color: var(--m-red); margin: 30px 0 15px; border-right: 5px solid var(--m-red); padding-right: 10px; }
-
-        /* كروت المنتجات بتصميم عصري */
-        .grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
-        .product-card { background: white; border-radius: 15px; padding: 15px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .product-img { width: 80px; height: 80px; border-radius: 12px; object-fit: cover; background: #eee; border: 1px solid #eee; }
-        .product-info { flex: 1; }
-        .product-info h3 { margin: 0; font-size: 16px; font-weight: 800; }
-        .product-info p { margin: 5px 0 0; color: var(--m-red); font-weight: 700; }
-        
-        .stock-tag { font-size: 12px; font-weight: 900; padding: 5px 12px; border-radius: 8px; background: #f0f0f0; }
+        :root { --m-red: #FF0000; }
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: #f8f8f8; color: #1a1a1a; padding-bottom: 90px; }
+        .header { background: #fff; padding: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--m-red); }
+        .logo { font-size: 32px; font-weight: 900; color: var(--m-red); }
+        .container { padding: 15px; }
+        .section-title { font-size: 16px; font-weight: 900; color: var(--m-red); margin: 20px 0 10px; border-right: 4px solid var(--m-red); padding-right: 10px; }
+        .card { background: #fff; border-radius: 15px; padding: 12px; display: flex; align-items: center; gap: 15px; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .p-img { width: 75px; height: 75px; border-radius: 12px; object-fit: cover; background: #eee; border: 1px solid #eee; }
+        .p-info { flex: 1; }
+        .p-info h3 { margin: 0; font-size: 15px; font-weight: 800; }
+        .p-price { color: var(--m-red); font-weight: 900; margin-top: 5px; font-size: 14px; }
+        .stock-badge { font-size: 11px; font-weight: 900; padding: 4px 10px; border-radius: 6px; background: #f0f0f0; }
         .low { color: var(--m-red); background: rgba(255,0,0,0.1); }
-
-        /* زر الإضافة */
-        .add-btn { position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; background: var(--m-red); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 10px 20px rgba(255,0,0,0.3); text-decoration: none; }
+        .fab { position: fixed; bottom: 25px; left: 25px; width: 65px; height: 65px; background: var(--m-red); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; text-decoration: none; box-shadow: 0 10px 25px rgba(255,0,0,0.3); }
     </style>
 </head>
 <body>
-
     <div class="header">
-        <div onclick="history.back()" style="cursor:pointer;"><i class="fa-solid fa-arrow-right"></i></div>
-        <div class="m-brand">M</div>
-        <div style="width:20px;"></div>
+        <div onclick="history.back()"><i class="fa-solid fa-arrow-right"></i></div>
+        <div class="logo">M</div>
+        <div style="width: 20px;"></div>
     </div>
 
     <div class="container">
-        <div class="section-title">منتهية / على وشك النفاذ</div>
-        <div id="urgentList" class="grid"></div>
+        <div class="section-title">نواقص المخزون</div>
+        <div id="lowList"></div>
 
-        <div class="section-title">المخزون المتوفر</div>
-        <div id="availableList" class="grid"></div>
+        <div class="section-title">قائمة المنتجات</div>
+        <div id="mainList"></div>
     </div>
 
-    <a href="add-product.html" class="add-btn"><i class="fa-solid fa-plus"></i></a>
+    <a href="add-product.html" class="fab"><i class="fa-solid fa-plus"></i></a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
-        async function loadProducts() {
+        async function fetchProducts() {
             const { data: { user } } = await _supabase.auth.getUser();
-            const { data: products } = await _supabase.from('products').select('*').eq('merchant_id', user.id);
+            const { data: products } = await _supabase.from('products').select('*').eq('merchant_id', user.id).order('created_at', { ascending: false });
 
-            const urgentList = document.getElementById('urgentList');
-            const availableList = document.getElementById('availableList');
-            urgentList.innerHTML = ''; availableList.innerHTML = '';
+            const lowList = document.getElementById('lowList');
+            const mainList = document.getElementById('mainList');
+            lowList.innerHTML = ''; mainList.innerHTML = '';
 
             products.forEach(p => {
-                // ✅ الحل النهائي للصور: نستخدم image_url المخزن في الداتابيز
-                const img = p.image_url ? p.image_url : 'https://via.placeholder.com/80?text=M';
-                
+                const img = p.image_url || 'https://via.placeholder.com/75/FF0000/FFFFFF?text=M';
                 const html = `
-                    <div class="product-card">
-                        <img src="${img}" class="product-img" onerror="this.src='https://via.placeholder.com/80?text=M'">
-                        <div class="product-info">
+                    <div class="card">
+                        <img src="${img}" class="p-img" onerror="this.src='https://via.placeholder.com/75/FF0000/FFFFFF?text=M'">
+                        <div class="p-info">
                             <h3>${p.name}</h3>
-                            <p>${p.price} ريال</p>
+                            <div class="p-price">${p.price} ريال</div>
                         </div>
-                        <div class="stock-tag ${p.stock <= 5 ? 'low' : ''}">
-                            الكمية: ${p.stock}
-                        </div>
+                        <div class="stock-badge ${p.stock <= 5 ? 'low' : ''}">الكمية: ${p.stock}</div>
                     </div>`;
-
-                if (p.stock <= 5) urgentList.innerHTML += html;
-                else availableList.innerHTML += html;
+                if (p.stock <= 5) lowList.innerHTML += html;
+                else mainList.innerHTML += html;
             });
         }
-        document.addEventListener('DOMContentLoaded', loadProducts);
+        document.addEventListener('DOMContentLoaded', fetchProducts);
     </script>
 </body>
 </html>
