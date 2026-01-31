@@ -2,148 +2,136 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مركز الإدارة | M PRIME</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>لوحة التحكم | M PLATFORM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        :root { --primary-red: #FF0000; --bg-gray: #f8fafc; --text-dark: #1e293b; }
-        body { margin: 0; padding: 0; background-color: var(--bg-gray); font-family: 'Cairo', sans-serif; overflow-x: hidden; }
-
-        /* شاشة الترحيب */
-        #welcome-screen { 
-            position: fixed; inset: 0; background: #fff; z-index: 1000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.8s ease;
-        }
-        .logo-m { font-family: 'Aref Ruqaa', serif; font-size: 120px; color: var(--primary-red); animation: pulse 2s infinite; }
-
-        /* لوحة التحكم الشاملة (تظهر فقط بعد التأكد من الهوية) */
-        #admin-center { display: none; opacity: 0; transition: opacity 1s ease; padding-bottom: 50px; }
-
-        .header { background: #fff; padding: 15px 5%; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .nav-logo { font-family: 'Aref Ruqaa', serif; font-size: 35px; color: var(--primary-red); text-decoration: none; }
-
-        .main-container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
-        .grid-settings { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-
-        .card { background: #fff; border-radius: 18px; padding: 25px; border: 1px solid #e2e8f0; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); border-color: var(--primary-red); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        :root { --m-red: #dc2626; --m-bg: #fcfcfc; --m-white: #ffffff; --m-text: #1a1a1a; --m-gray: #8e8e93; }
         
-        .icon-box { font-size: 32px; margin-bottom: 15px; }
-        .card-title { font-size: 18px; font-weight: 700; color: var(--text-dark); margin-bottom: 10px; }
-        .card-desc { font-size: 14px; color: #64748b; margin-bottom: 20px; line-height: 1.5; }
+        body { margin: 0; font-family: 'Cairo', sans-serif; background-color: var(--m-bg); color: var(--m-text); padding-bottom: 100px; -webkit-tap-highlight-color: transparent; }
 
-        .btn-action { 
-            width: 100%; padding: 12px; border: 1px solid var(--primary-red); color: var(--primary-red);
-            background: transparent; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s;
-            text-align: center; font-family: 'Cairo';
-        }
-        .btn-action:hover { background: var(--primary-red); color: #fff; }
-        .btn-primary { background: var(--primary-red); color: #fff; border: none; }
+        /* الهيدر العلوي */
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; background: transparent; }
+        .m-logo { width: 40px; height: 40px; background: var(--m-red); color: white; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-weight: 900; font-size: 24px; box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2); }
+        .header-icons { display: flex; gap: 15px; }
+        .circle-btn { width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: #555; font-size: 18px; cursor: pointer; position: relative; }
+        .badge { position: absolute; top: 10px; right: 10px; width: 8px; height: 8px; background: var(--m-red); border-radius: 50%; border: 2px solid white; }
 
-        .logout-btn { color: #64748b; text-decoration: none; font-size: 14px; cursor: pointer; border: none; background: none; font-family: 'Cairo'; }
+        .container { padding: 0 20px; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        /* الترحيب */
+        .welcome-text { margin: 10px 0 25px; }
+        .welcome-text h1 { font-size: 26px; font-weight: 900; margin: 0; color: #333; }
+        .welcome-text p { font-size: 13px; color: var(--m-gray); margin: 5px 0 0; }
+
+        /* البطاقات العلوية الملونة */
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
+        .stat-card { background: white; padding: 15px 10px; border-radius: 20px; text-align: center; border: 1.5px solid transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .stat-card b { font-size: 16px; display: block; margin-bottom: 3px; }
+        .stat-card span { font-size: 10px; color: var(--m-gray); font-weight: 700; }
+        
+        .card-red { border-color: #ffeded; } .card-red b { color: var(--m-red); }
+        .card-orange { border-color: #fff4e5; } .card-orange b { color: #f59e0b; }
+        .card-pink { border-color: #fdf2f2; } .card-pink b { color: #f43f5e; }
+
+        /* البحث */
+        .search-box { background: white; padding: 15px 20px; border-radius: 20px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-bottom: 25px; border: 1px solid #f0f0f0; }
+        .search-box input { border: none; outline: none; width: 100%; font-family: 'Cairo'; font-size: 14px; color: #555; }
+
+        /* شبكة الأيقونات الأساسية */
+        .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .action-box { background: white; padding: 30px 15px; border-radius: 35px; text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.03); transition: 0.3s; cursor: pointer; border: 1px solid rgba(0,0,0,0.01); }
+        .action-box:active { transform: scale(0.95); background: #fafafa; }
+        .action-box i { font-size: 32px; color: #ff8a8a; margin-bottom: 15px; display: block; }
+        .action-box h3 { margin: 0; font-size: 15px; font-weight: 800; color: #444; }
+
+        /* الزر العائم */
+        .fab { position: fixed; bottom: 110px; left: 25px; width: 60px; height: 60px; background: var(--m-red); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3); z-index: 99; cursor: pointer; }
+
+        /* شريط التنقل السفلي */
+        .bottom-nav { position: fixed; bottom: 25px; left: 20px; right: 20px; background: white; height: 75px; border-radius: 25px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 15px 40px rgba(0,0,0,0.08); z-index: 1000; }
+        .nav-item { color: #bbb; font-size: 22px; cursor: pointer; transition: 0.3s; }
+        .nav-item.active { color: var(--m-red); }
     </style>
 </head>
 <body>
 
-    <div id="welcome-screen">
-        <div class="logo-m">M</div>
-        <h2 style="margin-top:20px;">مرحباً بك يا شريك النجاح</h2>
-        <p style="color: #64748b;">جاري فتح مركز إدارة متجرك...</p>
-    </div>
+    <nav class="top-nav">
+        <div class="m-logo">M</div>
+        <div class="header-icons">
+            <div class="circle-btn"><i class="fa-regular fa-moon"></i></div>
+            <div class="circle-btn"><i class="fa-regular fa-bell"></i><div class="badge"></div></div>
+        </div>
+    </nav>
 
-    <div id="admin-center">
-        <header class="header">
-            <a href="#" class="nav-logo">M</a>
-            <div style="font-weight: 700;">مركز الإدارة</div>
-            <button onclick="logout()" class="logout-btn">تسجيل خروج</button>
-        </header>
+    <div class="container">
+        <div class="welcome-text">
+            <h1>مرحباً، <span id="merchantName">التاجر</span></h1>
+            <p>إليك ملخص متجرك اليوم</p>
+        </div>
 
-        <div class="main-container">
-            <div style="margin-bottom: 30px;">
-                <h1 style="font-size: 24px;">لوحة التحكم الشاملة</h1>
-                <p style="color: #64748b;">أهلاً بك، كل ما تحتاجه لإدارة متجرك في مكان واحد.</p>
+        <div class="stats-row">
+            <div class="stat-card card-red"><b>120 منتج</b><span>عدد المنتجات</span></div>
+            <div class="stat-card card-orange"><b>8 قطع</b><span>على وشك النفاد</span></div>
+            <div class="stat-card card-pink"><b>5 طلبات</b><span>طلبات جديدة</span></div>
+        </div>
+
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass" style="color: #ccc;"></i>
+            <input type="text" placeholder="ابحث عن منتج، طلب، أو عميل...">
+        </div>
+
+        <div class="actions-grid">
+            <div class="action-box">
+                <i class="fa-solid fa-store"></i>
+                <h3>إعدادات المتجر</h3>
             </div>
-
-            <div class="grid-settings">
-                <div class="card">
-                    <div class="icon-box">📦</div>
-                    <div class="card-title">إدارة المنتجات</div>
-                    <div class="card-desc">أضف منتجات جديدة، حدث الأسعار، وراقب المخزون الخاص بك.</div>
-                    <button class="btn-action btn-primary">إضافة منتج جديد</button>
-                </div>
-
-                <div class="card">
-                    <div class="icon-box">🎨</div>
-                    <div class="card-title">هوية المتجر</div>
-                    <div class="card-desc">تعديل الشعار، الألوان، واسم المتجر الذي يظهر للعملاء.</div>
-                    <button class="btn-action">تعديل المظهر</button>
-                </div>
-
-                <div class="card">
-                    <div class="icon-box">⚙️</div>
-                    <div class="card-title">إعدادات الحساب</div>
-                    <div class="card-desc">تحديث بياناتك الشخصية، كلمة المرور، وطرق استقبال الأرباح.</div>
-                    <button class="btn-action">إدارة الحساب</button>
-                </div>
-
-                <div class="card">
-                    <div class="icon-box">🚚</div>
-                    <div class="card-title">الشحن والمدفوعات</div>
-                    <div class="card-desc">تفعيل بوابات الدفع وربط شركات الشحن العالمية بمتجرك.</div>
-                    <button class="btn-action">ضبط الإعدادات</button>
-                </div>
+            <div class="action-item" style="display:none;"></div> <div class="action-box">
+                <i class="fa-solid fa-user-gear"></i>
+                <h3>إعدادات التاجر</h3>
+            </div>
+            <div class="action-box">
+                <i class="fa-solid fa-cubes"></i>
+                <h3>المنتجات</h3>
+            </div>
+            <div class="action-box">
+                <i class="fa-solid fa-truck-fast"></i>
+                <h3>الطلبات</h3>
+            </div>
+            <div class="action-box">
+                <i class="fa-solid fa-wallet"></i>
+                <h3>المحفظة</h3>
+            </div>
+            <div class="action-box">
+                <i class="fa-solid fa-chart-pie"></i>
+                <h3>التقارير</h3>
             </div>
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <div class="fab"><i class="fa-solid fa-plus"></i></div>
 
+    <nav class="bottom-nav">
+        <div class="nav-item"><i class="fa-solid fa-bars"></i></div>
+        <div class="nav-item"><i class="fa-regular fa-star"></i></div>
+        <div class="nav-item active"><i class="fa-solid fa-house"></i></div>
+        <div class="nav-item"><i class="fa-solid fa-rotate-right"></i></div>
+        <div class="nav-item"><i class="fa-solid fa-chevron-left"></i></div>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // إعدادات Firebase الخاصة بك
-        const firebaseConfig = {
-            apiKey: "AIzaSyCDeHg400vEdbUcGuo5RiagIAvh-EV0gLA",
-            authDomain: "m-prime.firebaseapp.com",
-            projectId: "m-prime"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        // 1. الحارس البرمجي: التأكد من تسجيل الدخول
-        auth.onAuthStateChanged((user) => {
+        const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
+        
+        async function checkUser() {
+            const { data: { user } } = await _supabase.auth.getUser();
             if (user) {
-                // المستخدم مسجل، نبدأ مؤقت الترحيب
-                startWelcomeTimer();
-            } else {
-                // مستخدم غير مسجل، طرده لصفحة الدخول
-                window.location.href = 'register.html';
+                document.getElementById('merchantName').innerText = user.user_metadata.store_name || "تاجر M";
             }
-        });
-
-        // 2. وظيفة الترحيب والتحويل
-        function startWelcomeTimer() {
-            setTimeout(function() {
-                const welcome = document.getElementById('welcome-screen');
-                const admin = document.getElementById('admin-center');
-
-                welcome.style.opacity = '0';
-                setTimeout(() => {
-                    welcome.style.display = 'none';
-                    admin.style.display = 'block';
-                    setTimeout(() => { admin.style.opacity = '1'; }, 50);
-                }, 800);
-            }, 5000); // 5 ثوانٍ
         }
-
-        // 3. وظيفة تسجيل الخروج
-        function logout() {
-            auth.signOut().then(() => {
-                window.location.href = 'register.html';
-            });
-        }
+        checkUser();
     </script>
 </body>
 </html>
