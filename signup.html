@@ -9,22 +9,23 @@
         :root { --primary: #FF0000; --bg: #fcfcfc; --text: #1a1a1a; }
         body { margin: 0; padding: 20px 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
         
+        /* ✨ تأثير الظهور التدريجي السريع */
         .fade-in-item { opacity: 0; transform: translateY(15px); animation: quickFade 0.5s ease-out forwards; }
         @keyframes quickFade { to { opacity: 1; transform: translateY(0); } }
 
         .container { width: 90%; max-width: 380px; text-align: center; }
         .header-title { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
-        .sub-title { font-size: 14px; opacity: 0.7; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .sub-title { font-size: 14px; opacity: 0.7; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; gap: 8px; }
         
         .m-logo-style { font-family: 'Aref Ruqaa', serif; font-weight: 700; color: var(--primary); font-size: 24px; line-height: 1; position: relative; top: -3px; display: inline-block; }
 
-        .selected-plan-box { background: rgba(255,0,0,0.05); padding: 10px; border-radius: 12px; margin-bottom: 20px; font-weight: 700; color: var(--primary); font-size: 14px; border: 1px dashed rgba(255,0,0,0.2); }
+        /* تم إزالة تنسيق selected-plan-box لضمان عدم ظهور المربع القبيح */
         .input-group { margin-bottom: 12px; text-align: right; }
         label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; margin-right: 5px; }
-        input { width: 100%; padding: 10px 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); box-sizing: border-box; font-family: 'Cairo'; font-size: 14px; transition: 0.3s; }
+        input { width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); box-sizing: border-box; font-family: 'Cairo'; font-size: 14px; transition: 0.3s; }
         input:focus { outline: none; border-color: var(--primary); }
         
-        .btn-submit { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 16px; box-shadow: 0 4px 12px rgba(255,0,0,0.15); transition: 0.3s; }
+        .btn-submit { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 16px; box-shadow: 0 4px 12px rgba(255,0,0,0.15); transition: 0.3s; }
         .btn-submit:hover { transform: scale(1.02); }
 
         #customAlert { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
@@ -37,26 +38,24 @@
         <h1 class="header-title fade-in-item" style="animation-delay: 0.1s;">انضم إلينا اليوم</h1>
         <p class="sub-title fade-in-item" style="animation-delay: 0.2s;">ابدأ تجارتك الإلكترونية مع <span class="m-logo-style">M</span></p>
         
-        <div id="planDisplay" class="selected-plan-box fade-in-item" style="animation-delay: 0.3s;">جاري تحميل الباقة...</div>
-        
         <form id="signupForm">
-            <div class="input-group fade-in-item" style="animation-delay: 0.4s;">
+            <div class="input-group fade-in-item" style="animation-delay: 0.3s;">
                 <label>رقم الجوال</label>
                 <input type="tel" id="phone" placeholder="05xxxxxxxx" required>
             </div>
-            <div class="input-group fade-in-item" style="animation-delay: 0.5s;">
+            <div class="input-group fade-in-item" style="animation-delay: 0.4s;">
                 <label>اسم المتجر</label>
                 <input type="text" id="storeName" placeholder="مثال: متجر الأناقة" required>
             </div>
-            <div class="input-group fade-in-item" style="animation-delay: 0.6s;">
+            <div class="input-group fade-in-item" style="animation-delay: 0.5s;">
                 <label>البريد الإلكتروني</label>
                 <input type="email" id="email" placeholder="example@mail.com" required>
             </div>
-            <div class="input-group fade-in-item" style="animation-delay: 0.7s;">
+            <div class="input-group fade-in-item" style="animation-delay: 0.6s;">
                 <label>كلمة المرور</label>
                 <input type="password" id="password" placeholder="••••••••" required>
             </div>
-            <button type="submit" class="btn-submit fade-in-item" id="submitBtn" style="animation-delay: 0.8s;">إنشاء متجري الآن</button>
+            <button type="submit" class="btn-submit fade-in-item" id="submitBtn" style="animation-delay: 0.7s;">إنشاء متجري الآن</button>
         </form>
     </div>
 
@@ -72,12 +71,9 @@
     <script>
         const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
         
-        // جلب الباقة وكود المسوق
         const selectedPlan = localStorage.getItem('selectedPlan') || 'الرئيسية';
-        document.getElementById('planDisplay').innerText = `الباقة المختارة: ${selectedPlan}`;
-        
         const urlParams = new URLSearchParams(window.location.search);
-        const refCode = urlParams.get('ref') || "direct"; // كود المسوق
+        const refCode = urlParams.get('ref') || "direct";
 
         function showAlert(title, msg) { 
             document.getElementById('alertTitle').innerText = title; 
@@ -104,7 +100,7 @@
                         phone: document.getElementById('phone').value, 
                         store_name: document.getElementById('storeName').value, 
                         plan: selectedPlan,
-                        referrer: refCode // حفظ كود المسوق هنا
+                        referrer: refCode 
                     } 
                 }
             });
