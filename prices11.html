@@ -3,45 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M PLATFORM - خطط الأسعار</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>باقاتنا - M PLATFORM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-        body { font-family: 'Cairo', sans-serif; }
-        .m-logo { color: #e11d48; font-weight: bold; }
-        /* منع المربعات البشعة */
-        button:focus { outline: none; }
+        :root { --primary: #FF0000; --bg: #fcfcfc; --text: #1a1a1a; }
+        body { margin: 0; padding: 20px 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
+        
+        /* ✨ تأثير الظهور التدريجي */
+        .fade-in { opacity: 0; transform: translateY(20px); animation: quickFade 0.6s ease-out forwards; }
+        @keyframes quickFade { to { opacity: 1; transform: translateY(0); } }
+
+        .container { width: 90%; max-width: 500px; text-align: center; }
+        
+        /* مقدمة من نحن */
+        .intro-section { margin-bottom: 40px; }
+        .m-logo { font-family: 'Aref Ruqaa', serif; color: var(--primary); font-size: 32px; position: relative; top: -4px; }
+        .intro-title { font-size: 22px; font-weight: 800; margin-bottom: 10px; color: var(--text); }
+        .intro-text { font-size: 14px; opacity: 0.8; line-height: 1.6; padding: 0 10px; }
+
+        .section-title { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 25px; }
+
+        /* مربعات الأسعار المصغرة بدون أزرار */
+        .pricing-grid { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .price-card { 
+            background: white; 
+            width: 100%; 
+            padding: 20px; 
+            border-radius: 16px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .plan-name { font-size: 18px; font-weight: 800; margin-bottom: 5px; }
+        .plan-price { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 15px; }
+        .plan-price span { font-size: 14px; color: #666; font-weight: 400; }
+        
+        .features-list { list-style: none; padding: 0; margin: 0; text-align: right; display: inline-block; }
+        .features-list li { font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .features-list li::before { content: '✓'; color: var(--primary); font-weight: 900; }
+
+        .note-text { margin-top: 30px; font-size: 12px; opacity: 0.6; font-weight: 700; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
-    <div class="max-w-6xl mx-auto px-6 py-20 text-center">
-        <h1 class="text-4xl font-bold mb-4">خطط الأسعار في منصة <span class="m-logo">M</span></h1>
-        <p class="text-slate-500 mb-16">اختر الخطة التي تناسب نمو مشروعك</p>
+<body>
+    <div class="container">
+        <div class="intro-section fade-in" style="animation-delay: 0.1s;">
+            <div class="m-logo">M</div>
+            <h1 class="intro-title">من نحن؟</h1>
+            <p class="intro-text">
+                منصة <span style="font-weight: 800; color: var(--primary);">M</span> هي شريكك السعودي الأول للنمو الرقمي. انطلقنا لتمكين التجار من امتلاك متاجر إلكترونية احترافية بأقل التكاليف وأعلى المعايير التقنية، لنحول رؤيتك إلى واقع ملموس.
+            </p>
+        </div>
 
-        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-xl transition-shadow">
-                <h3 class="text-xl font-bold mb-4">الخطة الأساسية</h3>
-                <div class="text-4xl font-bold mb-6">0 <span class="text-sm text-slate-400">ريال</span></div>
-                <ul class="text-right space-y-4 mb-8 text-slate-600">
-                    <li>✅ إنشاء متجر إلكتروني</li>
-                    <li>✅ دعم فني محدود</li>
+        <h2 class="section-title fade-in" style="animation-delay: 0.3s;">خطط الاستثمار</h2>
+
+        <div class="pricing-grid">
+            <div class="price-card fade-in" style="animation-delay: 0.5s;">
+                <div class="plan-name">الرئيسية</div>
+                <div class="plan-price">0 <span>ريال / شهر</span></div>
+                <ul class="features-list">
+                    <li>عمولة 3% فقط على المبيعات</li>
+                    <li>0 رسوم تأسيس</li>
+                    <li>دعم فني عبر البريد</li>
                 </ul>
-                <button class="w-full py-4 rounded-xl border-2 border-red-600 text-red-600 font-bold hover:bg-red-50 transition">ابدأ مجاناً</button>
             </div>
 
-            <div class="bg-white p-8 rounded-3xl shadow-lg border-2 border-red-600 relative overflow-hidden">
-                <div class="bg-red-600 text-white text-xs py-1 px-4 absolute top-4 left-[-30px] rotate-[-45¦] w-[120px]">الأكثر طلباً</div>
-                <h3 class="text-xl font-bold mb-4 text-red-600">الخطة الاحترافية</h3>
-                <div class="text-4xl font-bold mb-6">99 <span class="text-sm text-slate-400">ريال/شهرياً</span></div>
-                <ul class="text-right space-y-4 mb-8 text-slate-600">
-                    <li>✅ جميع ميزات الأساسية</li>
-                    <li>✅ دومين خاص باسمك</li>
-                    <li>✅ دعم فني 24/7</li>
+            <div class="price-card fade-in" style="animation-delay: 0.7s;">
+                <div class="plan-name">النخبة</div>
+                <div class="plan-price">129 <span>ريال / شهر</span></div>
+                <ul class="features-list">
+                    <li>عمولة 2% فقط على المبيعات</li>
+                    <li>دعم فني سريع 24/7</li>
+                    <li>أدوات تحليل متقدمة</li>
                 </ul>
-                <button class="w-full py-4 rounded-xl bg-red-600 text-white font-bold shadow-lg shadow-red-200 hover:bg-red-700 transition">اشترك الآن</button>
+            </div>
+
+            <div class="price-card fade-in" style="animation-delay: 0.9s;">
+                <div class="plan-name">كبار التجار</div>
+                <div class="plan-price">299 <span>ريال / شهر</span></div>
+                <ul class="features-list">
+                    <li>عمولة 1% فقط على المبيعات</li>
+                    <li>مدير حساب خاص</li>
+                    <li>ربط كامل مع شركات الشحن</li>
+                </ul>
             </div>
         </div>
-        <a href="index.html" class="inline-block mt-12 text-slate-400 hover:text-red-600 transition">← العودة للرئيسية</a>
+
+        <p class="note-text fade-in" style="animation-delay: 1.1s;">* يتم اختيار الباقة وإدارة الاشتراك من داخل لوحة تحكم التاجر</p>
     </div>
 </body>
 </html>
