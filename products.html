@@ -1,29 +1,83 @@
-<script>
-    const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
-    
-    async function loadProducts() {
-        const { data: { user } } = await _supabase.auth.getUser();
-        // جلب المنتجات مرتبة من الأحدث للأقدم
-        const { data: products } = await _supabase.from('products').select('*').eq('merchant_id', user.id).order('created_at', { ascending: false });
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M | المنتجات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --red: #FF0000; --bg: #f9f9f9; }
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: var(--bg); padding-bottom: 100px; }
+        .header { background: #fff; padding: 20px; text-align: center; border-bottom: 3px solid var(--red); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-size: 32px; font-weight: 900; color: var(--red); letter-spacing: -1px; }
+        .container { padding: 15px; }
+        .p-card { background: #fff; border-radius: 16px; padding: 12px; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #eee; }
+        .p-img { width: 75px; height: 75px; border-radius: 12px; object-fit: cover; background: #f0f0f0; }
+        .p-info { flex: 1; }
+        .p-info h3 { margin: 0; font-size: 16px; font-weight: 800; color: #1a1a1a; }
+        .p-price { color: var(--red); font-weight: 900; margin-top: 4px; font-size: 15px; }
+        .stock-badge { font-size: 11px; font-weight: 900; padding: 5px 10px; border-radius: 8px; background: #f0f0f0; color: #666; }
+        .add-btn { position: fixed; bottom: 30px; left: 30px; width: 65px; height: 65px; background: var(--red); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; text-decoration: none; box-shadow: 0 8px 20px rgba(255,0,0,0.3); z-index: 1000; }
+    </style>
+</head>
+<body>
 
-        const list = document.getElementById('mainProductList'); // تأكد أن هذا الـ ID موجود في HTML
-        list.innerHTML = '';
+    <div class="header">
+        <div class="logo">M</div>
+    </div>
 
-        products.forEach(p => {
-            // ✅ الحل الجذري لمسار الصورة
-            const bucketBase = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
-            const finalImg = p.image_url ? (p.image_url.includes('http') ? p.image_url : bucketBase + p.image_url) : 'https://via.placeholder.com/80/FF0000/FFFFFF?text=M';
+    <div class="container" id="mainProductList">
+        <p style="text-align:center; color:#999;">جاري تحميل المخزون الملكي...</p>
+    </div>
 
-            list.innerHTML += `
-                <div class="p-card">
-                    <img src="${finalImg}" class="p-img" onerror="this.src='https://via.placeholder.com/80/FF0000/FFFFFF?text=M'">
-                    <div class="p-info">
-                        <h3>${p.name}</h3>
-                        <p>${p.price} ريال</p>
-                    </div>
-                    <div class="stock-badge">الكمية: ${p.stock}</div>
-                </div>`;
-        });
-    }
-    document.addEventListener('DOMContentLoaded', loadProducts);
-</script>
+    <a href="add-product.html" class="add-btn">+</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
+
+        async function loadProducts() {
+            try {
+                const { data: { user } } = await _supabase.auth.getUser();
+                if (!user) { window.location.href = 'login.html'; return; }
+
+                const { data: products, error } = await _supabase
+                    .from('products')
+                    .select('*')
+                    .eq('merchant_id', user.id)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                const list = document.getElementById('mainProductList');
+                if (products.length === 0) {
+                    list.innerHTML = '<p style="text-align:center; padding:50px; color:#999;">لا توجد منتجات حالياً. اضغط + للإضافة.</p>';
+                    return;
+                }
+
+                list.innerHTML = ''; // تفريغ رسالة التحميل
+                products.forEach(p => {
+                    // تركيب رابط الصورة المباشر من الـ Storage
+                    const bucketBase = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
+                    const finalImg = p.image_url ? (p.image_url.includes('http') ? p.image_url : bucketBase + p.image_url) : 'https://via.placeholder.com/80/FF0000/FFFFFF?text=M';
+
+                    list.innerHTML += `
+                        <div class="p-card">
+                            <img src="${finalImg}" class="p-img" onerror="this.src='https://via.placeholder.com/80/FF0000/FFFFFF?text=M'">
+                            <div class="p-info">
+                                <h3>${p.name}</h3>
+                                <div class="p-price">${p.price} ريال</div>
+                            </div>
+                            <div class="stock-badge">المخزون: ${p.stock}</div>
+                        </div>`;
+                });
+            } catch (err) {
+                console.error(err);
+                document.getElementById('mainProductList').innerHTML = '<p style="color:red; text-align:center;">حدث خطأ أثناء جلب البيانات.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+</body>
+</html>
