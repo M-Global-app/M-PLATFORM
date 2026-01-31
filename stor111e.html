@@ -2,110 +2,80 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M Store | Professional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M Premium Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #ff3b30; --bg: #f5f5f7; --text: #1d1d1f; }
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; }
+        :root { --accent: #ff3b30; --soft-bg: #ffffff; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Cairo', sans-serif; background-color: #fff; color: #1d1d1f; }
 
-        /* هيدر احترافي (يشبه سلة وزد) [cite: 2026-01-30] */
-        .store-nav {
-            position: sticky; top: 0; background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px); z-index: 1000; padding: 12px 20px;
-            display: flex; align-items: center; justify-content: space-between;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+        /* هيدر انسيابي بدون صناديق [cite: 2026-01-30] */
+        .header {
+            padding: 40px 20px 20px; text-align: center;
+            background: linear-gradient(to bottom, #f9f9f9, #fff);
         }
-        .nav-logo { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; border: 1px solid #eee; }
-        .nav-title { font-size: 14px; font-weight: 900; color: #000; }
-
-        /* قسم الترحيب المودرن */
-        .store-hero { padding: 30px 20px 10px; text-align: right; }
-        .store-hero h2 { font-size: 22px; font-weight: 900; margin-bottom: 5px; }
-        .store-hero p { font-size: 12px; color: #86868b; }
-
-        /* شبكة المنتجات الأنيقة (عمودين متوازنين) [cite: 2026-01-22] */
-        .product-container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        
-        .product-card {
-            background: #fff; border-radius: 20px; overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02); transition: 0.3s;
-            display: flex; flex-direction: column; border: 1px solid rgba(0,0,0,0.03);
+        .store-avatar {
+            width: 85px; height: 85px; border-radius: 25px;
+            margin: 0 auto 15px; border: 2px solid #eee;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); overflow: hidden;
         }
+        .store-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .store-name { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; }
 
-        /* توحيد الصور الاحترافي [cite: 2026-01-22] */
-        .image-box { width: 100%; aspect-ratio: 1 / 1; background: #fbfbfb; position: relative; }
-        .image-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        .info-box { padding: 12px; }
-        .product-name { font-size: 13px; font-weight: 700; height: 38px; overflow: hidden; color: #333; margin-bottom: 8px; }
+        /* شبكة المنتجات بنظام "البطاقات المفتوحة" لتقليل البشاعة [cite: 2026-01-30] */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px; }
         
-        .price-row { display: flex; justify-content: space-between; align-items: center; }
-        .price-tag { font-size: 15px; font-weight: 900; color: var(--primary); }
+        .card { position: relative; display: flex; flex-direction: column; }
         
-        /* زر الإضافة الأنيق [cite: 2026-01-31] */
-        .add-btn {
-            width: 30px; height: 30px; background: #000; color: #fff;
-            border-radius: 50%; border: none; display: flex; align-items: center;
-            justify-content: center; font-size: 18px; cursor: pointer;
+        /* توحيد مقاسات الصور بشكل آلي [cite: 2026-01-22] */
+        .img-container {
+            width: 100%; aspect-ratio: 1 / 1; border-radius: 22px;
+            background: #f5f5f7; overflow: hidden; margin-bottom: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
         }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* زر التواصل العائم (أنيق وصغير) [cite: 2026-01-31] */
-        .contact-fab {
-            position: fixed; bottom: 25px; left: 20px; width: 50px; height: 50px;
-            background: #25d366; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; color: #fff;
-            box-shadow: 0 8px 20px rgba(37,211,102,0.3); z-index: 2000; text-decoration: none;
+        .name { font-size: 14px; font-weight: 700; color: #444; margin-bottom: 4px; padding: 0 5px; }
+        .price { font-size: 16px; font-weight: 900; color: var(--accent); padding: 0 5px; }
+
+        /* زر الإضافة العائم الصغير */
+        .add-icon {
+            position: absolute; top: 10px; left: 10px;
+            background: rgba(255,255,255,0.9); width: 30px; height: 30px;
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; font-size: 20px; color: #000;
         }
     </style>
 </head>
 <body>
 
-    <nav class="store-nav">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="https://via.placeholder.com/100" class="nav-logo" alt="Store Logo">
-            <span class="nav-title">متجر التاجر</span>
-        </div>
-        <div style="font-size: 18px;">🛒</div>
-    </nav>
-
-    <header class="store-hero">
-        <h2>كل المنتجات</h2>
-        <p>اكتشف مجموعتنا المختارة بعناية</p>
+    <header class="header">
+        <div class="store-avatar"><img src="logo.png" onerror="this.src='https://via.placeholder.com/100'"></div>
+        <h1 class="store-name">متجر الفخامة</h1>
     </header>
 
-    <main class="product-container" id="productGrid">
+    <main class="grid" id="mainGrid">
         </main>
-
-    <a href="#" class="contact-fab">💬</a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
-
-        async function loadProducts() {
+        async function load() {
             const { data } = await _s.from('products').select('*').order('created_at', {ascending: false});
-            const container = document.getElementById('productGrid');
             const imgBase = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
-
-            container.innerHTML = data.map(p => `
-                <div class="product-card">
-                    <div class="image-box">
+            document.getElementById('mainGrid').innerHTML = data.map(p => `
+                <div class="card">
+                    <div class="img-container">
+                        <div class="add-icon">+</div>
                         <img src="${p.image_url ? (p.image_url.includes('http') ? p.image_url : imgBase + p.image_url) : 'https://via.placeholder.com/300'}" alt="${p.name}">
                     </div>
-                    <div class="info-box">
-                        <p class="product-name">${p.name}</p>
-                        <div class="price-row">
-                            <p class="price-tag">${p.price} ر.س</p>
-                            <button class="add-btn">+</button>
-                        </div>
-                    </div>
+                    <p class="name">${p.name}</p>
+                    <p class="price">${p.price} ر.س</p>
                 </div>
             `).join('');
         }
-        loadProducts();
+        load();
     </script>
 </body>
 </html>
