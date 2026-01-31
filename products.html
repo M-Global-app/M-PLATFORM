@@ -3,105 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة المخزون الاحترافية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;600;800&display=swap" rel="stylesheet">
+    <title>إدارة المخزون</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --danger: #ff4d4d; --warning: #ffae42; --success: #00c851; --dark: #1a1a1b; }
-        body { margin: 0; font-family: 'Noto Kufi Arabic', sans-serif; background: #f4f7f6; color: var(--dark); padding: 20px; }
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: #ffffff; color: #000; padding: 20px; }
         
-        /* كروت الإحصائيات السريعة */
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
-        .stat-card { background: #fff; padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-        .stat-card div { font-size: 11px; font-weight: 600; color: #888; }
-        .stat-card span { font-size: 20px; font-weight: 800; display: block; }
-        .c-red { color: var(--danger); } .c-orange { color: var(--warning); }
+        /* إحصائيات نظيفة بدون ألوان خلفية */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 30px; }
+        .stat-card { border: 1px solid #eee; padding: 15px; border-radius: 15px; text-align: center; }
+        .stat-card div { font-size: 12px; color: #888; font-weight: 700; }
+        .stat-card span { font-size: 22px; font-weight: 900; display: block; }
 
-        /* نظام الفرز الذكي */
-        .section-header { font-size: 16px; font-weight: 800; margin: 25px 0 15px; display: flex; align-items: center; gap: 10px; }
-        .badge { font-size: 10px; padding: 3px 10px; border-radius: 20px; color: #fff; }
+        .section-header { font-size: 18px; font-weight: 900; margin: 25px 0 15px; border-right: 4px solid #ff0000; padding-right: 10px; }
 
-        .product-list { display: flex; flex-direction: column; gap: 12px; }
-        .p-item { background: #fff; border-radius: 18px; padding: 12px; display: flex; align-items: center; gap: 12px; border-right: 4px solid #eee; }
-        .p-item.out { border-right-color: var(--danger); opacity: 0.8; }
-        .p-item.low { border-right-color: var(--warning); }
+        .product-list { display: flex; flex-direction: column; gap: 15px; }
+        .p-item { background: #fff; border-radius: 20px; padding: 15px; display: flex; align-items: center; gap: 15px; border: 1px solid #f0f0f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
         
-        .p-img { width: 65px; height: 65px; border-radius: 12px; object-fit: cover; background: #fafafa; }
+        /* الصور - الجزء الأهم */
+        .p-img { width: 80px; height: 80px; border-radius: 15px; object-fit: cover; background: #f9f9f9; flex-shrink: 0; }
+        
         .p-info { flex: 1; }
-        .p-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
-        .p-price { font-size: 13px; color: #666; }
+        .p-name { font-size: 16px; font-weight: 800; margin-bottom: 5px; }
+        .p-price { font-size: 18px; font-weight: 900; color: #ff0000; }
         
-        .p-stock-info { text-align: left; }
-        .stock-num { font-size: 16px; font-weight: 800; display: block; }
-        .stock-label { font-size: 9px; color: #999; }
+        .p-stock-info { text-align: left; min-width: 60px; }
+        .stock-num { font-size: 20px; font-weight: 900; display: block; }
+        .stock-label { font-size: 10px; color: #999; }
 
-        .btn-float { position: fixed; bottom: 30px; left: 30px; width: 55px; height: 55px; background: var(--dark); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        .btn-add { position: fixed; bottom: 30px; left: 30px; width: 65px; height: 65px; background: #ff0000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; text-decoration: none; box-shadow: 0 10px 20px rgba(255,0,0,0.3); }
     </style>
 </head>
 <body>
 
     <div class="stats-grid">
-        <div class="stat-card"><div class="c-red">منتهية</div><span id="outCount">0</span></div>
-        <div class="stat-card"><div class="c-orange">أوشكت</div><span id="lowCount">0</span></div>
+        <div class="stat-card"><div>منتهية</div><span id="outCount" style="color:#ff0000">0</span></div>
+        <div class="stat-card"><div>أوشكت</div><span id="lowCount" style="color:#ffae42">0</span></div>
         <div class="stat-card"><div>متوفرة</div><span id="okCount">0</span></div>
     </div>
 
     <div id="outSection" style="display:none;">
-        <div class="section-header">منتجات منتهية <span class="badge" style="background:var(--danger)">مفقود</span></div>
+        <div class="section-header">منتجات منتهية</div>
         <div id="outList" class="product-list"></div>
     </div>
 
     <div id="lowSection" style="display:none;">
-        <div class="section-header">على وشك النفاذ <span class="badge" style="background:var(--warning)">تنبيه</span></div>
+        <div class="section-header">على وشك النفاذ</div>
         <div id="lowList" class="product-list"></div>
     </div>
 
-    <div class="section-header">إجمالي المخزون <span class="badge" style="background:var(--dark)">نشط</span></div>
+    <div class="section-header">إجمالي المنتجات</div>
     <div id="allList" class="product-list"></div>
 
-    <a href="add-product.html" class="btn-float">+</a>
+    <a href="add-product.html" class="btn-add">+</a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
         async function init() {
-            const { data: { user } } = await _s.auth.getUser();
-            const { data: products } = await _s.from('products').select('*').eq('merchant_id', user.id);
-            
-            let outH = '', lowH = '', allH = '';
-            let outC = 0, lowC = 0, okC = 0;
+            try {
+                const { data: { user } } = await _s.auth.getUser();
+                const { data: products } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
+                
+                let outH = '', lowH = '', allH = '';
+                let outC = 0, lowC = 0, okC = 0;
 
-            products.forEach(p => {
-                const img = `https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/${p.image_url}`;
-                const itemHtml = `
-                    <div class="p-item ${p.stock == 0 ? 'out' : (p.stock <= 5 ? 'low' : '')}">
-                        <img src="${img}" class="p-img" onerror="this.src='https://via.placeholder.com/65'">
-                        <div class="p-info">
-                            <div class="p-name">${p.name}</div>
-                            <div class="p-price">${p.price} ريال</div>
-                        </div>
-                        <div class="p-stock-info">
-                            <span class="stock-num">${p.stock}</span>
-                            <span class="stock-label">قطعة</span>
-                        </div>
-                    </div>`;
+                const bucketUrl = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
 
-                if(p.stock == 0) { outH += itemHtml; outC++; }
-                else if(p.stock <= 5) { lowH += itemHtml; lowC++; }
-                else { okC++; }
-                allH += itemHtml;
-            });
+                products.forEach(p => {
+                    // ✅ العودة للمسار الذي أظهر الصور بنجاح
+                    const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : bucketUrl + p.image_url) : 'https://via.placeholder.com/80';
+                    
+                    const itemHtml = `
+                        <div class="p-item">
+                            <img src="${img}" class="p-img" onerror="this.src='https://via.placeholder.com/80'">
+                            <div class="p-info">
+                                <div class="p-name">${p.name}</div>
+                                <div class="p-price">${p.price} ريال</div>
+                            </div>
+                            <div class="p-stock-info">
+                                <span class="stock-num">${p.stock}</span>
+                                <span class="stock-label">قطعة</span>
+                            </div>
+                        </div>`;
 
-            document.getElementById('outList').innerHTML = outH;
-            document.getElementById('lowList').innerHTML = lowH;
-            document.getElementById('allList').innerHTML = allH;
-            
-            document.getElementById('outCount').innerText = outC;
-            document.getElementById('lowCount').innerText = lowC;
-            document.getElementById('okCount').innerText = okC;
+                    if(p.stock == 0) { outH += itemHtml; outC++; }
+                    else if(p.stock <= 5) { lowH += itemHtml; lowC++; }
+                    else { okC++; }
+                    allH += itemHtml;
+                });
 
-            if(outC > 0) document.getElementById('outSection').style.display = 'block';
-            if(lowC > 0) document.getElementById('lowSection').style.display = 'block';
+                document.getElementById('outList').innerHTML = outH;
+                document.getElementById('lowList').innerHTML = lowH;
+                document.getElementById('allList').innerHTML = allH;
+                
+                document.getElementById('outCount').innerText = outC;
+                document.getElementById('lowCount').innerText = lowC;
+                document.getElementById('okCount').innerText = okC;
+
+                if(outC > 0) document.getElementById('outSection').style.display = 'block';
+                if(lowC > 0) document.getElementById('lowSection').style.display = 'block';
+            } catch (err) { console.log(err); }
         }
         init();
     </script>
