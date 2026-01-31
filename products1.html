@@ -3,70 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M Platform | Ultra Compact</title>
+    <title>M Platform | Pro Inventory</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-red: #ff3b30; --glow-red: rgba(255, 59, 48, 0.4); }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
         
         body { 
-            padding: 10px 8px 100px; /* تقليل الحشو العلوي لإلغاء الفراغ */
+            padding: 10px 8px 100px; 
             font-family: 'Cairo', sans-serif; 
             background: #fff; 
             animation: fadeIn 0.4s ease-in;
         }
 
-        /* دوائر علوية عائمة ومنفصلة تماماً [cite: 2026-01-22] */
+        /* دوائر علوية عائمة ومنفصلة [cite: 2026-01-22] */
         .floating-header { 
-            position: fixed; 
-            top: 10px; 
-            left: 10px; 
-            right: 10px; 
-            display: flex; 
-            justify-content: flex-end; 
-            gap: 8px; /* مسافة بين الدوائر المنفصلة */
-            z-index: 2500; 
-            pointer-events: none; /* لضمان الضغط على ما خلفها */
+            position: fixed; top: 10px; left: 10px; right: 10px; 
+            display: flex; justify-content: flex-end; gap: 8px; 
+            z-index: 2500; pointer-events: none; 
         }
-        
         .pill { 
             width: 28px; height: 28px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
             font-size: 10px; font-weight: 900; color: #fff; background: #000; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* ظل لكل دائرة على حدة [cite: 2026-01-22] */
-            pointer-events: auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); pointer-events: auto;
         }
         .pill.red { background: var(--main-red); }
         .pill.orange { background: #ffae42; }
 
-        /* عناوين حمراء صغيرة جداً لتقليل المساحة [cite: 2026-01-22] */
         .section-label { 
             font-size: 10.5px; font-weight: 900; margin: 8px 0 6px; color: var(--main-red); 
             display: flex; align-items: center; gap: 4px; border-right: 2.5px solid var(--main-red); padding-right: 6px; 
         }
 
-        /* تصغير المربعات بنسبة 10% (استخدام gap أصغر وحواف أضيق) */
-        .m-grid-new { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 7px; /* تقليل الفجوات لتصغير الحجم الكلي */
-            row-gap: 12px; 
-        }
-
+        /* تصغير المربعات 10% [cite: 2026-01-22] */
+        .m-grid-new { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; row-gap: 12px; }
         .m-card-new { 
             position: relative; background: #fff; border-radius: 12px; padding-bottom: 6px;
             box-shadow: 0 0 10px var(--glow-red); overflow: hidden; display: flex; flex-direction: column;
-            transform: scale(0.95); /* تصغير فعلي للبطاقة بنسبة تقريبية 10% [cite: 2026-01-22] */
+            transform: scale(0.95); /* التصغير المطلوب [cite: 2026-01-22] */
         }
 
         .m-frame { width: 100%; aspect-ratio: 1/1; overflow: hidden; position: relative; }
         .m-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* إعادة زر التعديل (أيقونة القلم) */
+        .m-edit-btn { 
+            position: absolute; bottom: 5px; left: 5px; 
+            background: rgba(255, 255, 255, 0.9); 
+            width: 20px; height: 20px; border-radius: 5px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 10px; text-decoration: none; color: #000; z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
 
         .m-content { padding: 4px 1px 0; text-align: center; }
         .m-name-txt { font-size: 8px; font-weight: 800; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -74,16 +64,14 @@
         
         .m-stock-label { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.8); color: #fff; font-size: 6.5px; padding: 1px 4px; border-radius: 4px; font-weight: 900; z-index: 5; }
 
-        /* زر الإضافة العائم الموزون يساراً */
         .m-fab-main { 
             position: fixed; bottom: 25px; left: 15px; 
-            width: 60px; height: 60px; 
-            background: var(--main-red); color: #fff; 
+            width: 60px; height: 60px; background: var(--main-red); color: #fff; 
             border-radius: 50%; display: flex; align-items: center; justify-content: center; 
             text-decoration: none; box-shadow: 0 8px 20px var(--glow-red); 
             z-index: 3000; border: 3px solid #fff;
         }
-        .m-fab-main span { font-size: 40px; margin-top: -4px; font-weight: 400; }
+        .m-fab-main span { font-size: 40px; margin-top: -4px; }
     </style>
 </head>
 <body>
@@ -94,17 +82,17 @@
         <div class="pill" id="totalCount">0</div>
     </div>
 
-    <div id="outSection" style="display:none; margin-top: 15px;">
-        <div class="section-label">منتهية (0)</div>
+    <div id="outSection" style="display:none; margin-top: 20px;">
+        <div class="section-label">منتهية</div>
         <div class="m-grid-new" id="outGrid"></div>
     </div>
 
     <div id="lowSection" style="display:none;">
-        <div class="section-label">وشيكة (1-5)</div>
+        <div class="section-label">وشيكة النفاذ</div>
         <div class="m-grid-new" id="lowGrid"></div>
     </div>
 
-    <div class="section-label" style="color:#000; border-right-color:#000; margin-top: 10px;">المخزون الكامل</div>
+    <div class="section-label" style="color:#000; border-right-color:#000; margin-top: 15px;">المخزون الكامل</div>
     <div class="m-grid-new" id="mainGrid"></div>
 
     <a href="add-product.html" class="m-fab-main"><span>+</span></a>
@@ -128,7 +116,10 @@
                     const isLow = p.stock > 0 && p.stock <= 5;
                     const card = `<div class="m-card-new">
                         <div class="m-stock-label">${p.stock} Q</div>
-                        <div class="m-frame"><img src="${img}"></div>
+                        <div class="m-frame">
+                            <img src="${img}">
+                            <a href="edit-product.html?id=${p.id}" class="m-edit-btn">✎</a>
+                        </div>
                         <div class="m-content"><div class="m-name-txt">${p.name}</div><div class="m-price-txt">${p.price} ر.س</div></div>
                     </div>`;
                     mainH += card;
