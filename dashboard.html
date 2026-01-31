@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M PRIME | Stable Luxury</title>
+    <title>M PRIME | Merchant Live Connect</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -18,20 +18,17 @@
         .fade-in { opacity: 0; animation: fadeIn 0.5s ease forwards; }
         @keyframes fadeIn { to { opacity: 1; } }
 
-        /* الهيدر: بسيط وواضح */
         .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; }
         .m-logo { font-family: 'Aref Ruqaa', serif; font-size: 32px; color: var(--m-red); }
         .header-icons { display: flex; gap: 12px; }
-        .circle-btn { width: 40px; height: 40px; background: var(--m-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px var(--m-shadow-red); border: 1px solid rgba(220,38,38,0.05); }
+        .circle-btn { width: 40px; height: 40px; background: var(--m-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px var(--m-shadow-red); border: 1px solid rgba(220,38,38,0.05); cursor: pointer; }
 
         .container { padding: 0 18px; }
         
-        /* الترحيب: مسافة علوية كافية */
         .welcome-section { margin-top: 5px; margin-bottom: 20px; text-align: right; }
         .welcome-section h1 { font-size: 26px; font-weight: 900; color: var(--m-red); margin: 0; }
         .welcome-section p { font-size: 12px; opacity: 0.7; margin-top: 2px; }
 
-        /* الإحصائيات الـ 6: حجم أصغر ومنظم */
         .stats-grid-6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
         .stat-box { 
             background: var(--m-bg); padding: 15px 5px; border-radius: 20px; text-align: center; 
@@ -40,7 +37,6 @@
         .stat-box b { font-size: 18px; display: block; color: var(--m-red); }
         .stat-box span { font-size: 10px; font-weight: 800; display: block; margin-top: 3px; }
 
-        /* البحث: واضح وبسيط */
         .search-area { 
             background: var(--m-bg); padding: 12px 18px; border-radius: 50px; 
             display: flex; align-items: center; gap: 10px; border: 1.5px solid var(--m-red); 
@@ -48,7 +44,6 @@
         }
         .search-area input { border: none; outline: none; width: 100%; font-family: 'Cairo'; font-size: 13px; background: transparent; color: var(--m-text); }
 
-        /* الشبكة الـ 8: توزيع هندسي دقيق */
         .menu-grid-8 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .menu-item { 
             background: var(--m-bg); padding: 25px 12px; border-radius: 30px; text-align: center; 
@@ -72,7 +67,7 @@
 
     <div class="container">
         <div class="welcome-section fade-in">
-            <h1>مرحباً، <span id="mName">تاجر M</span></h1>
+            <h1>مرحباً، <span id="mName">تحميل...</span></h1>
             <p>إليك ملخص إمبراطوريتك التجارية اليوم</p>
         </div>
 
@@ -102,33 +97,40 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-// 1. ربط المشروع بـ Supabase (تأكد من وجود المكتبة في الأعلى)
-const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'YOUR_PUBLIC_KEY');
+        // ربط المشروع (استخدمت مفتاحك الموجود مسبقاً في الذاكرة)
+        const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
-// 2. دالة جلب الاسم وتحديث الترحيب
-async function updateMerchantName() {
-    const { data: { user } } = await _supabase.auth.getUser();
-    if (user) {
-        // البحث عن الاسم في بيانات المتجر أو الاسم الكامل أو بداية الإيميل
-        const displayName = user.user_metadata.store_name || user.user_metadata.full_name || user.email.split('@')[0];
-        // تحديث العنصر الذي يحمل id="mName" الظاهر في السطر 75
-        document.getElementById('mName').innerText = displayName;
-    }
-}
-
-// 3. تشغيل الدالة فور تحميل الصفحة
-updateMerchantName();
+        // دالة جلب الاسم الفعلي وتحديث الترحيب
+        async function updateMerchantName() {
+            try {
+                const { data: { user } } = await _supabase.auth.getUser();
+                if (user) {
+                    const displayName = user.user_metadata.store_name || user.user_metadata.full_name || user.email.split('@')[0];
+                    document.getElementById('mName').innerText = displayName;
+                } else {
+                    document.getElementById('mName').innerText = "تاجر M";
+                }
+            } catch (error) {
+                document.getElementById('mName').innerText = "تاجر M";
+            }
+        }
 
         function toggleDarkMode() {
             const isDark = document.body.classList.toggle('dark-mode');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             document.getElementById('modeIcon').className = isDark ? 'fa-solid fa-sun' : 'fa-regular fa-moon';
         }
-        if(localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-            document.getElementById('modeIcon').className = 'fa-solid fa-sun';
-        }
+
+        // تشغيل الوظائف عند التحميل
+        document.addEventListener('DOMContentLoaded', () => {
+            if(localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('modeIcon').className = 'fa-solid fa-sun';
+            }
+            updateMerchantName();
+        });
     </script>
 </body>
 </html>
