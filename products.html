@@ -3,67 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M PRIME | إدارة المخزون الذكي</title>
+    <title>M PRIME | إضافة ملكية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        :root { --m-red: #FF0000; --m-bg: #ffffff; --m-text: #1a1a1a; --m-shadow: rgba(255, 0, 0, 0.15); --low-stock: #f59e0b; }
+        :root { --m-red: #FF0000; --m-bg: #ffffff; --m-text: #1a1a1a; --m-shadow: rgba(255, 0, 0, 0.15); }
         .dark-mode { --m-bg: #0f0f0f; --m-text: #ffffff; --m-shadow: rgba(255, 0, 0, 0.4); }
 
-        body { margin: 0; font-family: 'Cairo', sans-serif; background: var(--m-bg); color: var(--m-text); transition: 0.4s; overflow-x: hidden; }
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: var(--m-bg); color: var(--m-text); transition: 0.4s; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         
-        /* هيدر ثابت وفخم */
-        .header { 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 20px; position: sticky; top: 0; background: var(--m-bg); 
-            z-index: 1000; border-bottom: 1px solid rgba(255,0,0,0.05);
-            backdrop-filter: blur(10px);
-        }
-        .btn-back { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--m-bg); box-shadow: 0 4px 12px var(--m-shadow); color: var(--m-red); }
+        .header { display: flex; align-items: center; justify-content: space-between; padding: 20px; position: sticky; top: 0; background: var(--m-bg); z-index: 1000; border-bottom: 1px solid rgba(255,0,0,0.05); backdrop-filter: blur(10px); }
+        .btn-back { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--m-bg); box-shadow: 0 4px 12px var(--m-shadow); color: var(--m-red); cursor: pointer; }
 
         .container { padding: 20px; }
+        .section-title { font-size: 18px; font-weight: 900; color: var(--m-red); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
 
-        /* قسم "على وشك النفاذ" - ترتيب استراتيجي */
-        .alert-section { margin-bottom: 30px; }
-        .section-title { font-size: 18px; font-weight: 900; color: var(--m-red); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        .alert-badge { background: rgba(245, 158, 11, 0.1); color: var(--low-stock); font-size: 10px; padding: 2px 8px; border-radius: 5px; }
-
-        .horizontal-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 5px 5px 15px; scrollbar-width: none; }
-        .horizontal-scroll::-webkit-scrollbar { display: none; }
-
-        .low-stock-card { 
-            min-width: 140px; background: var(--m-bg); border-radius: 20px; padding: 12px; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05); border: 1px solid rgba(245, 158, 11, 0.2);
-            text-align: center;
+        /* نافذة الإضافة (Overlay) */
+        .modal-overlay { 
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); 
+            backdrop-filter: blur(8px); display: none; z-index: 2000; 
+            align-items: flex-end; justify-content: center;
         }
-        .low-stock-card img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; margin-bottom: 8px; }
-        .low-stock-card h4 { margin: 0; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .low-stock-card span { color: var(--low-stock); font-size: 11px; font-weight: 800; }
-
-        /* قائمة المنتجات الرئيسية */
-        .product-list-item { 
-            background: var(--m-bg); border-radius: 22px; padding: 12px; 
-            display: flex; align-items: center; gap: 15px; margin-bottom: 15px; 
-            box-shadow: 0 10px 25px var(--m-shadow); border: 1px solid rgba(255,0,0,0.03);
+        .modal-content { 
+            background: var(--m-bg); width: 100%; max-width: 500px; 
+            border-radius: 30px 30px 0 0; padding: 30px 20px; 
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+            transform: translateY(100%); transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .p-img { width: 75px; height: 75px; border-radius: 18px; object-fit: cover; background: #f5f5f5; }
-        .p-info { flex: 1; }
-        .p-info h3 { margin: 0; font-size: 15px; font-weight: 800; }
-        .p-info p { margin: 3px 0; color: var(--m-red); font-weight: 900; font-size: 14px; }
-        
-        .p-status { text-align: left; }
-        .stock-count { font-size: 11px; font-weight: 800; opacity: 0.6; display: block; }
+        .modal-content.active { transform: translateY(0); }
 
-        /* زر الإضافة العائم والفخم */
-        .fab-add { 
-            position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; 
-            background: var(--m-red); color: white; border-radius: 20px; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 24px; box-shadow: 0 10px 30px var(--m-shadow); 
-            cursor: pointer; z-index: 100; transition: 0.3s;
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 13px; font-weight: 800; margin-bottom: 8px; }
+        .input-group input, .input-group select { 
+            width: 100%; padding: 14px; border-radius: 15px; border: 1.5px solid rgba(255,0,0,0.1); 
+            background: var(--m-bg); color: var(--m-text); font-family: 'Cairo'; font-weight: 700; box-sizing: border-box;
         }
-        .fab-add:active { transform: scale(0.9) rotate(90deg); }
+        .input-group input:focus { border-color: var(--m-red); outline: none; }
 
+        .btn-save { width: 100%; padding: 16px; background: var(--m-red); color: white; border: none; border-radius: 50px; font-weight: 900; font-size: 17px; margin-top: 10px; box-shadow: 0 10px 20px var(--m-shadow); cursor: pointer; }
+
+        /* زر الإضافة العائم */
+        .fab-add { position: fixed; bottom: 30px; left: 30px; width: 65px; height: 65px; background: var(--m-red); color: white; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 10px 30px var(--m-shadow); cursor: pointer; z-index: 100; transition: 0.3s; }
+        .fab-add:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
@@ -71,50 +52,83 @@
     <div class="header">
         <div class="btn-back" onclick="location.href='dashboard.html'"><i class="fa-solid fa-chevron-right"></i></div>
         <div style="font-weight: 900; font-size: 18px;">المخزون الملكي</div>
-        <div class="circle-btn" style="color: var(--m-red); font-size: 18px;"><i class="fa-solid fa-sliders"></i></div>
+        <div style="width: 40px;"></div>
     </div>
 
     <div class="container">
-        <div class="alert-section">
-            <div class="section-title">
-                <i class="fa-solid fa-triangle-exclamation"></i> على وشك النفاذ
-                <span class="alert-badge">تحرك الآن</span>
-            </div>
-            <div class="horizontal-scroll" id="lowStockList">
-                <div class="low-stock-card">
-                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100">
-                    <h4>ساعة ذكية</h4>
-                    <span>بقي 2 فقط</span>
-                </div>
-                <div class="low-stock-card">
-                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100">
-                    <h4>سماعة بلوتوث</h4>
-                    <span>بقي 3 فقط</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="section-title"><i class="fa-solid fa-box-archive"></i> جميع المنتجات</div>
-        <div id="mainProductList">
-            <div class="product-list-item">
-                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200" class="p-img">
-                <div class="p-info">
-                    <h3>نايكي أحمر كلاسيك</h3>
-                    <p>550 ريال</p>
-                </div>
-                <div class="p-status">
-                    <span class="stock-count">المخزون: 45</span>
-                    <i class="fa-solid fa-pen-to-square" style="color: #ccc; margin-top: 10px;"></i>
-                </div>
-            </div>
+        <div class="section-title"><i class="fa-solid fa-box-open"></i> منتجاتك الحالية</div>
+        <div id="productsGrid">
+            <p style="text-align: center; opacity: 0.5;">لا توجد منتجات حالياً. اضغط + للبدء.</p>
         </div>
     </div>
 
-    <div class="fab-add" onclick="alert('فتح نافذة الإضافة...')">
-        <i class="fa-solid fa-plus"></i>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content" id="modalContent">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2 style="margin:0; font-weight:900; color:var(--m-red);">إضافة منتج جديد</h2>
+                <i class="fa-solid fa-times" style="cursor:pointer; font-size:20px;" onclick="closeModal()"></i>
+            </div>
+            <form id="addProductForm">
+                <div class="input-group">
+                    <label>اسم المنتج</label>
+                    <input type="text" id="pName" placeholder="مثلاً: حذاء رياضي M" required>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div class="input-group" style="flex: 1;">
+                        <label>السعر (ريال)</label>
+                        <input type="number" id="pPrice" placeholder="0.00" required>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>الكمية</label>
+                        <input type="number" id="pStock" placeholder="0" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-save" id="saveBtn">حفظ في الإمبراطورية</button>
+            </form>
+        </div>
     </div>
 
+    <div class="fab-add" onclick="openModal()"><i class="fa-solid fa-plus"></i></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
+
+        function openModal() { 
+            document.getElementById('modalOverlay').style.display = 'flex';
+            setTimeout(() => document.getElementById('modalContent').classList.add('active'), 10);
+        }
+        function closeModal() { 
+            document.getElementById('modalContent').classList.remove('active');
+            setTimeout(() => document.getElementById('modalOverlay').style.display = 'none', 400);
+        }
+
+        // حفظ المنتج في Supabase
+        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('saveBtn');
+            btn.innerText = "جاري الحفظ...";
+            btn.disabled = true;
+
+            const { data: { user } } = await _supabase.auth.getUser();
+            
+            const productData = {
+                name: document.getElementById('pName').value,
+                price: parseFloat(document.getElementById('pPrice').value),
+                stock: parseInt(document.getElementById('pStock').value),
+                merchant_id: user.id
+            };
+
+            const { error } = await _supabase.from('products').insert([productData]);
+
+            if (error) {
+                alert("حدث خطأ: " + error.message);
+            } else {
+                alert("تمت إضافة المنتج بنجاح!");
+                location.reload();
+            }
+        });
+
         if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
     </script>
 </body>
