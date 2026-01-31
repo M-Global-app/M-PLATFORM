@@ -3,71 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M | إدارة المخزون</title>
+    <title>M | المخزون</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        :root { --m-red: #FF0000; }
-        body { margin: 0; font-family: 'Cairo', sans-serif; background: #f8f8f8; color: #1a1a1a; padding-bottom: 90px; }
-        .header { background: #fff; padding: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--m-red); }
-        .logo { font-size: 32px; font-weight: 900; color: var(--m-red); }
+        :root { --red: #FF0000; }
+        body { margin: 0; font-family: 'Cairo'; background: #f5f5f5; padding-bottom: 80px; }
+        .header { background: #fff; padding: 20px; border-bottom: 2px solid var(--red); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 28px; font-weight: 900; color: var(--red); }
         .container { padding: 15px; }
-        .section-title { font-size: 16px; font-weight: 900; color: var(--m-red); margin: 20px 0 10px; border-right: 4px solid var(--m-red); padding-right: 10px; }
-        .card { background: #fff; border-radius: 15px; padding: 12px; display: flex; align-items: center; gap: 15px; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .p-img { width: 75px; height: 75px; border-radius: 12px; object-fit: cover; background: #eee; border: 1px solid #eee; }
-        .p-info { flex: 1; }
-        .p-info h3 { margin: 0; font-size: 15px; font-weight: 800; }
-        .p-price { color: var(--m-red); font-weight: 900; margin-top: 5px; font-size: 14px; }
-        .stock-badge { font-size: 11px; font-weight: 900; padding: 4px 10px; border-radius: 6px; background: #f0f0f0; }
-        .low { color: var(--m-red); background: rgba(255,0,0,0.1); }
-        .fab { position: fixed; bottom: 25px; left: 25px; width: 65px; height: 65px; background: var(--m-red); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; text-decoration: none; box-shadow: 0 10px 25px rgba(255,0,0,0.3); }
+        .card { background: #fff; border-radius: 12px; padding: 10px; display: flex; align-items: center; gap: 15px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .p-img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: #eee; }
+        .p-name { flex: 1; font-weight: 700; }
+        .p-price { color: var(--red); font-weight: 900; }
+        .add-btn { position: fixed; bottom: 20px; left: 20px; width: 60px; height: 60px; background: var(--red); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; text-decoration: none; box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
     </style>
 </head>
 <body>
     <div class="header">
-        <div onclick="history.back()"><i class="fa-solid fa-arrow-right"></i></div>
+        <div onclick="history.back()" style="cursor:pointer">🔙</div>
         <div class="logo">M</div>
-        <div style="width: 20px;"></div>
+        <div></div>
     </div>
-
-    <div class="container">
-        <div class="section-title">نواقص المخزون</div>
-        <div id="lowList"></div>
-
-        <div class="section-title">قائمة المنتجات</div>
-        <div id="mainList"></div>
-    </div>
-
-    <a href="add-product.html" class="fab"><i class="fa-solid fa-plus"></i></a>
+    <div class="container" id="productList"></div>
+    <a href="add-product.html" class="add-btn">+</a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
-
-        async function fetchProducts() {
+        
+        async function load() {
             const { data: { user } } = await _supabase.auth.getUser();
-            const { data: products } = await _supabase.from('products').select('*').eq('merchant_id', user.id).order('created_at', { ascending: false });
-
-            const lowList = document.getElementById('lowList');
-            const mainList = document.getElementById('mainList');
-            lowList.innerHTML = ''; mainList.innerHTML = '';
-
-            products.forEach(p => {
-                const img = p.image_url || 'https://via.placeholder.com/75/FF0000/FFFFFF?text=M';
-                const html = `
-                    <div class="card">
-                        <img src="${img}" class="p-img" onerror="this.src='https://via.placeholder.com/75/FF0000/FFFFFF?text=M'">
-                        <div class="p-info">
-                            <h3>${p.name}</h3>
-                            <div class="p-price">${p.price} ريال</div>
-                        </div>
-                        <div class="stock-badge ${p.stock <= 5 ? 'low' : ''}">الكمية: ${p.stock}</div>
-                    </div>`;
-                if (p.stock <= 5) lowList.innerHTML += html;
-                else mainList.innerHTML += html;
-            });
+            const { data: prods } = await _supabase.from('products').select('*').eq('merchant_id', user.id);
+            
+            document.getElementById('productList').innerHTML = prods.map(p => `
+                <div class="card">
+                    <img src="${p.image_url || 'https://via.placeholder.com/60'}" class="p-img" onerror="this.src='https://via.placeholder.com/60'">
+                    <div class="p-name">${p.name}</div>
+                    <div class="p-price">${p.price} ر.س</div>
+                    <div style="font-size:10px; background:#eee; padding:4px; border-radius:5px;">الكمية: ${p.stock}</div>
+                </div>
+            `).join('');
         }
-        document.addEventListener('DOMContentLoaded', fetchProducts);
+        load();
     </script>
 </body>
 </html>
