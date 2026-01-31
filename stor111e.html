@@ -3,102 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M Premium Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
+    <title>M Store | Professional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* نظام الألوان الديناميكي [cite: 2026-01-31] */
-        :root { --brand: #ff3b30; --bg: #f2f2f7; --card-bg: #ffffff; }
+        :root { --primary: #ff3b30; --bg: #f5f5f7; --text: #1d1d1f; }
         
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--bg); color: #1c1c1e; }
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; }
 
-        /* هيدر ثابت وتصميم عصري [cite: 2026-01-30] */
-        .top-bar {
-            position: sticky; top: 0; background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(15px); z-index: 1000; padding: 15px;
+        /* هيدر احترافي (يشبه سلة وزد) [cite: 2026-01-30] */
+        .store-nav {
+            position: sticky; top: 0; background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px); z-index: 1000; padding: 12px 20px;
             display: flex; align-items: center; justify-content: space-between;
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
+        .nav-logo { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; border: 1px solid #eee; }
+        .nav-title { font-size: 14px; font-weight: 900; color: #000; }
 
-        .store-identity { display: flex; align-items: center; gap: 12px; }
-        .store-logo { width: 45px; height: 45px; border-radius: 12px; border: 2px solid var(--brand); object-fit: cover; }
-        .store-info h1 { font-size: 16px; font-weight: 900; }
+        /* قسم الترحيب المودرن */
+        .store-hero { padding: 30px 20px 10px; text-align: right; }
+        .store-hero h2 { font-size: 22px; font-weight: 900; margin-bottom: 5px; }
+        .store-hero p { font-size: 12px; color: #86868b; }
 
-        /* شبكة المنتجات (نظام كروت احترافي) [cite: 2026-01-22] */
-        .products-section { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        /* شبكة المنتجات الأنيقة (عمودين متوازنين) [cite: 2026-01-22] */
+        .product-container { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         
         .product-card {
-            background: var(--card-bg); border-radius: 18px; overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04);
-            display: flex; flex-direction: column; transition: transform 0.2s;
+            background: #fff; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02); transition: 0.3s;
+            display: flex; flex-direction: column; border: 1px solid rgba(0,0,0,0.03);
         }
 
-        /* توحيد مقاسات الصور [cite: 2026-01-22] */
-        .img-wrapper { width: 100%; aspect-ratio: 1 / 1; background: #fafafa; position: relative; }
-        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        /* توحيد الصور الاحترافي [cite: 2026-01-22] */
+        .image-box { width: 100%; aspect-ratio: 1 / 1; background: #fbfbfb; position: relative; }
+        .image-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        .details { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .p-name { font-size: 13px; font-weight: 800; margin-bottom: 5px; color: #3a3a3c; }
-        .p-price { font-size: 15px; font-weight: 900; color: var(--brand); }
-
-        /* زر الإضافة السريع [cite: 2026-01-31] */
+        .info-box { padding: 12px; }
+        .product-name { font-size: 13px; font-weight: 700; height: 38px; overflow: hidden; color: #333; margin-bottom: 8px; }
+        
+        .price-row { display: flex; justify-content: space-between; align-items: center; }
+        .price-tag { font-size: 15px; font-weight: 900; color: var(--primary); }
+        
+        /* زر الإضافة الأنيق [cite: 2026-01-31] */
         .add-btn {
-            background: var(--brand); color: #fff; width: 32px; height: 32px;
-            border-radius: 10px; display: flex; align-items: center; justify-content: center;
-            font-size: 18px; border: none; cursor: pointer; float: left;
+            width: 30px; height: 30px; background: #000; color: #fff;
+            border-radius: 50%; border: none; display: flex; align-items: center;
+            justify-content: center; font-size: 18px; cursor: pointer;
         }
 
-        /* الفلوتر (التواصل) [cite: 2026-01-31] */
-        .fab {
-            position: fixed; bottom: 25px; left: 20px; width: 55px; height: 55px;
+        /* زر التواصل العائم (أنيق وصغير) [cite: 2026-01-31] */
+        .contact-fab {
+            position: fixed; bottom: 25px; left: 20px; width: 50px; height: 50px;
             background: #25d366; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(37,211,102,0.3);
-            z-index: 1001; text-decoration: none; color: white; font-size: 24px;
+            align-items: center; justify-content: center; color: #fff;
+            box-shadow: 0 8px 20px rgba(37,211,102,0.3); z-index: 2000; text-decoration: none;
         }
     </style>
 </head>
 <body>
 
-    <header class="top-bar">
-        <div class="store-identity">
-            <img src="https://via.placeholder.com/100" class="store-logo" alt="Logo">
-            <div class="store-info">
-                <h1>متجر التاجر</h1>
-            </div>
+    <nav class="store-nav">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="https://via.placeholder.com/100" class="nav-logo" alt="Store Logo">
+            <span class="nav-title">متجر التاجر</span>
         </div>
-        <div class="search-icon" style="font-size: 20px;">🔍</div>
+        <div style="font-size: 18px;">🛒</div>
+    </nav>
+
+    <header class="store-hero">
+        <h2>كل المنتجات</h2>
+        <p>اكتشف مجموعتنا المختارة بعناية</p>
     </header>
 
-    <main class="products-section" id="p-grid">
+    <main class="product-container" id="productGrid">
         </main>
 
-    <a href="https://wa.me/YOUR_NUMBER" class="fab">💬</a>
+    <a href="#" class="contact-fab">💬</a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
-        async function fetchProducts() {
+        async function loadProducts() {
             const { data } = await _s.from('products').select('*').order('created_at', {ascending: false});
-            const grid = document.getElementById('p-grid');
+            const container = document.getElementById('productGrid');
             const imgBase = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
 
-            grid.innerHTML = data.map(p => `
+            container.innerHTML = data.map(p => `
                 <div class="product-card">
-                    <div class="img-wrapper">
+                    <div class="image-box">
                         <img src="${p.image_url ? (p.image_url.includes('http') ? p.image_url : imgBase + p.image_url) : 'https://via.placeholder.com/300'}" alt="${p.name}">
                     </div>
-                    <div class="details">
-                        <p class="p-name">${p.name}</p>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <p class="p-price">${p.price} ر.س</p>
+                    <div class="info-box">
+                        <p class="product-name">${p.name}</p>
+                        <div class="price-row">
+                            <p class="price-tag">${p.price} ر.س</p>
                             <button class="add-btn">+</button>
                         </div>
                     </div>
                 </div>
             `).join('');
         }
-        fetchProducts();
+        loadProducts();
     </script>
 </body>
 </html>
