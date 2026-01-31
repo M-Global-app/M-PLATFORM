@@ -9,79 +9,92 @@
         :root { --primary: #FF0000; --bg: #fcfcfc; --card: #ffffff; --text: #1a1a1a; }
         body { margin: 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: none; overflow-x: hidden; }
         
-        /* الهيدر المطور مع الإشعارات */
-        .header { background: var(--card); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 100; }
-        .m-logo { font-family: 'Aref Ruqaa', serif; font-size: 28px; color: var(--primary); font-weight: 700; text-decoration: none; }
-        .nav-icons { display: flex; align-items: center; gap: 15px; }
-        .icon-btn { position: relative; font-size: 20px; cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; }
-        .notification-dot { position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: var(--primary); border-radius: 50%; border: 2px solid #fff; }
+        /* الهيدر: بساطة مطلقة */
+        .header { background: var(--card); padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f1f1; position: sticky; top: 0; z-index: 100; }
+        .m-logo { font-family: 'Aref Ruqaa', serif; font-size: 30px; color: var(--primary); text-decoration: none; }
+        .logout-link { color: #888; font-size: 13px; text-decoration: none; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
-        .container { width: 92%; max-width: 500px; margin: 20px auto; }
+        .container { width: 90%; max-width: 450px; margin: 30px auto; }
 
-        /* شريط الإنجاز (Setup Progress) */
-        .setup-box { background: #fff; padding: 15px; border-radius: 20px; margin-bottom: 25px; border: 1px solid #f0f0f0; }
-        .setup-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; margin-bottom: 10px; }
-        .progress-bar { width: 100%; height: 6px; background: #f0f0f0; border-radius: 10px; overflow: hidden; }
-        .progress-fill { width: 35%; height: 100%; background: var(--primary); border-radius: 10px; transition: 1s ease; }
+        /* الترحيب بخط ضخم وفخم */
+        .welcome-section { margin-bottom: 35px; }
+        .welcome-section h1 { font-size: 28px; font-weight: 800; margin: 0; color: var(--text); }
+        .welcome-section p { font-size: 14px; color: #888; margin: 5px 0 0; }
 
-        /* البطاقات الإحصائية */
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
-        .stat-card { background: #fff; padding: 15px 5px; border-radius: 18px; text-align: center; border: 1px solid rgba(0,0,0,0.02); }
-        .stat-card b { font-size: 22px; display: block; color: var(--primary); }
-        .stat-card span { font-size: 10px; color: #888; font-weight: 700; }
+        /* بطاقات المسار العريض (Wide Stream Cards) */
+        .main-menu { display: flex; flex-direction: column; gap: 15px; }
+        .menu-item { 
+            background: var(--card); padding: 25px; border-radius: 25px; 
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.01);
+            transition: 0.3s; cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent;
+        }
+        .menu-item:active { transform: scale(0.97); background: #fafafa; }
+        .menu-info h3 { margin: 0; font-size: 18px; font-weight: 800; }
+        .menu-info p { margin: 3px 0 0; font-size: 12px; color: #999; }
+        .menu-icon { font-size: 24px; opacity: 0.8; }
 
-        /* شبكة الأدوات */
-        .actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .action-item { background: #fff; padding: 22px 10px; border-radius: 22px; text-align: center; transition: 0.3s; cursor: pointer; border: 1px solid rgba(0,0,0,0.01); outline: none; -webkit-tap-highlight-color: transparent; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
-        .action-item:active { transform: scale(0.95); }
-        .action-icon { font-size: 24px; margin-bottom: 8px; display: block; }
-        .action-item h3 { margin: 0; font-size: 14px; color: #333; }
+        /* بطاقة الباقة السوداء - مركز القوة */
+        .premium-card { 
+            background: #111; color: white; padding: 30px; border-radius: 30px; 
+            margin-top: 20px; position: relative; overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .premium-card h4 { margin: 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.5; }
+        .premium-card .plan-name { font-size: 22px; font-weight: 800; margin: 8px 0; display: block; }
+        .premium-card .action-link { color: var(--primary); font-weight: 800; font-size: 13px; text-decoration: none; }
 
-        /* زر معاينة المتجر العائم */
-        .preview-btn { position: fixed; bottom: 30px; left: 30px; background: var(--text); color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-size: 13px; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; z-index: 99; transition: 0.3s; outline: none; }
-        .preview-btn:active { transform: scale(0.9); }
-
-        .fade-up { animation: fadeUp 0.5s ease-out forwards; opacity: 0; transform: translateY(15px); }
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        /* تأثير الظهور التدريجي */
+        .fade-in { animation: fadeIn 0.7s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <div class="nav-icons">
-            <div class="icon-btn" onclick="handleLogout()">🚪</div>
-            <div class="icon-btn">🔔<div class="notification-dot"></div></div>
-        </div>
+        <div class="logout-link" onclick="handleLogout()">تسجيل خروج</div>
         <a href="#" class="m-logo">M</a>
-        <div style="font-size: 12px; font-weight: 800;" id="merchantName">تحميل...</div>
+        <div style="width: 60px;"></div>
     </header>
 
     <div class="container">
-        <div class="setup-box fade-up">
-            <div class="setup-header">
-                <span>اكتمل إعداد متجرك</span>
-                <span style="color: var(--primary);">35%</span>
+        <div class="welcome-section fade-in">
+            <h1>مرحباً، <span id="merchantName" style="color: var(--primary);">...</span></h1>
+            <p>إليك نظرة سريعة على إحصائيات متجرك</p>
+        </div>
+
+        <div class="main-menu">
+            <div class="menu-item fade-in" style="animation-delay: 0.1s;">
+                <div class="menu-info">
+                    <h3>المنتجات</h3>
+                    <p>أضف منتجك الأول وابدأ البيع</p>
+                </div>
+                <span class="menu-icon">📦</span>
             </div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
+
+            <div class="menu-item fade-in" style="animation-delay: 0.2s;">
+                <div class="menu-info">
+                    <h3>الطلبات</h3>
+                    <p>لديك 0 طلبات جديدة حالياً</p>
+                </div>
+                <span class="menu-icon">🧾</span>
+            </div>
+
+            <div class="menu-item fade-in" style="animation-delay: 0.3s;">
+                <div class="menu-info">
+                    <h3>الإعدادات</h3>
+                    <p>تخصيص اسم المتجر والروابط</p>
+                </div>
+                <span class="menu-icon">⚙️</span>
+            </div>
         </div>
 
-        <div class="stats-grid fade-up" style="animation-delay: 0.1s;">
-            <div class="stat-card"><b>0</b><span>طلبات اليوم</span></div>
-            <div class="stat-card"><b>0</b><span>زيارات المتجر</span></div>
-            <div class="stat-card"><b>0</b><span>المبيعات</span></div>
-        </div>
-
-        <div class="actions-grid">
-            <div class="action-item fade-up" style="animation-delay: 0.2s;"><span class="action-icon">📦</span><h3>المنتجات</h3></div>
-            <div class="action-item fade-up" style="animation-delay: 0.3s;"><span class="action-icon">📊</span><h3>التقارير</h3></div>
-            <div class="action-item fade-up" style="animation-delay: 0.4s;"><span class="action-icon">👥</span><h3>العملاء</h3></div>
-            <div class="action-item fade-up" style="animation-delay: 0.5s;"><span class="action-icon">🛠️</span><h3>الإعدادات</h3></div>
+        <div class="premium-card fade-in" style="animation-delay: 0.4s;">
+            <h4>العضوية الحالية</h4>
+            <span class="plan-name">الباقة المجانية</span>
+            <a href="#" class="action-link">ترقية الحساب الآن ←</a>
         </div>
     </div>
-
-    <a href="#" class="preview-btn fade-up" style="animation-delay: 0.6s;">
-        👁️ معاينة المتجر
-    </a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
