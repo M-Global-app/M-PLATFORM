@@ -2,19 +2,106 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>لوحة التحكم - منصة M</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - M PLATFORM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo'; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f4f7f6; }
-        .welcome-card { background: white; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        h1 { color: #FF0000; }
+        :root { --primary: #FF0000; --bg: #fcfcfc; --card: #ffffff; --text: #1a1a1a; }
+        body { margin: 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: none; /* إخفاء الصفحة حتى التأكد من الهوية */ }
+        
+        /* الهيدر الفخم */
+        .header { background: var(--card); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .m-logo { font-family: 'Aref Ruqaa', serif; font-size: 28px; color: var(--primary); font-weight: 700; text-decoration: none; }
+        .user-info { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; }
+        .logout-btn { background: none; border: 1px solid #eee; padding: 5px 12px; border-radius: 8px; cursor: pointer; font-family: 'Cairo'; font-size: 12px; transition: 0.3s; outline: none; -webkit-tap-highlight-color: transparent; }
+        .logout-btn:hover { background: #fff5f5; color: var(--primary); border-color: var(--primary); }
+
+        .container { width: 90%; max-width: 500px; margin: 20px auto; }
+        
+        /* الإحصائيات السريعة بدون مربعات بشعة */
+        .stats-flow { margin-bottom: 30px; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .stat-item { margin-bottom: 15px; }
+        .stat-value { font-size: 32px; font-weight: 800; color: var(--text); display: block; line-height: 1; }
+        .stat-label { font-size: 14px; color: #888; font-weight: 400; }
+        .stat-line { width: 40px; height: 3px; background: var(--primary); margin-top: 8px; border-radius: 2px; }
+
+        /* الأقسام التفاعلية */
+        .section-title { font-size: 18px; font-weight: 800; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .action-card { background: var(--card); padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 15px; transition: 0.3s; cursor: pointer; border: 1px solid rgba(0,0,0,0.02); outline: none; -webkit-tap-highlight-color: transparent; }
+        .action-card:active { transform: scale(0.98); }
+        .action-card h3 { margin: 0; font-size: 16px; color: var(--primary); }
+        .action-card p { margin: 5px 0 0; font-size: 13px; color: #666; }
+
+        /* قسم الباقة */
+        .plan-status { background: #1a1a1a; color: white; padding: 20px; border-radius: 20px; margin-top: 30px; position: relative; overflow: hidden; }
+        .plan-status h4 { margin: 0; font-size: 13px; opacity: 0.7; }
+        .plan-name { font-size: 20px; font-weight: 800; margin: 5px 0; display: block; }
+        .upgrade-link { color: var(--primary); font-weight: 700; font-size: 13px; text-decoration: none; border-bottom: 1px solid var(--primary); }
+
+        /* تأثير الظهور */
+        .fade-up { animation: fadeUp 0.6s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-    <div class="welcome-card">
-        <h1>أهلاً بك في منصة M! 🚀</h1>
-        <p>جاري تجهيز متجرك الخاص... يرجى تفعيل حسابك من البريد الإلكتروني أولاً.</p>
+
+    <header class="header">
+        <div class="user-info">
+            <span>مرحباً، <span id="merchantName">التاجر</span></span>
+        </div>
+        <a href="#" class="m-logo">M</a>
+        <button class="logout-btn" onclick="handleLogout()">تسجيل خروج</button>
+    </header>
+
+    <div class="container">
+        <div class="stats-flow fade-up" style="animation-delay: 0.1s;">
+            <div class="stat-item">
+                <span class="stat-value">0</span>
+                <span class="stat-label">طلبات بانتظار التجهيز</span>
+                <div class="stat-line"></div>
+            </div>
+        </div>
+
+        <div class="section-title fade-up" style="animation-delay: 0.2s;">إدارة المتجر</div>
+        
+        <div class="action-card fade-up" style="animation-delay: 0.3s;">
+            <h3>المنتجات</h3>
+            <p>إضافة وتعديل المنتجات في متجرك</p>
+        </div>
+
+        <div class="action-card fade-up" style="animation-delay: 0.4s;">
+            <h3>الطلبات</h3>
+            <p>متابعة حالة الشحن والمبيعات</p>
+        </div>
+
+        <div class="plan-status fade-up" style="animation-delay: 0.5s;">
+            <h4>باقة المتجر الحالية</h4>
+            <span class="plan-name">باقة التجربة المجانية</span>
+            <a href="#" class="upgrade-link" onclick="alert('قريباً: صفحة ترقية الباقات')">ترقية الاشتراك الآن ←</a>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
+
+        // حارس البوابة: التأكد من تسجيل الدخول
+        async function checkUser() {
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (!user) {
+                window.location.href = "login.html"; // توجيه لصفحة الدخول إذا لم يسجل
+            } else {
+                document.body.style.display = "block";
+                document.getElementById('merchantName').innerText = user.user_metadata.store_name || "تاجر M";
+            }
+        }
+
+        async function handleLogout() {
+            await _supabase.auth.signOut();
+            window.location.href = "login.html";
+        }
+
+        checkUser();
+    </script>
 </body>
 </html>
-
