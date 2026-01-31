@@ -3,93 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M PRIME | The Forbidden Level</title>
+    <title>M PRIME | Stable Luxury</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        :root { 
-            --m-red: #ff4d4d; 
-            --m-dark-red: #b30000;
-            --m-bg: #ffffff; 
-            --m-text: #1a1a1a; 
-            --m-shadow: rgba(255, 77, 77, 0.15);
-            --glass: rgba(255, 255, 255, 0.8);
-        }
-        
-        .dark-mode { 
-            --m-bg: #0a0a0a; 
-            --m-text: #ffffff; 
-            --m-shadow: rgba(255, 77, 77, 0.3);
-            --glass: rgba(20, 20, 20, 0.8);
-        }
+        :root { --m-red: #dc2626; --m-bg: #ffffff; --m-text: #1a1a1a; --m-shadow-red: rgba(220, 38, 38, 0.12); }
+        .dark-mode { --m-bg: #121212; --m-text: #ffffff; --m-shadow-red: rgba(220, 38, 38, 0.35); }
 
         body { 
-            margin: 0; font-family: 'Cairo', sans-serif; background: var(--m-bg); 
-            color: var(--m-text); transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
-            overflow-x: hidden; -webkit-tap-highlight-color: transparent;
+            margin: 0; font-family: 'Cairo', sans-serif; background-color: var(--m-bg); 
+            color: var(--m-text); transition: 0.3s; overflow-x: hidden; padding-bottom: 30px;
         }
 
-        /* خلفية ضوئية متحركة خلف العناصر */
-        body::before {
-            content: ""; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, var(--m-shadow) 0%, transparent 70%);
-            z-index: -1; animation: orbit 20s linear infinite; opacity: 0.5;
-        }
-        @keyframes orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .fade-in { opacity: 0; animation: fadeIn 0.5s ease forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
 
-        .fade-in { opacity: 0; transform: scale(0.95); animation: zoomIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        @keyframes zoomIn { to { opacity: 1; transform: scale(1); } }
+        /* الهيدر: بسيط وواضح */
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; }
+        .m-logo { font-family: 'Aref Ruqaa', serif; font-size: 32px; color: var(--m-red); }
+        .header-icons { display: flex; gap: 12px; }
+        .circle-btn { width: 40px; height: 40px; background: var(--m-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px var(--m-shadow-red); border: 1px solid rgba(220,38,38,0.05); }
 
-        /* الهيدر الزجاجي */
-        .top-nav { 
-            display: flex; justify-content: space-between; align-items: center; padding: 15px 25px;
-            backdrop-filter: blur(10px); background: var(--glass); sticky; top: 0; z-index: 100;
-        }
-        .m-logo { font-family: 'Aref Ruqaa', serif; font-size: 38px; color: var(--m-red); text-shadow: 0 0 20px var(--m-shadow); }
-
-        .circle-btn { 
-            width: 42px; height: 42px; background: var(--m-bg); border-radius: 14px; 
-            display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 8px 20px var(--m-shadow); border: 1px solid rgba(255,77,77,0.2); transition: 0.3s;
-        }
-        .circle-btn:active { transform: rotate(15deg) scale(0.9); }
-
-        .container { padding: 0 20px; }
+        .container { padding: 0 18px; }
         
-        .welcome-section { margin-top: 10px; margin-bottom: 25px; }
-        .welcome-section h1 { font-size: 32px; font-weight: 900; background: linear-gradient(45deg, var(--m-red), #ff9999); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* الترحيب: مسافة علوية كافية */
+        .welcome-section { margin-top: 5px; margin-bottom: 20px; text-align: right; }
+        .welcome-section h1 { font-size: 26px; font-weight: 900; color: var(--m-red); margin: 0; }
+        .welcome-section p { font-size: 12px; opacity: 0.7; margin-top: 2px; }
 
-        /* إحصائيات بلمسة النيون */
+        /* الإحصائيات الـ 6: حجم أصغر ومنظم */
         .stats-grid-6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
-        .stat-mini-box { 
-            background: var(--glass); padding: 18px 5px; border-radius: 20px; text-align: center; 
-            border: 1px solid rgba(255, 77, 77, 0.1); backdrop-filter: blur(5px);
-            box-shadow: 0 10px 20px var(--m-shadow); transition: 0.4s;
+        .stat-box { 
+            background: var(--m-bg); padding: 15px 5px; border-radius: 20px; text-align: center; 
+            box-shadow: 0 8px 20px var(--m-shadow-red); border: 1px solid rgba(220,38,38,0.08);
         }
-        .stat-mini-box:hover { transform: translateY(-5px); border-color: var(--m-red); }
-        .stat-mini-box b { font-size: 18px; color: var(--m-red); text-shadow: 0 0 10px var(--m-shadow); }
+        .stat-box b { font-size: 18px; display: block; color: var(--m-red); }
+        .stat-box span { font-size: 10px; font-weight: 800; display: block; margin-top: 3px; }
 
-        /* خانة البحث "المتوهجة" */
+        /* البحث: واضح وبسيط */
         .search-area { 
-            background: var(--glass); padding: 14px 20px; border-radius: 50px; 
-            display: flex; align-items: center; gap: 12px; border: 2px solid transparent;
-            background-image: linear-gradient(var(--m-bg), var(--m-bg)), linear-gradient(45deg, var(--m-red), transparent);
-            background-origin: border-box; background-clip: padding-box, border-box;
-            box-shadow: 0 15px 30px var(--m-shadow); margin-bottom: 35px;
+            background: var(--m-bg); padding: 12px 18px; border-radius: 50px; 
+            display: flex; align-items: center; gap: 10px; border: 1.5px solid var(--m-red); 
+            box-shadow: 0 5px 15px var(--m-shadow-red); margin-bottom: 30px;
         }
-        .search-area input { border: none; outline: none; width: 100%; font-family: 'Cairo'; font-weight: 700; color: var(--m-text); background: transparent; }
+        .search-area input { border: none; outline: none; width: 100%; font-family: 'Cairo'; font-size: 13px; background: transparent; color: var(--m-text); }
 
-        /* شبكة الأيقونات التفاعلية */
-        .menu-grid-8 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding-bottom: 40px; }
+        /* الشبكة الـ 8: توزيع هندسي دقيق */
+        .menu-grid-8 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .menu-item { 
-            background: var(--glass); padding: 25px 15px; border-radius: 30px; text-align: center; 
-            box-shadow: 0 15px 35px var(--m-shadow); border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden;
+            background: var(--m-bg); padding: 25px 12px; border-radius: 30px; text-align: center; 
+            box-shadow: 0 10px 25px var(--m-shadow-red); border: 1px solid rgba(220,38,38,0.05);
+            transition: 0.2s;
         }
-        .menu-item::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); transform: rotate(45deg); transition: 0.5s; }
-        .menu-item:hover::after { left: 100%; }
-        .menu-item i { font-size: 32px; background: linear-gradient(45deg, var(--m-red), #ff8080); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; display: block; }
-        .menu-item h3 { font-size: 14px; font-weight: 800; letter-spacing: -0.5px; }
+        .menu-item:active { transform: scale(0.96); }
+        .menu-item i { font-size: 30px; color: var(--m-red); margin-bottom: 10px; display: block; opacity: 0.9; }
+        .menu-item h3 { margin: 0; font-size: 13px; font-weight: 800; }
     </style>
 </head>
 <body>
@@ -103,34 +71,34 @@
     </nav>
 
     <div class="container">
-        <div class="welcome-section fade-in" style="animation-delay: 0.1s;">
+        <div class="welcome-section fade-in">
             <h1>مرحباً، <span id="mName">تاجر M</span></h1>
-            <p style="font-weight: 700; opacity: 0.6;">نحن نصنع المستقبل معك اليوم</p>
+            <p>إليك ملخص إمبراطوريتك التجارية اليوم</p>
         </div>
 
         <div class="stats-grid-6">
-            <div class="stat-mini-box fade-in" style="animation-delay: 0.2s;"><b>120</b><span>المنتجات</span></div>
-            <div class="stat-mini-box fade-in" style="animation-delay: 0.3s;"><b>8</b><span>نفاذ</span></div>
-            <div class="stat-mini-box fade-in" style="animation-delay: 0.4s;"><b>5</b><span>طلبات</span></div>
-            <div class="stat-mini-box fade-in" style="animation-delay: 0.5s;"><b>1.2K</b><span>زيارات</span></div>
-            <div class="stat-mini-box fade-in" style="animation-delay: 0.6s;"><b style="color:#22c55e">850</b><span>أرباح</span></div>
-            <div class="stat-mini-box fade-in" style="animation-delay: 0.7s;"><b>0</b><span>مرتجع</span></div>
+            <div class="stat-box"><b>120</b><span>المنتجات</span></div>
+            <div class="stat-box"><b>8</b><span>نقص المخزون</span></div>
+            <div class="stat-box"><b>5</b><span>طلبات جديدة</span></div>
+            <div class="stat-box"><b>1.2K</b><span>زيارات اليوم</span></div>
+            <div class="stat-box"><b style="color:#22c55e">850</b><span>أرباح اليوم</span></div>
+            <div class="stat-box"><b>0</b><span>المرتجعات</span></div>
         </div>
 
-        <div class="search-area fade-in" style="animation-delay: 0.8s;">
-            <i class="fa-solid fa-magnifying-glass" style="color: var(--m-red)"></i>
-            <input type="text" placeholder="ابحث في عالم M PRIME...">
+        <div class="search-area fade-in">
+            <i class="fa-solid fa-magnifying-glass" style="color:var(--m-red)"></i>
+            <input type="text" placeholder="ابحث في متجر M...">
         </div>
 
         <div class="menu-grid-8">
-            <div class="menu-item fade-in" style="animation-delay: 0.9s;"><i class="fa-solid fa-wand-magic-sparkles"></i><h3>المنتجات</h3></div>
-            <div class="menu-item fade-in" style="animation-delay: 1.0s;"><i class="fa-solid fa-bolt-lightning"></i><h3>الطلبات</h3></div>
-            <div class="menu-item fade-in" style="animation-delay: 1.1s;"><i class="fa-solid fa-fingerprint"></i><h3>إعدادات التاجر</h3></div>
-            <div class="menu-item fade-in" style="animation-delay: 1.2s;"><i class="fa-solid fa-gem"></i><h3>إعدادات المتجر</h3></div>
-            <div class="menu-item fade-in" style="animation-delay: 1.3s;"><i class="fa-solid fa-compass"></i><h3>نظرة على المتجر</h3></div>
-            <div class="menu-item fade-in" style="animation-delay: 1.4s;"><i class="fa-solid fa-shuttle-space"></i><h3>إعدادات الدفع</h3></div>
-            <div class="menu-item fade-in" style="animation-delay: 1.5s;"><i class="fa-solid fa-map-location-dot"></i><h3>إعدادات الشحن</h3></div>
-            <div class="menu-item fade-in" style="animation-delay: 1.6s;"><i class="fa-solid fa-life-ring"></i><h3>مركز المساعدة</h3></div>
+            <div class="menu-item"><i class="fa-solid fa-box-open"></i><h3>المنتجات</h3></div>
+            <div class="menu-item"><i class="fa-solid fa-receipt"></i><h3>الطلبات</h3></div>
+            <div class="menu-item"><i class="fa-solid fa-user-gear"></i><h3>إعدادات التاجر</h3></div>
+            <div class="menu-item"><i class="fa-solid fa-store"></i><h3>إعدادات المتجر</h3></div>
+            <div class="menu-item"><i class="fa-solid fa-eye"></i><h3>نظرة على المتجر</h3></div>
+            <div class="menu-item"><i class="fa-solid fa-credit-card"></i><h3>إعدادات الدفع</h3></div>
+            <div class="menu-item"><i class="fa-solid fa-truck-fast"></i><h3>إعدادات الشحن</h3></div>
+            <div class="menu-item"><i class="fa-solid fa-headset"></i><h3>مركز المساعدة</h3></div>
         </div>
     </div>
 
