@@ -1,132 +1,57 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M Studio | Inventory</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
-    <style>
-        :root { --main-red: #ff3b30; --soft-bg: #f8f9fa; --card-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        body { margin: 0; padding: 25px 15px; font-family: 'Cairo', sans-serif; background: #fff; color: #1d1d1f; }
+<script>
+    const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
-        /* الهيدر الجديد: تصميم عائم وأنيق [cite: 2026-01-22] */
-        .dashboard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 35px; padding: 0 5px; }
-        .page-title h1 { margin: 0; font-size: 28px; font-weight: 900; letter-spacing: -1px; }
-        .page-title span { color: var(--main-red); font-size: 14px; font-weight: 700; }
-
-        .stats-pills { display: flex; gap: 8px; }
-        .pill { background: #000; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-        .pill.red { background: var(--main-red); }
-
-        /* شبكة التصميم الجديد: مربعات ناعمة جداً [cite: 2026-01-22] */
-        .m-grid-new { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 12px; 
-            row-gap: 20px;
-        }
-
-        .m-card-new { position: relative; display: flex; flex-direction: column; }
-
-        /* المربع الصغير جداً بحواف منحنية فخمة */
-        .m-frame { 
-            width: 100%; 
-            aspect-ratio: 1/1; 
-            background: var(--soft-bg); 
-            border-radius: 20px; /* انحناء فخم جداً */
-            overflow: hidden; 
-            position: relative;
-            box-shadow: var(--card-shadow);
-        }
-        .m-frame img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* زر التعديل (✎) بتصميم عصري شفاف [cite: 2026-01-22] */
-        .m-edit-btn { 
-            position: absolute; bottom: 8px; left: 8px; 
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(5px);
-            width: 28px; height: 28px; 
-            border-radius: 10px; display: flex; align-items: center; 
-            justify-content: center; font-size: 13px; text-decoration: none; 
-            color: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .m-content { padding: 8px 4px 0; }
-        .m-name-txt { font-size: 10px; font-weight: 800; color: #444; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .m-price-txt { font-size: 11px; font-weight: 900; color: #000; }
+    async function renderStudio() {
+        const { data: { user } } = await _s.auth.getUser();
+        const { data: products } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
         
-        /* ملصق الكمية الجانبي */
-        .m-stock-label { position: absolute; top: 8px; right: 8px; background: #000; color: #fff; font-size: 8px; padding: 2px 7px; border-radius: 8px; font-weight: 700; }
-        .m-stock-label.alert { background: var(--main-red); }
+        let mainH = '', lowH = '', cOut=0, cLow=0;
+        const storagePath = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
 
-        /* زر الإضافة العائم الكبير [cite: 2026-01-31] */
-        .m-fab-main { position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%); width: 65px; height: 65px; background: #000; color: #fff; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 32px; text-decoration: none; box-shadow: 0 15px 35px rgba(0,0,0,0.25); z-index: 1000; }
-    </style>
-</head>
-<body>
-
-    <div class="dashboard-header">
-        <div class="page-title">
-            <span>STUDIO</span>
-            <h1>مخزون M</h1>
-        </div>
-        <div class="stats-pills">
-            <div class="pill" id="totalP">0</div>
-            <div class="pill red" id="outP">0</div>
-        </div>
-    </div>
-
-    <div id="lowSection" style="display:none;">
-        <h2 style="font-size: 14px; margin-bottom: 15px; color: var(--main-red);">● تنبيهات المخزون</h2>
-        <div class="m-grid-new" id="lowGrid"></div>
-        <hr style="border: 0; height: 1px; background: #eee; margin: 30px 0;">
-    </div>
-
-    <h2 style="font-size: 14px; margin-bottom: 15px;">● كافة القطع</h2>
-    <div class="m-grid-new" id="mainGrid"></div>
-
-    <a href="add-product.html" class="m-fab-main">+</a>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
-
-        async function renderStudio() {
-            const { data: { user } } = await _s.auth.getUser();
-            const { data: products } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
+        products.forEach(p => {
+            const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : storagePath + p.image_url) : 'https://via.placeholder.com/150';
             
-            let mainH = '', lowH = '', cOut=0;
-            const storagePath = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
+            // تعديل الشرط: أي منتج 5 قطع أو أقل يعتبر "على وشك النفاذ"
+            const outOfStock = p.stock == 0;
+            const isLow = p.stock > 0 && p.stock <= 5; 
 
-            products.forEach(p => {
-                const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : storagePath + p.image_url) : 'https://via.placeholder.com/150';
-                const outOfStock = p.stock == 0;
-                if(outOfStock) cOut++;
+            if(outOfStock) cOut++;
+            if(isLow) cLow++;
 
-                const itemHtml = `
-                    <div class="m-card-new">
-                        <div class="m-stock-label ${outOfStock?'alert':''}">${p.stock} Q</div>
-                        <div class="m-frame">
-                            <img src="${img}" onerror="this.src='https://via.placeholder.com/150'">
-                            <a href="edit-product.html?id=${p.id}" class="m-edit-btn">✎</a>
-                        </div>
-                        <div class="m-content">
-                            <div class="m-name-txt">${p.name}</div>
-                            <div class="m-price-txt">${p.price} ريال</div>
-                        </div>
-                    </div>`;
-                mainH += itemHtml;
-                if(outOfStock || p.stock <= 2) lowH += itemHtml;
-            });
+            const itemHtml = `
+                <div class="m-card-new">
+                    <div class="m-stock-label ${outOfStock ? 'alert' : (isLow ? 'warning' : '')}">${p.stock} Q</div>
+                    <div class="m-frame">
+                        <img src="${img}" onerror="this.src='https://via.placeholder.com/150'">
+                        <a href="edit-product.html?id=${p.id}" class="m-edit-btn">✎</a>
+                    </div>
+                    <div class="m-content">
+                        <div class="m-name-txt">${p.name}</div>
+                        <div class="m-price-txt">${p.price} ريال</div>
+                    </div>
+                </div>`;
 
-            document.getElementById('mainGrid').innerHTML = mainH;
-            document.getElementById('lowGrid').innerHTML = lowH;
-            document.getElementById('totalP').innerText = products.length;
-            document.getElementById('outP').innerText = cOut;
-            if(lowH) document.getElementById('lowSection').style.display = 'block';
+            mainH += itemHtml;
+            // إضافة المنتج لقسم التنبيهات إذا كان منتهياً أو أوشك على النفاذ
+            if(outOfStock || isLow) lowH += itemHtml;
+        });
+
+        document.getElementById('mainGrid').innerHTML = mainH;
+        document.getElementById('lowGrid').innerHTML = lowH;
+        document.getElementById('totalP').innerText = products.length;
+        document.getElementById('outP').innerText = cLow + cOut; // تحديث عداد التنبيهات
+
+        // إظهار القسم فقط إذا كان هناك منتجات تحتاج انتباهك
+        if(lowH) {
+            document.getElementById('lowSection').style.display = 'block';
+        } else {
+            document.getElementById('lowSection').style.display = 'none';
         }
-        renderStudio();
-    </script>
-</body>
-</html>
+    }
+    renderStudio();
+</script>
+
+<style>
+    /* إضافة لون برتقالي للمنتجات التي أوشكت على النفاذ */
+    .m-stock-label.warning { background: #ffae42; color: #fff; }
+</style>
