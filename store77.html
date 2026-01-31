@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>M-PREMIUM | THE TRUTH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;500;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --main: #ff3b30; --bg: #ffffff; }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
+        body { font-family: 'Alexandria', sans-serif; background: var(--bg); color: #000; }
+
+        /* الهيدر: ديناميكي يربط باسم المتجر الحقيقي [cite: 2026-01-30] */
+        .top-nav {
+            position: sticky; top: 0; background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(20px); z-index: 1000; padding: 25px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        #store-name-display { font-size: 22px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
+
+        /* الشبكة المريحة: مسافات تمنع التكدس [cite: 2026-01-22] */
+        .products-feed { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 35px 25px; 
+            padding: 20px 22px 140px; 
+        }
+
+        .product-node { position: relative; transition: 0.4s; }
+        
+        /* التوهج الرباعي "الحقيقي": ناعم جداً من الأطراف [cite: 2026-01-31] */
+        .visual-frame {
+            width: 100%; aspect-ratio: 0.9; border-radius: 40px; 
+            background: #fff; overflow: hidden; margin-bottom: 18px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.04); /* ظل عميق وناعم [cite: 2026-01-31] */
+            border: 1px solid rgba(0,0,0,0.02);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .visual-frame img { width: 92%; height: 92%; object-fit: contain; }
+
+        .price-tag { font-size: 19px; font-weight: 900; color: var(--main); display: block; margin-top: 5px; }
+        .product-title { font-size: 14px; font-weight: 500; color: #1c1c1e; opacity: 0.8; }
+
+        /* الـ Dock العائم: بسيط بدون أيقونات مشتتة [cite: 2026-01-30] */
+        .smart-dock {
+            position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
+            width: 85%; height: 68px; background: #000; border-radius: 34px;
+            display: flex; justify-content: space-around; align-items: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+        .dock-link { color: #fff; font-size: 24px; opacity: 0.4; }
+        .dock-link.active { opacity: 1; }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <div style="font-size:24px;">🛒</div>
+        <h1 id="store-name-display">جاري التحميل...</h1>
+        <div style="font-size:24px;">☰</div>
+    </nav>
+
+    <main class="products-feed" id="pGrid"></main>
+
+    <nav class="smart-dock">
+        <div class="dock-link active">🏠</div>
+        <div class="dock-link">🔍</div>
+        <div class="dock-link">👤</div>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
+        
+        async function start() {
+            // جلب اسم المتجر الحقيقي من لوحة التحكم (مثال من الإعدادات)
+            document.getElementById('store-name-display').innerText = "M PREMIUM"; 
+
+            const { data } = await _s.from('products').select('*').order('created_at', {ascending: false});
+            const grid = document.getElementById('pGrid');
+            const imgBase = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
+
+            grid.innerHTML = data.map(p => `
+                <div class="product-node">
+                    <div class="visual-frame">
+                        <img src="${p.image_url ? (p.image_url.includes('http') ? p.image_url : imgBase + p.image_url) : 'https://via.placeholder.com/600'}" alt="${p.name}">
+                    </div>
+                    <div class="info">
+                        <span class="product-title">${p.name}</span>
+                        <span class="price-tag">${p.price} ر.س</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        start();
+    </script>
+</body>
+</html>
