@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M | إضافة منتج ملكي</title>
+    <title>M | إضافة قطعة ملكية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -29,7 +29,7 @@
 
     <div class="header">
         <div class="btn-close" onclick="history.back()"><i class="fa-solid fa-arrow-right"></i></div>
-        <div style="font-weight: 900; font-size: 22px; color: var(--m-red);">M</div>
+        <div style="font-weight: 900; font-size: 24px; color: var(--m-red);">M</div>
         <div style="width: 40px;"></div>
     </div>
 
@@ -47,7 +47,7 @@
 
             <div class="form-group">
                 <label>اسم المنتج</label>
-                <input type="text" id="pName" placeholder="مثلاً: حذاء M الناري" required>
+                <input type="text" id="pName" placeholder="اسم المنتج هنا..." required>
             </div>
 
             <div style="display: flex; gap: 15px;">
@@ -61,7 +61,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-submit" id="saveBtn">تعميد المنتج في المخزن</button>
+            <button type="submit" class="btn-submit" id="saveBtn">تعميد المنتج الآن</button>
         </form>
     </div>
 
@@ -88,45 +88,46 @@
             e.preventDefault();
             const btn = document.getElementById('saveBtn');
             btn.disabled = true;
-            btn.innerText = "جاري الحفظ والرفع...";
+            btn.innerText = "جاري تعميد البيانات...";
 
             try {
                 const { data: { user } } = await _supabase.auth.getUser();
-                if (!user) throw new Error("يجب تسجيل الدخول أولاً");
+                if (!user) throw new Error("سجل دخولك أولاً");
 
                 let imageUrl = "";
 
-                // 1. الرفع الفعلي للصورة لضمان الظهور
                 if (selectedFile) {
-                    const fileName = `${Date.now()}_${selectedFile.name}`;
+                    // ✅ الحل النهائي لخطأ Invalid Key: تغيير اسم الملف يدوياً ليكون مقبولاً
+                    const cleanName = `${Date.now()}_m_product.jpg`;
+                    
                     const { data: uploadData, error: uploadError } = await _supabase.storage
                         .from('products-bucket')
-                        .upload(fileName, selectedFile);
+                        .upload(cleanName, selectedFile);
                     
                     if (uploadError) throw uploadError;
 
-                    // 2. توليد الرابط العام المباشر
-                    const { data: urlData } = _supabase.storage.from('products-bucket').getPublicUrl(fileName);
+                    // جلب الرابط العام المباشر
+                    const { data: urlData } = _supabase.storage.from('products-bucket').getPublicUrl(cleanName);
                     imageUrl = urlData.publicUrl;
                 }
 
-                // 3. تخزين المنتج برابط الصورة المباشر
+                // حفظ في قاعدة البيانات
                 const { error: insertError } = await _supabase.from('products').insert([{
                     name: document.getElementById('pName').value,
                     price: parseFloat(document.getElementById('pPrice').value),
                     stock: parseInt(document.getElementById('pStock').value),
-                    image_url: imageUrl, // هذا ما يحل مشكلة المربع الأبيض
+                    image_url: imageUrl,
                     merchant_id: user.id
                 }]);
 
                 if (insertError) throw insertError;
 
-                alert("تم تعميد المنتج بنجاح!");
+                alert("تمت الإضافة بنجاح!");
                 window.location.href = 'products.html';
             } catch (err) {
                 alert("خطأ ملكي: " + err.message);
                 btn.disabled = false;
-                btn.innerText = "حاول مرة أخرى بصلابة";
+                btn.innerText = "حاول مرة أخرى";
             }
         };
     </script>
