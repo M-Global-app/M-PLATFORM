@@ -3,129 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M Platform | Float & Glow</title>
+    <title>M Platform | Ultra Compact</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-red: #ff3b30; --glow-red: rgba(255, 59, 48, 0.4); }
         
-        /* الأنيميشن للظهور التدريجي [cite: 2026-01-31] */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
         
         body { 
-            padding: 70px 10px 100px; /* مساحة علوية وسفلية للعناصر العائمة */
+            padding: 10px 8px 100px; /* تقليل الحشو العلوي لإلغاء الفراغ */
             font-family: 'Cairo', sans-serif; 
             background: #fff; 
-            animation: fadeIn 0.6s ease-out; /* تطبيق الظهور التدريجي */
+            animation: fadeIn 0.4s ease-in;
         }
 
-        /* الهيدر العائم في الأعلى [cite: 2026-01-31] */
+        /* دوائر علوية عائمة ومنفصلة تماماً [cite: 2026-01-22] */
         .floating-header { 
             position: fixed; 
-            top: 15px; 
-            left: 0; 
-            right: 0; 
+            top: 10px; 
+            left: 10px; 
+            right: 10px; 
             display: flex; 
             justify-content: flex-end; 
-            padding: 0 15px;
+            gap: 8px; /* مسافة بين الدوائر المنفصلة */
             z-index: 2500; 
+            pointer-events: none; /* لضمان الضغط على ما خلفها */
         }
         
-        .stats-pills { 
-            display: flex; 
-            gap: 8px; 
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 5px;
-            border-radius: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-
         .pill { 
-            width: 32px; height: 32px; border-radius: 50%; 
+            width: 28px; height: 28px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
-            font-size: 11px; font-weight: 900; color: #fff; background: #000; 
+            font-size: 10px; font-weight: 900; color: #fff; background: #000; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* ظل لكل دائرة على حدة [cite: 2026-01-22] */
+            pointer-events: auto;
         }
         .pill.red { background: var(--main-red); }
         .pill.orange { background: #ffae42; }
 
-        /* العناوين الحمراء المكثفة [cite: 2026-01-22] */
+        /* عناوين حمراء صغيرة جداً لتقليل المساحة [cite: 2026-01-22] */
         .section-label { 
-            font-size: 12px; font-weight: 900; margin: 20px 0 10px; color: var(--main-red); 
-            display: flex; align-items: center; gap: 5px; border-right: 3px solid var(--main-red); padding-right: 8px; 
+            font-size: 10.5px; font-weight: 900; margin: 8px 0 6px; color: var(--main-red); 
+            display: flex; align-items: center; gap: 4px; border-right: 2.5px solid var(--main-red); padding-right: 6px; 
         }
 
-        .m-grid-new { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; row-gap: 15px; }
+        /* تصغير المربعات بنسبة 10% (استخدام gap أصغر وحواف أضيق) */
+        .m-grid-new { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 7px; /* تقليل الفجوات لتصغير الحجم الكلي */
+            row-gap: 12px; 
+        }
 
-        /* بطاقة المنتج بظلال شاملة */
         .m-card-new { 
-            position: relative; background: #fff; border-radius: 15px; padding-bottom: 8px;
-            box-shadow: 0 0 12px var(--glow-red); overflow: hidden; display: flex; flex-direction: column;
+            position: relative; background: #fff; border-radius: 12px; padding-bottom: 6px;
+            box-shadow: 0 0 10px var(--glow-red); overflow: hidden; display: flex; flex-direction: column;
+            transform: scale(0.95); /* تصغير فعلي للبطاقة بنسبة تقريبية 10% [cite: 2026-01-22] */
         }
 
         .m-frame { width: 100%; aspect-ratio: 1/1; overflow: hidden; position: relative; }
         .m-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-        .m-content { padding: 5px 2px 0; text-align: center; }
-        .m-name-txt { font-size: 9px; font-weight: 800; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .m-price-txt { font-size: 10px; font-weight: 900; color: #000; }
+        .m-content { padding: 4px 1px 0; text-align: center; }
+        .m-name-txt { font-size: 8px; font-weight: 800; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .m-price-txt { font-size: 9px; font-weight: 900; color: #000; }
         
-        .m-stock-label { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.8); color: #fff; font-size: 7px; padding: 2px 5px; border-radius: 5px; font-weight: 900; z-index: 5; }
-        .m-stock-label.alert { background: var(--main-red); }
+        .m-stock-label { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.8); color: #fff; font-size: 6.5px; padding: 1px 4px; border-radius: 4px; font-weight: 900; z-index: 5; }
 
-        /* زر الإضافة العائم الكبير والموزون تماماً */
+        /* زر الإضافة العائم الموزون يساراً */
         .m-fab-main { 
-            position: fixed; 
-            bottom: 30px; 
-            left: 20px; 
-            width: 70px; 
-            height: 70px; 
-            background: var(--main-red); 
-            color: #fff; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            text-decoration: none; 
-            box-shadow: 0 10px 25px var(--glow-red); 
-            z-index: 3000; 
-            border: 4px solid #fff;
-            line-height: 1; /* لضمان التوسيط الرأسي */
+            position: fixed; bottom: 25px; left: 15px; 
+            width: 60px; height: 60px; 
+            background: var(--main-red); color: #fff; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            text-decoration: none; box-shadow: 0 8px 20px var(--glow-red); 
+            z-index: 3000; border: 3px solid #fff;
         }
-
-        /* وزن علامة الزائد في الوسط [cite: 2026-01-31] */
-        .m-fab-main span {
-            font-size: 45px;
-            margin-top: -5px; /* تعديل يدوي لوزن الـ + بصرياً في المركز */
-            font-weight: 400;
-        }
+        .m-fab-main span { font-size: 40px; margin-top: -4px; font-weight: 400; }
     </style>
 </head>
 <body>
 
     <div class="floating-header">
-        <div class="stats-pills">
-            <div class="pill red" id="outCount">0</div>
-            <div class="pill orange" id="lowCount">0</div>
-            <div class="pill" id="totalCount">0</div>
-        </div>
+        <div class="pill red" id="outCount">0</div>
+        <div class="pill orange" id="lowCount">0</div>
+        <div class="pill" id="totalCount">0</div>
     </div>
 
-    <div id="outSection" style="display:none;">
-        <div class="section-label">منتجات منتهية (0)</div>
+    <div id="outSection" style="display:none; margin-top: 15px;">
+        <div class="section-label">منتهية (0)</div>
         <div class="m-grid-new" id="outGrid"></div>
     </div>
 
     <div id="lowSection" style="display:none;">
-        <div class="section-label">على وشك النفاذ (1-5)</div>
+        <div class="section-label">وشيكة (1-5)</div>
         <div class="m-grid-new" id="lowGrid"></div>
     </div>
 
-    <div class="section-label" style="color:#000; border-right-color:#000;">قائمة المخزون الكاملة</div>
+    <div class="section-label" style="color:#000; border-right-color:#000; margin-top: 10px;">المخزون الكامل</div>
     <div class="m-grid-new" id="mainGrid"></div>
 
     <a href="add-product.html" class="m-fab-main"><span>+</span></a>
@@ -138,7 +117,6 @@
             try {
                 const { data: { user } } = await _s.auth.getUser();
                 if(!user) return;
-
                 const { data: products } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
                 
                 let mainH = '', outH = '', lowH = '', cOut=0, cLow=0;
@@ -148,19 +126,11 @@
                     const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : imgBase + p.image_url) : 'https://via.placeholder.com/150';
                     const isOut = p.stock == 0;
                     const isLow = p.stock > 0 && p.stock <= 5;
-
-                    const card = `
-                        <div class="m-card-new">
-                            <div class="m-stock-label ${isOut?'alert':''}">${p.stock} Q</div>
-                            <div class="m-frame">
-                                <img src="${img}" onerror="this.src='https://via.placeholder.com/150'">
-                            </div>
-                            <div class="m-content">
-                                <div class="m-name-txt">${p.name}</div>
-                                <div class="m-price-txt">${p.price} ريال</div>
-                            </div>
-                        </div>`;
-
+                    const card = `<div class="m-card-new">
+                        <div class="m-stock-label">${p.stock} Q</div>
+                        <div class="m-frame"><img src="${img}"></div>
+                        <div class="m-content"><div class="m-name-txt">${p.name}</div><div class="m-price-txt">${p.price} ر.س</div></div>
+                    </div>`;
                     mainH += card;
                     if(isOut) { outH += card; cOut++; }
                     if(isLow) { lowH += card; cLow++; }
@@ -170,10 +140,8 @@
                 document.getElementById('totalCount').innerText = products.length;
                 document.getElementById('outCount').innerText = cOut;
                 document.getElementById('lowCount').innerText = cLow;
-
                 if(outH) { document.getElementById('outGrid').innerHTML = outH; document.getElementById('outSection').style.display = 'block'; }
                 if(lowH) { document.getElementById('lowGrid').innerHTML = lowH; document.getElementById('lowSection').style.display = 'block'; }
-
             } catch(e) { console.error(e); }
         }
         initInventory();
