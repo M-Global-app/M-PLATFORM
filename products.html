@@ -3,56 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة المخزون</title>
+    <title>إدارة المخزون الملكي</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; font-family: 'Cairo', sans-serif; background: #ffffff; color: #000; padding: 20px; }
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: #fff; color: #000; padding: 15px; }
         
-        /* إحصائيات نظيفة بدون ألوان خلفية */
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 30px; }
-        .stat-card { border: 1px solid #eee; padding: 15px; border-radius: 15px; text-align: center; }
-        .stat-card div { font-size: 12px; color: #888; font-weight: 700; }
-        .stat-card span { font-size: 22px; font-weight: 900; display: block; }
+        /* إحصائيات علوية مصغرة */
+        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
+        .stat-item { border: 1px solid #f0f0f0; padding: 10px; border-radius: 12px; text-align: center; }
+        .stat-item div { font-size: 10px; font-weight: 700; color: #999; }
+        .stat-item span { font-size: 18px; font-weight: 900; display: block; }
 
-        .section-header { font-size: 18px; font-weight: 900; margin: 25px 0 15px; border-right: 4px solid #ff0000; padding-right: 10px; }
+        .section-title { font-size: 16px; font-weight: 900; margin: 20px 0 10px; color: #ff0000; }
 
-        .product-list { display: flex; flex-direction: column; gap: 15px; }
-        .p-item { background: #fff; border-radius: 20px; padding: 15px; display: flex; align-items: center; gap: 15px; border: 1px solid #f0f0f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        
-        /* الصور - الجزء الأهم */
-        .p-img { width: 80px; height: 80px; border-radius: 15px; object-fit: cover; background: #f9f9f9; flex-shrink: 0; }
-        
-        .p-info { flex: 1; }
-        .p-name { font-size: 16px; font-weight: 800; margin-bottom: 5px; }
-        .p-price { font-size: 18px; font-weight: 900; color: #ff0000; }
-        
-        .p-stock-info { text-align: left; min-width: 60px; }
-        .stock-num { font-size: 20px; font-weight: 900; display: block; }
-        .stock-label { font-size: 10px; color: #999; }
+        /* الشبكة المربعة - السر في إظهار أكبر عدد */
+        .product-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); /* مربعين في كل صف لزيادة العدد */
+            gap: 12px; 
+        }
 
-        .btn-add { position: fixed; bottom: 30px; left: 30px; width: 65px; height: 65px; background: #ff0000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; text-decoration: none; box-shadow: 0 10px 20px rgba(255,0,0,0.3); }
+        .p-card { 
+            background: #fff; 
+            border: 1px solid #eee; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* صورة مربعة تماماً */
+        .img-wrapper { 
+            width: 100%; 
+            aspect-ratio: 1 / 1; 
+            background: #f9f9f9;
+        }
+        .p-img { width: 100%; height: 100%; object-fit: cover; }
+
+        .p-info { padding: 10px; flex: 1; }
+        .p-name { font-size: 13px; font-weight: 800; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .p-price { font-size: 15px; font-weight: 900; color: #ff0000; }
+        
+        /* ملصق الكمية فوق الصورة */
+        .stock-tag { 
+            position: absolute; 
+            top: 8px; 
+            left: 8px; 
+            background: rgba(0,0,0,0.7); 
+            color: #fff; 
+            font-size: 10px; 
+            padding: 2px 8px; 
+            border-radius: 6px; 
+            font-weight: 700;
+        }
+        .out-of-stock { background: #ff0000 !important; }
+
+        .btn-add { position: fixed; bottom: 25px; left: 25px; width: 60px; height: 60px; background: #ff0000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; text-decoration: none; box-shadow: 0 8px 20px rgba(255,0,0,0.3); z-index: 100; }
     </style>
 </head>
 <body>
 
-    <div class="stats-grid">
-        <div class="stat-card"><div>منتهية</div><span id="outCount" style="color:#ff0000">0</span></div>
-        <div class="stat-card"><div>أوشكت</div><span id="lowCount" style="color:#ffae42">0</span></div>
-        <div class="stat-card"><div>متوفرة</div><span id="okCount">0</span></div>
+    <div class="stats-bar">
+        <div class="stat-item"><div>منتهية</div><span id="outCount" style="color:#ff0000">0</span></div>
+        <div class="stat-item"><div>أوشكت</div><span id="lowCount" style="color:#ffae42">1</span></div>
+        <div class="stat-item"><div>متوفرة</div><span id="okCount">5</span></div>
     </div>
 
     <div id="outSection" style="display:none;">
-        <div class="section-header">منتجات منتهية</div>
-        <div id="outList" class="product-list"></div>
+        <div class="section-title">نفذت الكمية</div>
+        <div id="outGrid" class="product-grid"></div>
     </div>
 
-    <div id="lowSection" style="display:none;">
-        <div class="section-header">على وشك النفاذ</div>
-        <div id="lowList" class="product-list"></div>
-    </div>
-
-    <div class="section-header">إجمالي المنتجات</div>
-    <div id="allList" class="product-list"></div>
+    <div class="section-title">إجمالي المخزون</div>
+    <div id="allGrid" class="product-grid"></div>
 
     <a href="add-product.html" class="btn-add">+</a>
 
@@ -65,45 +89,38 @@
                 const { data: { user } } = await _s.auth.getUser();
                 const { data: products } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
                 
-                let outH = '', lowH = '', allH = '';
+                let outH = '', allH = '';
                 let outC = 0, lowC = 0, okC = 0;
-
                 const bucketUrl = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
 
                 products.forEach(p => {
-                    // ✅ العودة للمسار الذي أظهر الصور بنجاح
-                    const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : bucketUrl + p.image_url) : 'https://via.placeholder.com/80';
+                    const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : bucketUrl + p.image_url) : 'https://via.placeholder.com/150';
+                    const isOut = p.stock == 0;
                     
-                    const itemHtml = `
-                        <div class="p-item">
-                            <img src="${img}" class="p-img" onerror="this.src='https://via.placeholder.com/80'">
+                    const cardHtml = `
+                        <div class="p-card">
+                            <div class="stock-tag ${isOut ? 'out-of-stock' : ''}">${p.stock} قطعة</div>
+                            <div class="img-wrapper">
+                                <img src="${img}" class="p-img" onerror="this.src='https://via.placeholder.com/150'">
+                            </div>
                             <div class="p-info">
                                 <div class="p-name">${p.name}</div>
                                 <div class="p-price">${p.price} ريال</div>
                             </div>
-                            <div class="p-stock-info">
-                                <span class="stock-num">${p.stock}</span>
-                                <span class="stock-label">قطعة</span>
-                            </div>
                         </div>`;
 
-                    if(p.stock == 0) { outH += itemHtml; outC++; }
-                    else if(p.stock <= 5) { lowH += itemHtml; lowC++; }
-                    else { okC++; }
-                    allH += itemHtml;
+                    if(isOut) { outH += cardHtml; outC++; }
+                    else if(p.stock <= 5) { lowC++; allH += cardHtml; }
+                    else { okC++; allH += cardHtml; }
                 });
 
-                document.getElementById('outList').innerHTML = outH;
-                document.getElementById('lowList').innerHTML = lowH;
-                document.getElementById('allList').innerHTML = allH;
-                
+                document.getElementById('outGrid').innerHTML = outH;
+                document.getElementById('allGrid').innerHTML = allH;
                 document.getElementById('outCount').innerText = outC;
                 document.getElementById('lowCount').innerText = lowC;
                 document.getElementById('okCount').innerText = okC;
-
                 if(outC > 0) document.getElementById('outSection').style.display = 'block';
-                if(lowC > 0) document.getElementById('lowSection').style.display = 'block';
-            } catch (err) { console.log(err); }
+            } catch (e) { console.error(e); }
         }
         init();
     </script>
