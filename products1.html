@@ -3,75 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M Platform | Pro Inventory</title>
+    <title>M Platform | Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-red: #ff3b30; --glow-red: rgba(255, 59, 48, 0.4); }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
         
-        body { 
-            padding: 10px 8px 100px; 
-            font-family: 'Cairo', sans-serif; 
-            background: #fff; 
-            animation: fadeIn 0.4s ease-in;
+        /* أنيميشن التموج للدوائر [cite: 2026-01-31] */
+        @keyframes ripple {
+            0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.3); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
         }
 
-        /* دوائر علوية عائمة ومنفصلة [cite: 2026-01-22] */
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
+        body { padding: 15px 8px 100px; font-family: 'Cairo', sans-serif; background: #fff; }
+
+        /* الهيدر العائم والدوائر المنفصلة بتموج [cite: 2026-01-22, 2026-01-31] */
         .floating-header { 
-            position: fixed; top: 10px; left: 10px; right: 10px; 
-            display: flex; justify-content: flex-end; gap: 8px; 
-            z-index: 2500; pointer-events: none; 
+            position: fixed; top: 12px; left: 12px; right: 12px; 
+            display: flex; justify-content: flex-end; gap: 10px; z-index: 2500; 
         }
         .pill { 
-            width: 28px; height: 28px; border-radius: 50%; 
+            width: 30px; height: 30px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
-            font-size: 10px; font-weight: 900; color: #fff; background: #000; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15); pointer-events: auto;
+            font-size: 11px; font-weight: 900; color: #fff; background: #000; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: ripple 2s infinite; 
         }
         .pill.red { background: var(--main-red); }
         .pill.orange { background: #ffae42; }
 
         .section-label { 
-            font-size: 10.5px; font-weight: 900; margin: 8px 0 6px; color: var(--main-red); 
-            display: flex; align-items: center; gap: 4px; border-right: 2.5px solid var(--main-red); padding-right: 6px; 
+            font-size: 11px; font-weight: 900; margin: 20px 0 8px; color: var(--main-red); 
+            display: flex; align-items: center; gap: 5px; border-right: 3px solid var(--main-red); padding-right: 8px; 
         }
 
-        /* تصغير المربعات 10% [cite: 2026-01-22] */
-        .m-grid-new { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; row-gap: 12px; }
+        /* المربعات مصغرة 10% [cite: 2026-01-22] */
+        .m-grid-new { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
         .m-card-new { 
-            position: relative; background: #fff; border-radius: 12px; padding-bottom: 6px;
-            box-shadow: 0 0 10px var(--glow-red); overflow: hidden; display: flex; flex-direction: column;
-            transform: scale(0.95); /* التصغير المطلوب [cite: 2026-01-22] */
+            position: relative; background: #fff; border-radius: 12px; 
+            box-shadow: 0 0 12px var(--glow-red); overflow: hidden; 
+            display: flex; flex-direction: column; transform: scale(0.92); /* تصغير 10% [cite: 2026-01-22] */
         }
 
         .m-frame { width: 100%; aspect-ratio: 1/1; overflow: hidden; position: relative; }
         .m-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* إعادة زر التعديل (أيقونة القلم) */
+        /* زر التعديل بالأحمر كما طلبت [cite: 2026-01-31] */
         .m-edit-btn { 
-            position: absolute; bottom: 5px; left: 5px; 
-            background: rgba(255, 255, 255, 0.9); 
-            width: 20px; height: 20px; border-radius: 5px; 
+            position: absolute; bottom: 6px; left: 6px; 
+            background: var(--main-red); 
+            width: 24px; height: 24px; border-radius: 6px; 
             display: flex; align-items: center; justify-content: center; 
-            font-size: 10px; text-decoration: none; color: #000; z-index: 10;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-size: 12px; text-decoration: none; color: #fff; z-index: 10;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
-        .m-content { padding: 4px 1px 0; text-align: center; }
-        .m-name-txt { font-size: 8px; font-weight: 800; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .m-price-txt { font-size: 9px; font-weight: 900; color: #000; }
+        .m-content { padding: 5px 2px; text-align: center; }
+        .m-name-txt { font-size: 8.5px; font-weight: 800; color: #333; }
+        .m-price-txt { font-size: 10px; font-weight: 900; color: #000; margin-top: 2px; }
         
-        .m-stock-label { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.8); color: #fff; font-size: 6.5px; padding: 1px 4px; border-radius: 4px; font-weight: 900; z-index: 5; }
+        .m-stock-label { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.8); color: #fff; font-size: 7px; padding: 2px 5px; border-radius: 5px; font-weight: 900; z-index: 5; }
 
+        /* زر الإضافة الكبير يساراً [cite: 2026-01-31] */
         .m-fab-main { 
-            position: fixed; bottom: 25px; left: 15px; 
-            width: 60px; height: 60px; background: var(--main-red); color: #fff; 
+            position: fixed; bottom: 30px; left: 20px; 
+            width: 65px; height: 65px; background: var(--main-red); color: #fff; 
             border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            text-decoration: none; box-shadow: 0 8px 20px var(--glow-red); 
-            z-index: 3000; border: 3px solid #fff;
+            box-shadow: 0 10px 25px var(--glow-red); z-index: 3000; border: 3px solid #fff;
         }
-        .m-fab-main span { font-size: 40px; margin-top: -4px; }
+        .m-fab-main span { font-size: 40px; margin-top: -5px; }
     </style>
 </head>
 <body>
@@ -82,20 +82,20 @@
         <div class="pill" id="totalCount">0</div>
     </div>
 
-    <div id="outSection" style="display:none; margin-top: 20px;">
-        <div class="section-label">منتهية</div>
+    <div id="outSection" style="display:none; margin-top: 25px;">
+        <div class="section-label">منتجات منتهية</div>
         <div class="m-grid-new" id="outGrid"></div>
     </div>
 
     <div id="lowSection" style="display:none;">
-        <div class="section-label">وشيكة النفاذ</div>
+        <div class="section-label">على وشك النفاذ</div>
         <div class="m-grid-new" id="lowGrid"></div>
     </div>
 
     <div class="section-label" style="color:#000; border-right-color:#000; margin-top: 15px;">المخزون الكامل</div>
     <div class="m-grid-new" id="mainGrid"></div>
 
-    <a href="add-product.html" class="m-fab-main"><span>+</span></a>
+    <a href="add-product.html" class="m-fab-main" style="text-decoration:none;"><span>+</span></a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
