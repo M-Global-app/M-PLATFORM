@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M Studio | Inventory</title>
+    <title>M Studio | Inventory Red Glow</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
     <style>
-        :root { --main-red: #ff3b30; --warning-orange: #ffae42; --soft-bg: #f8f9fa; }
+        :root { --main-red: #ff3b30; --warning-orange: #ffae42; --glow-red: rgba(255, 59, 48, 0.25); }
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        body { margin: 0; padding: 25px 15px; font-family: 'Cairo', sans-serif; background: #fff; color: #1d1d1f; overflow-x: hidden; }
+        body { margin: 0; padding: 25px 15px; font-family: 'Cairo', sans-serif; background: #fff; color: #1d1d1f; }
 
-        /* الهيدر الجديد [cite: 2026-01-22] */
+        /* الهيدر الاحترافي [cite: 2026-01-22] */
         .dashboard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 35px; }
         .page-title h1 { margin: 0; font-size: 28px; font-weight: 900; letter-spacing: -1px; }
         .page-title span { color: var(--main-red); font-size: 14px; font-weight: 700; }
@@ -19,30 +19,26 @@
         .pill { background: #000; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; }
         .pill.red { background: var(--main-red); }
 
-        /* عناوين الأقسام */
+        /* عناوين الأقسام بنقاط ملونة */
         .section-label { font-size: 14px; font-weight: 900; margin: 25px 0 15px; display: flex; align-items: center; gap: 8px; }
-        .section-label::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #000; }
+        .section-label::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #eee; }
         .label-red::before { background: var(--main-red); }
 
-        /* شبكة المنتجات (3 أعمدة منتظمة) [cite: 2026-01-22] */
-        .m-grid-new { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 12px; 
-            row-gap: 20px;
-        }
+        /* شبكة المنتجات (3 أعمدة) [cite: 2026-01-22] */
+        .m-grid-new { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; row-gap: 20px; }
 
         .m-card-new { position: relative; display: flex; flex-direction: column; }
 
+        /* الإطار والظلال الحمراء المطلوبة [cite: 2026-01-22] */
         .m-frame { 
             width: 100%; 
             aspect-ratio: 1/1; 
-            background: var(--soft-bg); 
-            border-radius: 20px; 
+            background: #f9f9f9; 
+            border-radius: 22px; 
             overflow: hidden; 
             position: relative;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.04);
-            border: 1px solid #f0f0f0;
+            border: 1.5px solid var(--main-red); /* تحديد المنتج بإطار أحمر */
+            box-shadow: 0 0 15px var(--glow-red); /* إضافة ظلال حمراء ناعمة */
         }
         .m-frame img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -50,21 +46,19 @@
         .m-edit-btn { 
             position: absolute; bottom: 8px; left: 8px; 
             background: rgba(255, 255, 255, 0.9); 
-            backdrop-filter: blur(4px);
             width: 26px; height: 26px; 
             border-radius: 8px; display: flex; align-items: center; 
             justify-content: center; font-size: 12px; text-decoration: none; 
-            color: #000; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            color: #000; border: 1px solid #eee; z-index: 10;
         }
 
-        .m-content { padding: 8px 4px 0; }
-        .m-name-txt { font-size: 10px; font-weight: 800; color: #444; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .m-content { padding: 8px 4px 0; text-align: center; }
+        .m-name-txt { font-size: 9px; font-weight: 800; color: #444; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .m-price-txt { font-size: 11px; font-weight: 900; color: #000; }
         
         /* ملصقات الحالة */
         .m-stock-label { position: absolute; top: 8px; right: 8px; background: #000; color: #fff; font-size: 8px; padding: 2px 7px; border-radius: 8px; font-weight: 700; z-index: 5; }
         .m-stock-label.alert { background: var(--main-red); }
-        .m-stock-label.warning { background: var(--warning-orange); }
 
         .m-fab-main { position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: #000; color: #fff; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 30px; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 1000; }
     </style>
@@ -72,23 +66,26 @@
 <body>
 
     <div class="dashboard-header">
-        <div class="page-title">
-            <span>STUDIO</span>
-            <h1>مخزون M</h1>
-        </div>
+        <div class="page-title"><span>STUDIO</span><h1>مخزون M</h1></div>
         <div class="stats-pills">
             <div class="pill" id="totalCount">0</div>
             <div class="pill red" id="alertCount">0</div>
         </div>
     </div>
 
+    <div id="outSection" style="display:none;">
+        <div class="section-label label-red" style="color: var(--main-red);">منتهية تماماً (0 قطع)</div>
+        <div class="m-grid-new" id="outGrid"></div>
+        <hr style="border: 0; height: 1px; background: #eee; margin: 30px 0;">
+    </div>
+
     <div id="lowSection" style="display:none;">
-        <div class="section-label label-red" style="color: var(--main-red);">تنبيهات النفاذ (أقل من 5)</div>
+        <div class="section-label" style="color: var(--warning-orange);">على وشك النفاذ (1 - 5 قطع)</div>
         <div class="m-grid-new" id="lowGrid"></div>
         <hr style="border: 0; height: 1px; background: #eee; margin: 30px 0;">
     </div>
 
-    <div class="section-label">كافة قطع المخزون</div>
+    <div class="section-label">قائمة المخزون الكاملة</div>
     <div class="m-grid-new" id="mainGrid"></div>
 
     <a href="add-product.html" class="m-fab-main">+</a>
@@ -100,12 +97,9 @@
         async function initInventory() {
             try {
                 const { data: { user } } = await _s.auth.getUser();
-                if(!user) { window.location.href = "login.html"; return; }
-
-                const { data: products, error } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
-                if(error) throw error;
-
-                let mainHtml = '', lowHtml = '', alertCounter = 0;
+                const { data: products } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
+                
+                let mainH = '', lowH = '', outH = '', alertC = 0;
                 const imgBase = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
 
                 products.forEach(p => {
@@ -113,11 +107,9 @@
                     const isOut = p.stock == 0;
                     const isLow = p.stock > 0 && p.stock <= 5;
 
-                    if(isOut || isLow) alertCounter++;
-
                     const card = `
                         <div class="m-card-new">
-                            <div class="m-stock-label ${isOut ? 'alert' : (isLow ? 'warning' : '')}">${p.stock} Q</div>
+                            <div class="m-stock-label ${isOut?'alert':''}">${p.stock} Q</div>
                             <div class="m-frame">
                                 <img src="${img}" onerror="this.src='https://via.placeholder.com/150'">
                                 <a href="edit-product.html?id=${p.id}" class="m-edit-btn">✎</a>
@@ -128,23 +120,19 @@
                             </div>
                         </div>`;
 
-                    mainHtml += card;
-                    if(isOut || isLow) lowHtml += card;
+                    mainH += card;
+                    if(isOut) { outH += card; alertC++; }
+                    if(isLow) { lowH += card; alertC++; }
                 });
 
-                document.getElementById('mainGrid').innerHTML = mainHtml || '<p style="grid-column: span 3; text-align:center;">لا توجد منتجات</p>';
+                document.getElementById('mainGrid').innerHTML = mainH;
                 document.getElementById('totalCount').innerText = products.length;
-                document.getElementById('alertCount').innerText = alertCounter;
+                document.getElementById('alertCount').innerText = alertC;
 
-                if(lowHtml) {
-                    document.getElementById('lowGrid').innerHTML = lowHtml;
-                    document.getElementById('lowSection').style.display = 'block';
-                }
+                if(outH) { document.getElementById('outGrid').innerHTML = outH; document.getElementById('outSection').style.display = 'block'; }
+                if(lowH) { document.getElementById('lowGrid').innerHTML = lowH; document.getElementById('lowSection').style.display = 'block'; }
 
-            } catch(e) {
-                console.error("Error:", e);
-                document.body.innerHTML += '<p style="color:red; text-align:center;">خطأ في تحميل البيانات</p>';
-            }
+            } catch(e) { console.error(e); }
         }
         initInventory();
     </script>
