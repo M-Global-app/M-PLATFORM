@@ -3,34 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
+    <title>M Platform | Compact</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --main-red: #ff3b30; --glow-red: rgba(255, 59, 48, 0.4); }
-        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        body { margin: 0; padding: 15px; font-family: 'Cairo', sans-serif; background: #fff; color: #1d1d1f; }
+        :root { --main-red: #ff3b30; --glow-red: rgba(255, 59, 48, 0.3); }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
+        body { padding: 10px; font-family: 'Cairo', sans-serif; background: #fff; color: #1d1d1f; }
 
-        /* الهيدر بـ 3 دوائر كما طلبت [cite: 2026-01-22] */
-        .dashboard-header { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 25px; gap: 10px; }
-        .stats-pills { display: flex; gap: 10px; }
-        .pill { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; color: #fff; background: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        /* تصغير الدوائر العلوية [cite: 2026-01-22] */
+        .dashboard-header { display: flex; justify-content: flex-end; margin-bottom: 15px; }
+        .stats-pills { display: flex; gap: 8px; }
+        .pill { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; background: #000; }
         .pill.red { background: var(--main-red); }
         .pill.orange { background: #ffae42; }
 
-        /* استعادة العناوين الواضحة [cite: 2026-01-22] */
-        .section-label { font-size: 15px; font-weight: 900; margin: 20px 0 12px; display: flex; align-items: center; gap: 8px; border-right: 4px solid var(--main-red); padding-right: 10px; }
-        .label-orange { border-right-color: #ffae42; color: #ffae42; }
-        .label-black { border-right-color: #000; color: #000; }
+        /* تصغير وتلوين العناوين بالأحمر [cite: 2026-01-22] */
+        .section-label { font-size: 12px; font-weight: 900; margin: 15px 0 8px; color: var(--main-red); display: flex; align-items: center; gap: 5px; }
+        .section-label::before { content: ""; width: 3px; height: 12px; background: var(--main-red); border-radius: 2px; }
 
-        .m-grid-new { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; row-gap: 20px; }
+        /* شبكة مربعات أصغر (4 أعمدة لتكثيف العرض) [cite: 2026-01-22] */
+        .m-grid-new { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; row-gap: 12px; }
 
-        /* البطاقة بالظلال الحمراء الشاملة (صورة + نص) [cite: 2026-01-22, 2026-01-30] */
+        /* تصغير البطاقة والظلال [cite: 2026-01-22, 2026-01-30] */
         .m-card-new { 
             position: relative; 
             background: #fff;
-            border-radius: 20px;
-            padding-bottom: 10px;
-            box-shadow: 0 0 20px var(--glow-red); 
+            border-radius: 12px;
+            padding-bottom: 5px;
+            box-shadow: 0 0 10px var(--glow-red); 
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -39,17 +39,19 @@
         .m-frame { width: 100%; aspect-ratio: 1/1; overflow: hidden; position: relative; }
         .m-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-        .m-edit-btn { position: absolute; bottom: 8px; left: 8px; background: rgba(255, 255, 255, 0.9); width: 26px; height: 26px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; text-decoration: none; color: #000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 10; }
+        /* تصغير زر التعديل */
+        .m-edit-btn { position: absolute; bottom: 4px; left: 4px; background: rgba(255, 255, 255, 0.9); width: 18px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; text-decoration: none; color: #000; }
 
-        .m-content { padding: 8px 5px 0; text-align: center; }
-        .m-name-txt { font-size: 10px; font-weight: 800; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .m-price-txt { font-size: 11px; font-weight: 900; color: #000; margin-top: 2px; }
+        .m-content { padding: 4px 2px 0; text-align: center; }
+        .m-name-txt { font-size: 8px; font-weight: 800; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .m-price-txt { font-size: 9px; font-weight: 900; color: #000; margin-top: 1px; }
         
-        .m-stock-label { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.85); color: #fff; font-size: 8px; padding: 2px 6px; border-radius: 6px; font-weight: 900; z-index: 5; }
+        /* تصغير ملصق الكمية */
+        .m-stock-label { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.8); color: #fff; font-size: 7px; padding: 1px 4px; border-radius: 4px; font-weight: 900; z-index: 5; }
         .m-stock-label.alert { background: var(--main-red); }
 
-        /* زر الإضافة بالأحمر المضيء كما طلبت [cite: 2026-01-31] */
-        .m-fab-main { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 65px; height: 65px; background: var(--main-red); color: #fff; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 35px; text-decoration: none; box-shadow: 0 10px 30px var(--glow-red); z-index: 1000; }
+        /* زر الإضافة الأحمر المضيء بحجم أصغر [cite: 2026-01-31] */
+        .m-fab-main { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 50px; height: 50px; background: var(--main-red); color: #fff; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 25px; text-decoration: none; box-shadow: 0 5px 15px var(--glow-red); z-index: 1000; }
     </style>
 </head>
 <body>
@@ -63,16 +65,16 @@
     </div>
 
     <div id="outSection" style="display:none;">
-        <div class="section-label">منتجات منتهية (0)</div>
+        <div class="section-label">منتجات منتهية</div>
         <div class="m-grid-new" id="outGrid"></div>
     </div>
 
     <div id="lowSection" style="display:none;">
-        <div class="section-label label-orange">على وشك النفاذ (1-5)</div>
+        <div class="section-label">على وشك النفاذ</div>
         <div class="m-grid-new" id="lowGrid"></div>
     </div>
 
-    <div class="section-label label-black">قائمة المخزون الكاملة</div>
+    <div class="section-label" style="color:#000;">المخزون الكامل</div>
     <div class="m-grid-new" id="mainGrid"></div>
 
     <a href="add-product.html" class="m-fab-main">+</a>
