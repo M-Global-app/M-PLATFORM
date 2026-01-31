@@ -3,124 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M - NEW INVENTORY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <title>M Studio | Inventory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
     <style>
-        /* إلغاء كل شيء قديم والبدء بصفحة بيضاء صافية [cite: 2026-01-30] */
-        * { box-sizing: border-box; outline: none; }
-        body { margin: 0; padding: 20px 10px; font-family: 'Cairo', sans-serif; background: #ffffff; color: #000; }
+        :root { --main-red: #ff3b30; --soft-bg: #f8f9fa; --card-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { margin: 0; padding: 25px 15px; font-family: 'Cairo', sans-serif; background: #fff; color: #1d1d1f; }
 
-        /* رأس الصفحة الجديد: أرقام كبيرة وواضحة بدون صناديق [cite: 2026-01-22] */
-        .new-header { display: flex; justify-content: space-around; border-bottom: 1.5px solid #000; padding-bottom: 15px; margin-bottom: 25px; }
-        .stat { text-align: center; }
-        .stat b { display: block; font-size: 24px; line-height: 1; margin-bottom: 5px; }
-        .stat span { font-size: 10px; font-weight: 700; color: #888; letter-spacing: 1px; }
+        /* الهيدر الجديد: تصميم عائم وأنيق [cite: 2026-01-22] */
+        .dashboard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 35px; padding: 0 5px; }
+        .page-title h1 { margin: 0; font-size: 28px; font-weight: 900; letter-spacing: -1px; }
+        .page-title span { color: var(--main-red); font-size: 14px; font-weight: 700; }
 
-        /* تقسيم المجموعات الجديد */
-        .group-label { font-size: 14px; font-weight: 900; margin: 20px 0 10px; color: #000; text-transform: uppercase; }
+        .stats-pills { display: flex; gap: 8px; }
+        .pill { background: #000; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+        .pill.red { background: var(--main-red); }
 
-        /* شبكة M الصارمة: 3 مربعات صغيرة جداً لا تقبل التمدد [cite: 2026-01-22] */
-        .m-grid { 
+        /* شبكة التصميم الجديد: مربعات ناعمة جداً [cite: 2026-01-22] */
+        .m-grid-new { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
-            gap: 8px; 
-            row-gap: 15px;
+            gap: 12px; 
+            row-gap: 20px;
         }
 
-        .m-item { position: relative; display: flex; flex-direction: column; }
+        .m-card-new { position: relative; display: flex; flex-direction: column; }
 
-        /* تصميم المربع الجديد */
-        .m-thumb { 
+        /* المربع الصغير جداً بحواف منحنية فخمة */
+        .m-frame { 
             width: 100%; 
             aspect-ratio: 1/1; 
-            background: #f0f0f0; 
-            border-radius: 8px; 
+            background: var(--soft-bg); 
+            border-radius: 20px; /* انحناء فخم جداً */
             overflow: hidden; 
             position: relative;
-            border: 0.5px solid #eee;
+            box-shadow: var(--card-shadow);
         }
-        .m-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .m-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* زر التعديل الجديد (✎) - أيقونة عائمة بذكاء [cite: 2026-01-22] */
-        .quick-edit { 
-            position: absolute; top: 4px; left: 4px; 
-            background: #000; color: #fff; width: 20px; height: 20px; 
-            border-radius: 5px; display: flex; align-items: center; 
-            justify-content: center; font-size: 10px; text-decoration: none; 
-            z-index: 10; border: none;
+        /* زر التعديل (✎) بتصميم عصري شفاف [cite: 2026-01-22] */
+        .m-edit-btn { 
+            position: absolute; bottom: 8px; left: 8px; 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(5px);
+            width: 28px; height: 28px; 
+            border-radius: 10px; display: flex; align-items: center; 
+            justify-content: center; font-size: 13px; text-decoration: none; 
+            color: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* تفاصيل المنتج تحت المربع */
-        .m-meta { padding-top: 5px; text-align: right; }
-        .m-n { font-size: 9px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .m-p { font-size: 10px; font-weight: 900; color: #ff0000; }
+        .m-content { padding: 8px 4px 0; }
+        .m-name-txt { font-size: 10px; font-weight: 800; color: #444; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .m-price-txt { font-size: 11px; font-weight: 900; color: #000; }
         
-        /* ملصق الكمية الصغير جداً */
-        .m-qty-tag { position: absolute; top: 4px; right: 4px; background: rgba(255,255,255,0.9); color: #000; font-size: 7px; padding: 1px 4px; border-radius: 3px; font-weight: 900; z-index: 5; border: 0.5px solid #ddd; }
-        .m-qty-tag.empty { background: #ff0000; color: #fff; border: none; }
+        /* ملصق الكمية الجانبي */
+        .m-stock-label { position: absolute; top: 8px; right: 8px; background: #000; color: #fff; font-size: 8px; padding: 2px 7px; border-radius: 8px; font-weight: 700; }
+        .m-stock-label.alert { background: var(--main-red); }
 
-        /* زر الإضافة الجديد: دائرة سوداء بسيطة وصلبة */
-        .m-add { position: fixed; bottom: 25px; left: 25px; width: 50px; height: 50px; background: #000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 1000; }
+        /* زر الإضافة العائم الكبير [cite: 2026-01-31] */
+        .m-fab-main { position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%); width: 65px; height: 65px; background: #000; color: #fff; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 32px; text-decoration: none; box-shadow: 0 15px 35px rgba(0,0,0,0.25); z-index: 1000; }
     </style>
 </head>
 <body>
 
-    <div class="new-header">
-        <div class="stat"><b id="allCount">0</b><span>TOTAL</span></div>
-        <div class="stat"><b id="lowCount" style="color:#ffae42">0</b><span>LOW</span></div>
-        <div class="stat"><b id="outCount" style="color:#ff0000">0</b><span>OUT</span></div>
+    <div class="dashboard-header">
+        <div class="page-title">
+            <span>STUDIO</span>
+            <h1>مخزون M</h1>
+        </div>
+        <div class="stats-pills">
+            <div class="pill" id="totalP">0</div>
+            <div class="pill red" id="outP">0</div>
+        </div>
     </div>
 
-    <div id="outBox" style="display:none;">
-        <div class="group-label" style="color:#ff0000;">● منتهية</div>
-        <div class="m-grid" id="outGrid"></div>
+    <div id="lowSection" style="display:none;">
+        <h2 style="font-size: 14px; margin-bottom: 15px; color: var(--main-red);">● تنبيهات المخزون</h2>
+        <div class="m-grid-new" id="lowGrid"></div>
+        <hr style="border: 0; height: 1px; background: #eee; margin: 30px 0;">
     </div>
 
-    <div class="group-label">● المخزون الحالي</div>
-    <div class="m-grid" id="allGrid"></div>
+    <h2 style="font-size: 14px; margin-bottom: 15px;">● كافة القطع</h2>
+    <div class="m-grid-new" id="mainGrid"></div>
 
-    <a href="add-product.html" class="m-add">+</a>
+    <a href="add-product.html" class="m-fab-main">+</a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
-        async function loadNew() {
+        async function renderStudio() {
             const { data: { user } } = await _s.auth.getUser();
-            const { data: items } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
+            const { data: products } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
             
-            let aH = '', oH = '', cOut=0, cLow=0;
-            const path = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
+            let mainH = '', lowH = '', cOut=0;
+            const storagePath = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
 
-            items.forEach(i => {
-                const img = i.image_url ? (i.image_url.includes('http') ? i.image_url : path + i.image_url) : 'https://via.placeholder.com/100';
-                const isOut = i.stock == 0;
-                if(isOut) cOut++; else if(i.stock <= 3) cLow++;
+            products.forEach(p => {
+                const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : storagePath + p.image_url) : 'https://via.placeholder.com/150';
+                const outOfStock = p.stock == 0;
+                if(outOfStock) cOut++;
 
-                const html = `
-                    <div class="m-item">
-                        <div class="m-qty-tag ${isOut?'empty':''}">${i.stock} Q</div>
-                        <div class="m-thumb">
-                            <img src="${img}" onerror="this.src='https://via.placeholder.com/100'">
-                            <a href="edit-product.html?id=${i.id}" class="quick-edit">✎</a>
+                const itemHtml = `
+                    <div class="m-card-new">
+                        <div class="m-stock-label ${outOfStock?'alert':''}">${p.stock} Q</div>
+                        <div class="m-frame">
+                            <img src="${img}" onerror="this.src='https://via.placeholder.com/150'">
+                            <a href="edit-product.html?id=${p.id}" class="m-edit-btn">✎</a>
                         </div>
-                        <div class="m-meta">
-                            <div class="m-n">${i.name}</div>
-                            <div class="m-p">${i.price} SAR</div>
+                        <div class="m-content">
+                            <div class="m-name-txt">${p.name}</div>
+                            <div class="m-price-txt">${p.price} ريال</div>
                         </div>
                     </div>`;
-                aH += html;
-                if(isOut) oH += html;
+                mainH += itemHtml;
+                if(outOfStock || p.stock <= 2) lowH += itemHtml;
             });
 
-            document.getElementById('allGrid').innerHTML = aH;
-            document.getElementById('outGrid').innerHTML = oH;
-            document.getElementById('allCount').innerText = items.length;
-            document.getElementById('outCount').innerText = cOut;
-            document.getElementById('lowCount').innerText = cLow;
-            if(cOut > 0) document.getElementById('outBox').style.display = 'block';
+            document.getElementById('mainGrid').innerHTML = mainH;
+            document.getElementById('lowGrid').innerHTML = lowH;
+            document.getElementById('totalP').innerText = products.length;
+            document.getElementById('outP').innerText = cOut;
+            if(lowH) document.getElementById('lowSection').style.display = 'block';
         }
-        loadNew();
+        renderStudio();
     </script>
 </body>
 </html>
