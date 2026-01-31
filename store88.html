@@ -3,153 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر الزجاج الأحمر الفاخر</title>
+    <title>المتجر الكريستالي | القمة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --deep-red: #d90429;
-            --glass-red: rgba(217, 4, 41, 0.15); /* زيادة كثافة اللون الأحمر في الزجاج */
-            --glass-border: rgba(217, 4, 41, 0.3);
+            --royal-red: #d90429;
+            --glass-red: rgba(217, 4, 41, 0.12);
+            --crystal-white: #ffffff;
         }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
 
         body {
-            background: #ffffff;
-            /* إضافة دوائر حمراء في الخلفية لتظهر من خلف الزجاج وتثبت التأثير */
+            background-color: #fcfcfc;
+            /* خلفية فنية ناعمة جداً */
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(217, 4, 41, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(217, 4, 41, 0.05) 0%, transparent 20%);
+                radial-gradient(at 0% 0%, rgba(217, 4, 41, 0.03) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(217, 4, 41, 0.03) 0px, transparent 50%);
             min-height: 100vh;
-            color: #2b2d42;
+            overflow-x: hidden;
         }
 
-        /* الهيدر الزجاجي الأحمر الواضح */
+        /* هيدر سينمائي */
         header {
-            background: rgba(217, 4, 41, 0.1); /* خلفية حمراء زجاجية */
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 2px solid var(--glass-border);
-            padding: 20px 8%;
+            padding: 30px 10%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky; top: 0; z-index: 1000;
         }
 
-        .logo { font-weight: 900; font-size: 1.8rem; color: var(--deep-red); }
+        .logo { font-size: 2rem; font-weight: 900; color: var(--royal-red); letter-spacing: -1px; }
 
-        /* حاوية البطاقات */
+        /* حاوية العرض الرئيسية */
         .container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            padding: 60px 8%;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+            padding: 40px 10%;
         }
 
-        /* بطاقة الزجاج الأحمر - التأثير المطلوب هنا */
-        .card {
-            background: rgba(217, 4, 41, 0.08); /* لون أحمر زجاجي */
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 2px solid var(--glass-border); /* حدود حمراء شفافة */
-            border-radius: 30px;
-            padding: 40px 20px;
+        /* البطاقة الكريستالية الحمراء */
+        .crystal-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(217, 4, 41, 0.05));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(217, 4, 41, 0.2);
+            border-radius: 40px;
+            padding: 40px;
             text-align: center;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden; /* لقص تأثير اللمعان */
         }
 
-        .card:hover {
-            transform: translateY(-15px);
-            background: rgba(217, 4, 41, 0.15); /* يغمق اللون عند التمرير */
-            border-color: var(--deep-red);
-            box-shadow: 0 15px 35px rgba(217, 4, 41, 0.2);
+        /* تأثير اللمعان المتحرك */
+        .crystal-card::after {
+            content: "";
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(217, 4, 41, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: 0.8s;
         }
 
-        .card .icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            display: inline-block;
-            filter: drop-shadow(0 5px 15px rgba(217, 4, 41, 0.3));
+        .crystal-card:hover::after {
+            left: 100%;
         }
+
+        .crystal-card:hover {
+            transform: translateY(-20px);
+            border-color: var(--royal-red);
+            box-shadow: 0 30px 60px rgba(217, 4, 41, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* أيقونة المنتج مع توهج أحمر خلفي */
+        .product-visual {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-visual::before {
+            content: "";
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px; height: 100px;
+            background: var(--royal-red);
+            filter: blur(50px);
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        h3 { font-size: 1.6rem; color: #1a1a1a; margin-bottom: 10px; }
 
         .price {
-            display: block;
             font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--deep-red);
-            margin: 20px 0;
+            font-weight: 900;
+            color: var(--royal-red);
+            margin: 15px 0;
+            display: block;
         }
 
+        /* زر شراء بتصميم سائل */
         .buy-btn {
-            background: var(--deep-red);
+            background: var(--royal-red);
             color: white;
             border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
+            padding: 18px 45px;
+            border-radius: 20px;
             font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(217, 4, 41, 0.4);
+            transition: 0.4s;
+            width: 100%;
         }
 
         .buy-btn:hover {
-            background: #800000;
-            transform: scale(1.1);
+            background: #000;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transform: scale(1.02);
         }
 
-        /* تمويج خلف البطاقة ليظهر التغبيش */
-        .glass-bg-effect {
-            position: absolute;
-            top: -10%; left: -10%;
-            width: 40px; height: 40px;
-            background: var(--deep-red);
+        /* عناصر زجاجية طائرة في الخلفية لتعزيز الشعور بالعمق */
+        .floating-blob {
+            position: fixed;
+            z-index: -1;
+            background: rgba(217, 4, 41, 0.05);
             border-radius: 50%;
-            filter: blur(20px);
-            opacity: 0.2;
+            filter: blur(60px);
         }
+
     </style>
 </head>
 <body>
 
+<div class="floating-blob" style="width: 300px; height: 300px; top: -100px; left: -100px;"></div>
+<div class="floating-blob" style="width: 200px; height: 200px; bottom: 50px; right: 10%;"></div>
+
 <header>
-    <div class="logo">RED<span>GLOSS</span></div>
-    <nav style="display: flex; gap: 20px;">
-        <span style="font-weight: bold; cursor: pointer;">الرئيسية</span>
-        <span style="font-weight: bold; cursor: pointer;">المتجر</span>
-    </nav>
-    <div style="font-size: 1.5rem; cursor: pointer;">🛒</div>
+    <div class="logo">LUXE<span>.</span>RED</div>
+    <div style="font-weight: bold; font-size: 1.2rem; cursor: pointer; color: #555;">القائمة ☰</div>
 </header>
 
+<div style="text-align: center; padding: 60px 0;">
+    <h1 style="font-weight: 900; font-size: 3.5rem; color: #1a1a1a;">فن <span style="color: var(--royal-red);">الاقتناء</span></h1>
+    <p style="color: #888; letter-spacing: 2px;">منتجات حصرية بتصاميم زجاجية نادرة</p>
+</div>
+
 <div class="container">
-    <div class="card">
-        <div class="glass-bg-effect"></div>
-        <div class="icon">💎</div>
-        <h3>خاتم الياقوت</h3>
-        <span class="price">2,500 ر.س</span>
-        <button class="buy-btn">اقتنِ الآن</button>
+    <div class="crystal-card">
+        <div class="product-visual">🍷</div>
+        <h3>كأس الكريستال</h3>
+        <span class="price">120 ر.س</span>
+        <button class="buy-btn">أضف للحقيبة</button>
     </div>
 
-    <div class="card">
-        <div class="glass-bg-effect" style="right: -10%; left: auto; background: #000;"></div>
-        <div class="icon">🏎️</div>
-        <h3>سيارة تحكم ذكية</h3>
-        <span class="price">890 ر.س</span>
-        <button class="buy-btn">اقتنِ الآن</button>
+    <div class="crystal-card">
+        <div class="product-visual">💄</div>
+        <h3>أحمر شفاه ملكي</h3>
+        <span class="price">210 ر.س</span>
+        <button class="buy-btn">أضف للحقيبة</button>
     </div>
 
-    <div class="card">
-        <div class="glass-bg-effect" style="bottom: -10%; top: auto;"></div>
-        <div class="icon">🌹</div>
-        <h3>عطر الورد الأحمر</h3>
-        <span class="price">350 ر.س</span>
-        <button class="buy-btn">اقتنِ الآن</button>
+    <div class="crystal-card">
+        <div class="product-visual">🧧</div>
+        <h3>محفظة جلدية حمراء</h3>
+        <span class="price">450 ر.س</span>
+        <button class="buy-btn">أضف للحقيبة</button>
     </div>
 </div>
+
+<footer style="text-align: center; padding: 60px; color: #bbb;">
+    &copy; 2026 تم التصميم بأعلى معايير الأناقة الرقمية
+</footer>
 
 </body>
 </html>
