@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M PLATFORM - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #FF0000; --bg: #fcfcfc; --card: #ffffff; --text: #1a1a1a; }
+        body { margin: 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: none; overflow-x: hidden; }
+        
+        /* الهيدر المطور مع الإشعارات */
+        .header { background: var(--card); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 100; }
+        .m-logo { font-family: 'Aref Ruqaa', serif; font-size: 28px; color: var(--primary); font-weight: 700; text-decoration: none; }
+        .nav-icons { display: flex; align-items: center; gap: 15px; }
+        .icon-btn { position: relative; font-size: 20px; cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; }
+        .notification-dot { position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: var(--primary); border-radius: 50%; border: 2px solid #fff; }
+
+        .container { width: 92%; max-width: 500px; margin: 20px auto; }
+
+        /* شريط الإنجاز (Setup Progress) */
+        .setup-box { background: #fff; padding: 15px; border-radius: 20px; margin-bottom: 25px; border: 1px solid #f0f0f0; }
+        .setup-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; margin-bottom: 10px; }
+        .progress-bar { width: 100%; height: 6px; background: #f0f0f0; border-radius: 10px; overflow: hidden; }
+        .progress-fill { width: 35%; height: 100%; background: var(--primary); border-radius: 10px; transition: 1s ease; }
+
+        /* البطاقات الإحصائية */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
+        .stat-card { background: #fff; padding: 15px 5px; border-radius: 18px; text-align: center; border: 1px solid rgba(0,0,0,0.02); }
+        .stat-card b { font-size: 22px; display: block; color: var(--primary); }
+        .stat-card span { font-size: 10px; color: #888; font-weight: 700; }
+
+        /* شبكة الأدوات */
+        .actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .action-item { background: #fff; padding: 22px 10px; border-radius: 22px; text-align: center; transition: 0.3s; cursor: pointer; border: 1px solid rgba(0,0,0,0.01); outline: none; -webkit-tap-highlight-color: transparent; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
+        .action-item:active { transform: scale(0.95); }
+        .action-icon { font-size: 24px; margin-bottom: 8px; display: block; }
+        .action-item h3 { margin: 0; font-size: 14px; color: #333; }
+
+        /* زر معاينة المتجر العائم */
+        .preview-btn { position: fixed; bottom: 30px; left: 30px; background: var(--text); color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-size: 13px; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; z-index: 99; transition: 0.3s; outline: none; }
+        .preview-btn:active { transform: scale(0.9); }
+
+        .fade-up { animation: fadeUp 0.5s ease-out forwards; opacity: 0; transform: translateY(15px); }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="nav-icons">
+            <div class="icon-btn" onclick="handleLogout()">🚪</div>
+            <div class="icon-btn">🔔<div class="notification-dot"></div></div>
+        </div>
+        <a href="#" class="m-logo">M</a>
+        <div style="font-size: 12px; font-weight: 800;" id="merchantName">تحميل...</div>
+    </header>
+
+    <div class="container">
+        <div class="setup-box fade-up">
+            <div class="setup-header">
+                <span>اكتمل إعداد متجرك</span>
+                <span style="color: var(--primary);">35%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+        </div>
+
+        <div class="stats-grid fade-up" style="animation-delay: 0.1s;">
+            <div class="stat-card"><b>0</b><span>طلبات اليوم</span></div>
+            <div class="stat-card"><b>0</b><span>زيارات المتجر</span></div>
+            <div class="stat-card"><b>0</b><span>المبيعات</span></div>
+        </div>
+
+        <div class="actions-grid">
+            <div class="action-item fade-up" style="animation-delay: 0.2s;"><span class="action-icon">📦</span><h3>المنتجات</h3></div>
+            <div class="action-item fade-up" style="animation-delay: 0.3s;"><span class="action-icon">📊</span><h3>التقارير</h3></div>
+            <div class="action-item fade-up" style="animation-delay: 0.4s;"><span class="action-icon">👥</span><h3>العملاء</h3></div>
+            <div class="action-item fade-up" style="animation-delay: 0.5s;"><span class="action-icon">🛠️</span><h3>الإعدادات</h3></div>
+        </div>
+    </div>
+
+    <a href="#" class="preview-btn fade-up" style="animation-delay: 0.6s;">
+        👁️ معاينة المتجر
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
+
+        async function checkUser() {
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (!user) {
+                window.location.href = "login.html";
+            } else {
+                document.body.style.display = "block";
+                document.getElementById('merchantName').innerText = user.user_metadata.store_name || "تاجر M";
+            }
+        }
+
+        async function handleLogout() {
+            await _supabase.auth.signOut();
+            window.location.href = "login.html";
+        }
+
+        checkUser();
+    </script>
+</body>
+</html>
