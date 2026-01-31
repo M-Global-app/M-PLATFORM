@@ -3,126 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة المخزون الملكي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>المخزون الشامل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; font-family: 'Cairo', sans-serif; background: #fff; color: #000; padding: 15px; }
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: #fff; padding: 10px; }
         
-        /* إحصائيات علوية مصغرة */
-        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
-        .stat-item { border: 1px solid #f0f0f0; padding: 10px; border-radius: 12px; text-align: center; }
-        .stat-item div { font-size: 10px; font-weight: 700; color: #999; }
-        .stat-item span { font-size: 18px; font-weight: 900; display: block; }
+        /* إحصائيات مصغرة جداً في سطر واحد */
+        .mini-stats { display: flex; justify-content: space-around; background: #f9f9f9; padding: 10px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
+        .stat { text-align: center; }
+        .stat span { display: block; font-size: 16px; font-weight: 900; }
+        .stat label { font-size: 10px; color: #888; }
 
-        .section-title { font-size: 16px; font-weight: 900; margin: 20px 0 10px; color: #ff0000; }
-
-        /* الشبكة المربعة - السر في إظهار أكبر عدد */
-        .product-grid { 
+        /* الشبكة المصغرة: 3 أعمدة */
+        .grid { 
             display: grid; 
-            grid-template-columns: repeat(2, 1fr); /* مربعين في كل صف لزيادة العدد */
-            gap: 12px; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 8px; 
         }
 
-        .p-card { 
-            background: #fff; 
+        .card { 
             border: 1px solid #eee; 
-            border-radius: 15px; 
+            border-radius: 10px; 
             overflow: hidden; 
             position: relative;
-            display: flex;
-            flex-direction: column;
+            background: #fff;
         }
 
-        /* صورة مربعة تماماً */
-        .img-wrapper { 
-            width: 100%; 
-            aspect-ratio: 1 / 1; 
-            background: #f9f9f9;
-        }
-        .p-img { width: 100%; height: 100%; object-fit: cover; }
+        .img-container { width: 100%; aspect-ratio: 1/1; background: #fafafa; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
 
-        .p-info { padding: 10px; flex: 1; }
-        .p-name { font-size: 13px; font-weight: 800; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .p-price { font-size: 15px; font-weight: 900; color: #ff0000; }
+        .info { padding: 5px; text-align: center; }
+        .name { font-size: 10px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .price { font-size: 11px; font-weight: 900; color: #ff0000; }
         
-        /* ملصق الكمية فوق الصورة */
-        .stock-tag { 
-            position: absolute; 
-            top: 8px; 
-            left: 8px; 
-            background: rgba(0,0,0,0.7); 
-            color: #fff; 
-            font-size: 10px; 
-            padding: 2px 8px; 
-            border-radius: 6px; 
-            font-weight: 700;
-        }
-        .out-of-stock { background: #ff0000 !important; }
+        /* تنبيه الكمية - صغير جداً */
+        .q-tag { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); color: #fff; font-size: 8px; padding: 2px 5px; border-radius: 4px; }
+        .out { background: #ff0000; }
 
-        .btn-add { position: fixed; bottom: 25px; left: 25px; width: 60px; height: 60px; background: #ff0000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; text-decoration: none; box-shadow: 0 8px 20px rgba(255,0,0,0.3); z-index: 100; }
+        .btn-plus { position: fixed; bottom: 20px; left: 20px; width: 50px; height: 50px; background: #ff0000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; text-decoration: none; box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
     </style>
 </head>
 <body>
 
-    <div class="stats-bar">
-        <div class="stat-item"><div>منتهية</div><span id="outCount" style="color:#ff0000">0</span></div>
-        <div class="stat-item"><div>أوشكت</div><span id="lowCount" style="color:#ffae42">1</span></div>
-        <div class="stat-item"><div>متوفرة</div><span id="okCount">5</span></div>
+    <div class="mini-stats">
+        <div class="stat"><span id="c1" style="color:#ff0000">0</span><label>منتهية</label></div>
+        <div class="stat"><span id="c2" style="color:#ffae42">0</span><label>أوشكت</label></div>
+        <div class="stat"><span id="c3">0</span><label>متوفرة</label></div>
     </div>
 
-    <div id="outSection" style="display:none;">
-        <div class="section-title">نفذت الكمية</div>
-        <div id="outGrid" class="product-grid"></div>
-    </div>
+    <div class="grid" id="g"></div>
 
-    <div class="section-title">إجمالي المخزون</div>
-    <div id="allGrid" class="product-grid"></div>
-
-    <a href="add-product.html" class="btn-add">+</a>
+    <a href="add-product.html" class="btn-plus">+</a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
-        async function init() {
-            try {
-                const { data: { user } } = await _s.auth.getUser();
-                const { data: products } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
+        async function load() {
+            const { data: { user } } = await _s.auth.getUser();
+            const { data: prods } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
+            
+            let h = '', c1=0, c2=0, c3=0;
+            const url = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
+
+            prods.forEach(p => {
+                const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : url + p.image_url) : 'https://via.placeholder.com/100';
+                if(p.stock == 0) c1++; else if(p.stock <= 5) c2++; else c3++;
                 
-                let outH = '', allH = '';
-                let outC = 0, lowC = 0, okC = 0;
-                const bucketUrl = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
+                h += `
+                    <div class="card">
+                        <div class="q-tag ${p.stock==0?'out':''}">${p.stock} ق</div>
+                        <div class="img-container"><img src="${img}" onerror="this.src='https://via.placeholder.com/100'"></div>
+                        <div class="info">
+                            <div class="name">${p.name}</div>
+                            <div class="price">${p.price} ريال</div>
+                        </div>
+                    </div>`;
+            });
 
-                products.forEach(p => {
-                    const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : bucketUrl + p.image_url) : 'https://via.placeholder.com/150';
-                    const isOut = p.stock == 0;
-                    
-                    const cardHtml = `
-                        <div class="p-card">
-                            <div class="stock-tag ${isOut ? 'out-of-stock' : ''}">${p.stock} قطعة</div>
-                            <div class="img-wrapper">
-                                <img src="${img}" class="p-img" onerror="this.src='https://via.placeholder.com/150'">
-                            </div>
-                            <div class="p-info">
-                                <div class="p-name">${p.name}</div>
-                                <div class="p-price">${p.price} ريال</div>
-                            </div>
-                        </div>`;
-
-                    if(isOut) { outH += cardHtml; outC++; }
-                    else if(p.stock <= 5) { lowC++; allH += cardHtml; }
-                    else { okC++; allH += cardHtml; }
-                });
-
-                document.getElementById('outGrid').innerHTML = outH;
-                document.getElementById('allGrid').innerHTML = allH;
-                document.getElementById('outCount').innerText = outC;
-                document.getElementById('lowCount').innerText = lowC;
-                document.getElementById('okCount').innerText = okC;
-                if(outC > 0) document.getElementById('outSection').style.display = 'block';
-            } catch (e) { console.error(e); }
+            document.getElementById('g').innerHTML = h;
+            document.getElementById('c1').innerText = c1;
+            document.getElementById('c2').innerText = c2;
+            document.getElementById('c3').innerText = c3;
         }
-        init();
+        load();
     </script>
 </body>
 </html>
