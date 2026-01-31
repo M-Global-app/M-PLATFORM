@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M PRIME | Royal Glow Edition</title>
+    <title>M PRIME | Memory Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root { --m-red: #dc2626; --m-bg: #ffffff; --m-text: #1a1a1a; --m-shadow-red: rgba(220, 38, 38, 0.18); }
-        
         .dark-mode { --m-bg: #121212; --m-text: #ffffff; --m-shadow-red: rgba(220, 38, 38, 0.45); }
 
         body { 
             margin: 0; font-family: 'Cairo', sans-serif; background-color: var(--m-bg); 
-            color: var(--m-text); transition: all 0.4s ease; overflow-x: hidden; 
-            -webkit-tap-highlight-color: transparent; 
+            color: var(--m-text); transition: background 0.4s ease, color 0.4s ease; 
+            overflow-x: hidden; -webkit-tap-highlight-color: transparent; 
         }
 
         .fade-in { opacity: 0; transform: translateY(15px); animation: fadeInUp 0.6s ease forwards; }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* الهيدر المرتفع */
         .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 8px 20px; }
         .m-logo { font-family: 'Aref Ruqaa', serif; font-size: 34px; color: var(--m-red); }
         .header-icons { display: flex; gap: 10px; }
@@ -32,23 +30,19 @@
         .dark-mode .circle-btn { background: #1e1e1e; color: #fff; }
 
         .container { padding: 0 20px; }
-        
-        /* الترحيب في أعلى نقطة */
         .welcome-section { margin-top: -8px; margin-bottom: 18px; }
-        .welcome-section h1 { font-size: 28px; font-weight: 900; color: var(--m-red); margin: 0; text-shadow: 0 2px 10px var(--m-shadow-red); }
+        .welcome-section h1 { font-size: 28px; font-weight: 900; color: var(--m-red); margin: 0; }
         .welcome-section p { font-size: 12px; opacity: 0.7; margin: 2px 0 0; font-weight: 700; }
 
-        /* الإحصائيات بالظل الأحمر الموحد */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px; }
         .stat-box { 
             background: var(--m-bg); padding: 20px 8px; border-radius: 22px; text-align: center; 
             border: 1.2px solid rgba(220, 38, 38, 0.12); 
-            box-shadow: 0 10px 25px var(--m-shadow-red); /* الظل الأحمر */
+            box-shadow: 0 10px 25px var(--m-shadow-red); 
         }
         .stat-box b { font-size: 20px; display: block; color: var(--m-red); }
         .stat-box span { font-size: 10px; font-weight: 800; }
 
-        /* تصغير خانة البحث */
         .search-area { 
             max-width: 85%; margin: 0 auto 28px; background: var(--m-bg); padding: 12px 18px; border-radius: 20px; 
             display: flex; align-items: center; gap: 10px; border: 1.5px solid var(--m-red); 
@@ -57,15 +51,12 @@
         .search-area input { border: none; outline: none; width: 100%; font-family: 'Cairo'; font-size: 13px; color: var(--m-text); background: transparent; }
         .search-area i { color: var(--m-red); font-size: 16px; }
 
-        /* شبكة التحكم بالظل الأحمر الموحد */
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
         .menu-item { 
             background: var(--m-bg); padding: 28px 15px; border-radius: 35px; text-align: center; 
-            box-shadow: 0 10px 28px var(--m-shadow-red); /* الظل الأحمر الموحد */
-            border: 1px solid rgba(220, 38, 38, 0.08);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 28px var(--m-shadow-red); 
+            border: 1px solid rgba(220, 38, 38, 0.08); transition: 0.3s;
         }
-        .menu-item:active { transform: scale(0.94); }
         .menu-item i { font-size: 34px; color: var(--m-red); opacity: 0.8; margin-bottom: 12px; display: block; }
         .menu-item h3 { margin: 0; font-size: 14px; font-weight: 800; }
     </style>
@@ -82,7 +73,7 @@
 
     <div class="container">
         <div class="welcome-section fade-in" style="animation-delay: 0.1s;">
-            <h1>مرحباً، <span id="mName">تحميل...</span></h1>
+            <h1 id="mGreet">مرحباً، <span id="mName">تحميل...</span></h1>
             <p>إليك ملخص إمبراطوريتك التجارية اليوم</p>
         </div>
 
@@ -111,13 +102,29 @@
     <script>
         const _supabase = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
         
+        // تطبيق الإعدادات المحفوظة عند تحميل الصفحة فوراً
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedMode = localStorage.getItem('theme');
+            if (savedMode === 'dark') {
+                document.body.classList.add('dark-mode');
+                updateIcon(true);
+            }
+            updateDashboard();
+        });
+
         function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light'); // حفظ الخيار
+            updateIcon(isDark);
+        }
+
+        function updateIcon(isDark) {
             const icon = document.getElementById('modeIcon');
-            if(document.body.classList.contains('dark-mode')) {
-                icon.classList.replace('fa-regular', 'fa-moon');
-                icon.classList.replace('fa-sun', 'fa-sun'); // تصحيح بسيط للأيقونة
+            if(isDark) {
+                icon.classList.replace('fa-regular', 'fa-solid');
+                icon.classList.replace('fa-moon', 'fa-sun');
             } else {
+                icon.classList.replace('fa-solid', 'fa-regular');
                 icon.classList.replace('fa-sun', 'fa-moon');
             }
         }
@@ -128,7 +135,6 @@
                 document.getElementById('mName').innerText = user.user_metadata.store_name || "تاجر M";
             }
         }
-        updateDashboard();
     </script>
 </body>
 </html>
