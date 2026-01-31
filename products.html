@@ -2,100 +2,127 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M - إدارة المخزون</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>إدارة المخزون - M</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; font-family: 'Cairo', sans-serif; background: #ffffff; padding: 10px; }
+        /* إلغاء الفوضى والهوامش القبيحة [cite: 2026-01-30] */
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 12px; font-family: 'Cairo', sans-serif; background: #fcfcfc; color: #1a1a1a; }
+
+        /* شريط الحالة العصري [cite: 2026-01-22] */
+        .status-bar { display: flex; gap: 10px; margin-bottom: 25px; }
+        .status-card { flex: 1; background: #fff; border-radius: 12px; padding: 10px; text-align: center; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .status-card b { display: block; font-size: 18px; color: #000; }
+        .status-card span { font-size: 10px; color: #888; font-weight: 700; text-transform: uppercase; }
+        .active-status { border-bottom: 3px solid #ff0000; }
+
+        /* عناوين الأقسام بنمط نيويورك [cite: 2026-01-22] */
+        .section-header { font-size: 14px; font-weight: 900; margin: 20px 0 12px; display: flex; align-items: center; gap: 8px; }
+        .section-header::after { content: ""; flex: 1; height: 1px; background: #eee; }
+
+        /* الشبكة المنتظمة: 3 مربعات صغيرة [cite: 2026-01-22] */
+        .grid-layout { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; 
+        }
+
+        .prod-card { 
+            background: #fff; 
+            border-radius: 14px; 
+            overflow: hidden; 
+            border: 1px solid #f0f0f0;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        /* صورة المنتج المربعة تماماً */
+        .img-box { width: 100%; aspect-ratio: 1/1; position: relative; background: #f7f7f7; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* زر التعديل الأنيق (✎) [cite: 2026-01-22] */
+        .edit-tool { 
+            position: absolute; bottom: 5px; left: 5px; 
+            background: #fff; width: 22px; height: 22px; 
+            border-radius: 6px; display: flex; align-items: center; 
+            justify-content: center; font-size: 11px; color: #000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-decoration: none; border: 1px solid #eee;
+        }
+
+        .prod-info { padding: 6px; text-align: center; }
+        .p-title { font-size: 9px; font-weight: 700; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .p-cost { font-size: 11px; font-weight: 900; color: #ff0000; }
         
-        /* التصنيفات العلوية - نظيفة ومباشرة */
-        .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 20px; }
-        .tab-item { border: 1px solid #f0f0f0; border-radius: 8px; text-align: center; padding: 8px 0; }
-        .tab-item b { display: block; font-size: 16px; }
-        .tab-item label { font-size: 10px; color: #888; }
-        .border-red { border-color: #ff0000; }
-        .border-orange { border-color: #ffae42; }
+        /* ملصق الكمية الذكي */
+        .badge { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.8); color: #fff; font-size: 8px; padding: 2px 6px; border-radius: 5px; font-weight: 700; }
+        .badge-red { background: #ff0000; }
 
-        .title { font-size: 13px; font-weight: 900; margin: 15px 0 10px; border-right: 3px solid #ff0000; padding-right: 8px; }
-
-        /* الشبكة المصغرة: 3 أعمدة إجبارية */
-        .grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-
-        .item { border: 1px solid #eee; border-radius: 10px; position: relative; background: #fff; display: flex; flex-direction: column; overflow: hidden; }
-        
-        /* المربع الصغير جداً */
-        .img-area { width: 100%; aspect-ratio: 1/1; position: relative; background: #fcfcfc; }
-        .img-area img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* زر التعديل (✎) فوق الصورة */
-        .btn-edit { position: absolute; bottom: 4px; left: 4px; background: rgba(255,255,255,0.95); width: 22px; height: 22px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 12px; border: 1px solid #ddd; text-decoration: none; color: #000; z-index: 10; }
-
-        .details { padding: 4px; text-align: center; }
-        .name { font-size: 9px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #333; }
-        .price { font-size: 10px; font-weight: 900; color: #ff0000; }
-        
-        /* ملصق الكمية الصغير */
-        .q-tag { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.7); color: #fff; font-size: 8px; padding: 1px 5px; border-radius: 4px; z-index: 5; }
-        .q-tag.empty { background: #ff0000; }
-
-        /* زر الإضافة العائم */
-        .btn-add { position: fixed; bottom: 25px; left: 25px; width: 55px; height: 55px; background: #ff0000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; text-decoration: none; box-shadow: 0 8px 20px rgba(255,0,0,0.3); z-index: 1000; }
+        /* زر الإضافة العائم المميز */
+        .add-trigger { position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; background: #000; color: #fff; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 30px; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 1000; }
     </style>
 </head>
 <body>
 
-    <div class="tabs">
-        <div class="tab-item"><b>6</b><label>الكل</label></div>
-        <div class="tab-item border-red"><b style="color:#ff0000">0</b><label>منتهية</label></div>
-        <div class="tab-item border-orange"><b style="color:#ffae42">1</b><label>أوشكت</label></div>
+    <div class="status-bar">
+        <div class="status-card active-status"><b id="countAll">0</b><span>المنتجات</span></div>
+        <div class="status-card"><b id="countLow" style="color:#ffae42">0</b><span>أوشكت</span></div>
+        <div class="status-card"><b id="countOut" style="color:#ff0000">0</b><span>منتهية</span></div>
     </div>
 
-    <div id="outSection" style="display:none;">
-        <div class="title">منتجات نفذت</div>
-        <div class="grid-container" id="outGrid"></div>
+    <div id="outArea" style="display:none;">
+        <div class="section-header" style="color:#ff0000">نفذت الكمية</div>
+        <div class="grid-layout" id="outGrid"></div>
     </div>
 
-    <div class="title">جميع قطع المخزون</div>
-    <div class="grid-container" id="allGrid"></div>
+    <div class="section-header">قائمة المخزون</div>
+    <div class="grid-layout" id="allGrid"></div>
 
-    <a href="add-product.html" class="btn-add">+</a>
+    <a href="add-product.html" class="add-trigger">+</a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
-        async function refresh() {
+        async function sync() {
             try {
                 const { data: { user } } = await _s.auth.getUser();
-                const { data: prods } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
+                const { data: products } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
                 
-                let allH = '', outH = '';
+                let aH = '', oH = '', cOut=0, cLow=0;
                 const base = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
 
-                prods.forEach(p => {
-                    const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : base + p.image_url) : 'https://via.placeholder.com/100';
+                products.forEach(p => {
+                    const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : base + p.image_url) : 'https://via.placeholder.com/150';
+                    const isOut = p.stock == 0;
+                    if(isOut) cOut++; else if(p.stock <= 5) cLow++;
+
                     const card = `
-                        <div class="item">
-                            <div class="q-tag ${p.stock==0?'empty':''}">${p.stock} ق</div>
-                            <div class="img-area">
-                                <img src="${img}" onerror="this.src='https://via.placeholder.com/100'">
-                                <a href="edit-product.html?id=${p.id}" class="btn-edit">✎</a>
+                        <div class="prod-card">
+                            <div class="badge ${isOut ? 'badge-red' : ''}">${p.stock} ق</div>
+                            <div class="img-box">
+                                <img src="${img}" onerror="this.src='https://via.placeholder.com/150'">
+                                <a href="edit-product.html?id=${p.id}" class="edit-tool">✎</a>
                             </div>
-                            <div class="details">
-                                <div class="name">${p.name}</div>
-                                <div class="price">${p.price} ريال</div>
+                            <div class="prod-info">
+                                <div class="p-title">${p.name}</div>
+                                <div class="p-cost">${p.price} ريال</div>
                             </div>
                         </div>`;
-                    allH += card;
-                    if(p.stock == 0) outH += card;
+                    
+                    aH += card;
+                    if(isOut) oH += card;
                 });
 
-                document.getElementById('allGrid').innerHTML = allH;
-                document.getElementById('outGrid').innerHTML = outH;
-                if(outH) document.getElementById('outSection').style.display = 'block';
-            } catch(e) { console.error("Error:", e); }
+                document.getElementById('allGrid').innerHTML = aH;
+                document.getElementById('outGrid').innerHTML = oH;
+                document.getElementById('countAll').innerText = products.length;
+                document.getElementById('countOut').innerText = cOut;
+                document.getElementById('countLow').innerText = cLow;
+                if(cOut > 0) document.getElementById('outArea').style.display = 'block';
+            } catch(e) { console.error(e); }
         }
-        refresh();
+        sync();
     </script>
 </body>
 </html>
