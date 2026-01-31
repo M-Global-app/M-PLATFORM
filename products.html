@@ -3,97 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة المخزون الملكية</title>
+    <title>إدارة المخزون</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; font-family: 'Cairo', sans-serif; background: #fff; padding: 10px; padding-bottom: 100px; }
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: #fff; padding: 8px; }
         
-        .stats-nav { display: flex; gap: 8px; margin-bottom: 20px; position: sticky; top: 0; background: #fff; z-index: 100; padding: 5px 0; }
-        .stat-btn { flex: 1; border: 1px solid #eee; padding: 8px; border-radius: 12px; text-align: center; cursor: pointer; }
-        .stat-btn span { display: block; font-size: 16px; font-weight: 900; }
-        .stat-btn label { font-size: 9px; color: #888; pointer-events: none; }
-        .active-red { border-color: #ff0000; background: #fff5f5; }
+        /* شريط إحصائيات نحيف جداً */
+        .nav-mini { display: flex; gap: 5px; margin-bottom: 15px; position: sticky; top: 0; background: #fff; z-index: 100; padding: 5px 0; }
+        .n-btn { flex: 1; border: 1px solid #eee; border-radius: 10px; text-align: center; padding: 5px; font-size: 10px; }
+        .n-btn b { display: block; font-size: 14px; }
+        .n-btn.active { border-color: #ff0000; background: #fff5f5; }
 
-        .section-title { font-size: 14px; font-weight: 900; margin: 15px 0 10px; color: #333; border-right: 3px solid #ff0000; padding-right: 8px; }
+        .title { font-size: 12px; font-weight: 900; margin: 10px 0; color: #ff0000; }
 
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        /* الشبكة المكثفة: 3 مربعات صغيرة في الصف */
+        .grid-compact { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 6px; 
+        }
 
-        .card { border: 1px solid #eee; border-radius: 12px; overflow: hidden; position: relative; background: #fff; display: flex; flex-direction: column; }
-        .img-box { width: 100%; aspect-ratio: 1/1; position: relative; background: #f9f9f9; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .item-card { 
+            border: 1px solid #f0f0f0; 
+            border-radius: 10px; 
+            overflow: hidden; 
+            position: relative; 
+            background: #fff;
+        }
 
-        /* زر التعديل فوق الصورة مباشرة */
-        .edit-btn { position: absolute; bottom: 5px; left: 5px; background: rgba(255,255,255,0.9); width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; border: 1px solid #ddd; text-decoration: none; color: #000; font-weight: bold; }
+        .img-wrap { width: 100%; aspect-ratio: 1/1; position: relative; background: #fafafa; }
+        .img-wrap img { width: 100%; height: 100%; object-fit: cover; }
 
-        .info { padding: 5px; text-align: center; }
-        .name { font-size: 10px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .price { font-size: 11px; font-weight: 900; color: #ff0000; }
+        /* زر التعديل الصغير (✎) */
+        .edit-icon { position: absolute; bottom: 3px; left: 3px; background: #fff; width: 20px; height: 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 10px; border: 1px solid #ddd; text-decoration: none; color: #000; }
+
+        .p-data { padding: 4px; text-align: center; }
+        .p-name { font-size: 9px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .p-price { font-size: 10px; font-weight: 900; color: #ff0000; }
         
-        .q-tag { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.7); color: #fff; font-size: 8px; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
-        .out { background: #ff0000; }
+        .tag { position: absolute; top: 3px; right: 3px; background: rgba(0,0,0,0.6); color: #fff; font-size: 7px; padding: 1px 4px; border-radius: 3px; }
+        .tag.red { background: #ff0000; }
 
-        .btn-plus { position: fixed; bottom: 25px; left: 25px; width: 55px; height: 55px; background: #ff0000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; text-decoration: none; box-shadow: 0 8px 20px rgba(255,0,0,0.3); z-index: 1000; }
+        .float-add { position: fixed; bottom: 20px; left: 20px; width: 50px; height: 50px; background: #ff0000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; text-decoration: none; box-shadow: 0 5px 15px rgba(255,0,0,0.3); z-index: 1000; }
     </style>
 </head>
 <body>
 
-    <div class="stats-nav">
-        <div class="stat-btn active-red" onclick="filter('all')"><span id="cAll">0</span><label>الكل</label></div>
-        <div class="stat-btn" onclick="filter('out')"><span id="cOut" style="color:#ff0000">0</span><label>منتهية</label></div>
-        <div class="stat-btn" onclick="filter('low')"><span id="cLow" style="color:#ffae42">0</span><label>أوشكت</label></div>
+    <div class="nav-mini">
+        <div class="n-btn active"><b>6</b>الكل</div>
+        <div class="n-btn" style="color:#ff0000"><b>0</b>منتهية</div>
+        <div class="n-btn" style="color:#ffae42"><b>1</b>أوشكت</div>
     </div>
 
-    <div id="sections">
-        <div id="outSection" style="display:none;"><div class="section-title">نفذت الكمية</div><div class="grid" id="outGrid"></div></div>
-        <div id="lowSection" style="display:none;"><div class="section-title">على وشك النفاذ</div><div class="grid" id="lowGrid"></div></div>
-        <div class="section-title">جميع المنتجات</div><div class="grid" id="allGrid"></div>
-    </div>
+    <div id="outZone" style="display:none;"><div class="title">نفذت الكمية</div><div class="grid-compact" id="outG"></div></div>
+    
+    <div class="title">جميع المنتجات</div>
+    <div class="grid-compact" id="allG"></div>
 
-    <a href="add-product.html" class="btn-plus">+</a>
+    <a href="add-product.html" class="float-add">+</a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
 
-        async function load() {
+        async function init() {
             const { data: { user } } = await _s.auth.getUser();
             const { data: prods } = await _s.from('products').select('*').eq('merchant_id', user.id).order('created_at', {ascending: false});
             
-            let allH = '', outH = '', lowH = '';
-            let cOut=0, cLow=0;
-            const url = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
+            let aH = '', oH = '';
+            const bUrl = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
 
             prods.forEach(p => {
-                const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : url + p.image_url) : 'https://via.placeholder.com/100';
+                const img = p.image_url ? (p.image_url.includes('http') ? p.image_url : bUrl + p.image_url) : 'https://via.placeholder.com/80';
                 const card = `
-                    <div class="card">
-                        <div class="q-tag ${p.stock==0?'out':''}">${p.stock} ق</div>
-                        <div class="img-box">
-                            <img src="${img}" onerror="this.src='https://via.placeholder.com/100'">
-                            <a href="edit-product.html?id=${p.id}" class="edit-btn">✎</a>
+                    <div class="item-card">
+                        <div class="tag ${p.stock==0?'red':''}">${p.stock} ق</div>
+                        <div class="img-wrap">
+                            <img src="${img}" onerror="this.src='https://via.placeholder.com/80'">
+                            <a href="edit-product.html?id=${p.id}" class="edit-icon">✎</a>
                         </div>
-                        <div class="info">
-                            <div class="name">${p.name}</div>
-                            <div class="price">${p.price} ريال</div>
+                        <div class="p-data">
+                            <div class="p-name">${p.name}</div>
+                            <div class="p-price">${p.price} ريال</div>
                         </div>
                     </div>`;
-
-                allH += card;
-                if(p.stock == 0) { outH += card; cOut++; }
-                else if(p.stock <= 5) { lowH += card; cLow++; }
+                aH += card;
+                if(p.stock == 0) oH += card;
             });
 
-            document.getElementById('allGrid').innerHTML = allH;
-            document.getElementById('outGrid').innerHTML = outH;
-            document.getElementById('lowGrid').innerHTML = lowH;
-            document.getElementById('cAll').innerText = prods.length;
-            document.getElementById('cOut').innerText = cOut;
-            document.getElementById('cLow').innerText = cLow;
-
-            if(cOut > 0) document.getElementById('outSection').style.display = 'block';
-            if(cLow > 0) document.getElementById('lowSection').style.display = 'block';
+            document.getElementById('allG').innerHTML = aH;
+            document.getElementById('outG').innerHTML = oH;
+            if(oH) document.getElementById('outZone').style.display = 'block';
         }
-        load();
+        init();
     </script>
 </body>
 </html>
