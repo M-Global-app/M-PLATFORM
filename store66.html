@@ -2,87 +2,186 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>THE CORE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الكريستال الأحمر</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --main: #000; --accent: #ff3b30; --bg: #ffffff; }
-        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
-        body { font-family: 'Alexandria', sans-serif; background: var(--bg); color: var(--main); line-height: 1.6; }
-
-        /* نفي كل شيء غير ضروري [cite: 2026-01-30] */
-        .app-nav { 
-            position: sticky; top: 0; padding: 25px; background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(15px); display: flex; justify-content: space-between; z-index: 100;
+        :root {
+            --glass-red: rgba(230, 57, 70, 0.15); /* لون أحمر زجاجي خفيف */
+            --solid-red: #e63946;
+            --bg-white: #ffffff;
         }
-        .logo { font-size: 22px; font-weight: 900; letter-spacing: -1.5px; }
 
-        /* نظام الشبكة النقية (Pure Grid) [cite: 2026-01-22] */
-        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 15px; }
-
-        /* البطاقة: التركيز 100% على المنتج [cite: 2026-01-31] */
-        .card { position: relative; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-        
-        /* التوهج الرباعي الناعم جداً (المهم فقط) [cite: 2026-01-31] */
-        .image-box {
-            width: 100%; aspect-ratio: 1/1.1; border-radius: 35px; 
-            background: #f9f9fb; overflow: hidden; margin-bottom: 12px;
-            box-shadow: 0 0 40px rgba(0,0,0,0.03); /* نقي جداً [cite: 2026-01-31] */
-            transition: transform 0.4s ease;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
         }
-        .image-box img { width: 100%; height: 100%; object-fit: cover; }
-        .card:active .image-box { transform: scale(0.96); }
 
-        .details h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-        .details .price { font-size: 16px; font-weight: 900; color: var(--accent); }
-
-        /* شريط سفلي يختفي ويظهر بذكاء [cite: 2026-01-30] */
-        .dock {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 80%; max-width: 350px; height: 60px;
-            background: #000; border-radius: 30px; display: flex;
-            justify-content: space-around; align-items: center; z-index: 1000;
+        body {
+            background-color: var(--bg-white);
+            background-image: radial-gradient(#f0f0f0 1px, transparent 1px);
+            background-size: 30px 30px; /* شبكة خلفية خفيفة جداً لإضافة عمق */
+            color: #333;
+            min-height: 100vh;
         }
-        .dock-item { color: #fff; font-size: 20px; opacity: 0.5; }
-        .dock-item.active { opacity: 1; }
+
+        /* هيدر زجاجي أحمر */
+        header {
+            background: rgba(230, 57, 70, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(230, 57, 70, 0.1);
+            padding: 15px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { font-weight: 900; font-size: 1.5rem; color: var(--solid-red); }
+
+        nav a { text-decoration: none; color: #444; margin: 0 15px; font-weight: 600; transition: 0.3s; }
+        nav a:hover { color: var(--solid-red); }
+
+        /* قسم العرض */
+        .hero {
+            text-align: center;
+            padding: 80px 5%;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .hero span { color: var(--solid-red); }
+
+        /* حاوية البطاقات */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px 8%;
+        }
+
+        /* البطاقة الزجاجية الحمراء */
+        .card {
+            background: rgba(230, 57, 70, 0.03); /* شفافية حمراء خفيفة */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(230, 57, 70, 0.1);
+            border-radius: 30px;
+            padding: 25px;
+            text-align: center;
+            transition: 0.4s ease;
+        }
+
+        .card:hover {
+            background: rgba(230, 57, 70, 0.08);
+            transform: translateY(-10px);
+            border-color: var(--solid-red);
+            box-shadow: 0 20px 40px rgba(230, 57, 70, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: contain; /* ليظهر المنتج بوضوح على الأبيض */
+            margin-bottom: 20px;
+            border-radius: 20px;
+        }
+
+        .price {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--solid-red);
+            margin: 15px 0;
+        }
+
+        .buy-btn {
+            background: var(--solid-red);
+            color: white;
+            border: none;
+            padding: 12px 0;
+            width: 100%;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .buy-btn:hover {
+            background: #b91c1c;
+            box-shadow: 0 8px 20px rgba(230, 57, 70, 0.3);
+        }
+
+        /* دوائر زخرفية خلف الزجاج */
+        .decoration {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: var(--solid-red);
+            filter: blur(80px);
+            opacity: 0.1;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
 
-    <nav class="app-nav">
-        <div style="font-size:24px;">🛒</div>
-        <div class="logo">M-CORE</div>
-        <div style="font-size:24px;">☰</div>
+<div class="decoration" style="top: 20%; right: 10%;"></div>
+<div class="decoration" style="bottom: 10%; left: 5%;"></div>
+
+<header>
+    <div class="logo">RED<span>GLOSS</span></div>
+    <nav>
+        <a href="#">الرئيسية</a>
+        <a href="#">المنتجات</a>
+        <a href="#">من نحن</a>
     </nav>
+    <div style="font-size: 1.3rem;">🛒</div>
+</header>
 
-    <main class="main-grid" id="pGrid"></main>
+<section class="hero">
+    <h1>مجموعة <span>الكريستال</span> الشتوية</h1>
+    <p>لمسة من الأحمر الفاخر في كل تفصيلة.</p>
+</section>
 
-    <div class="dock">
-        <div class="dock-item active">🏠</div>
-        <div class="dock-item">🔍</div>
-        <div class="dock-item">📦</div>
+<div class="container">
+    <div class="card">
+        <div style="font-size: 5rem;">🎧</div>
+        <h3>سماعة لاسلكية برو</h3>
+        <p style="color: #666; font-size: 0.9rem;">صوت نقي بتصميم أحمر شفاف</p>
+        <span class="price">750 ر.س</span>
+        <button class="buy-btn">أضف للسلة</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
-        async function load() {
-            const { data } = await _s.from('products').select('*').order('created_at', {ascending: false});
-            const grid = document.getElementById('pGrid');
-            const imgBase = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
-            grid.innerHTML = data.map(p => `
-                <div class="card">
-                    <div class="image-box">
-                        <img src="${p.image_url ? (p.image_url.includes('http') ? p.image_url : imgBase + p.image_url) : 'https://via.placeholder.com/600'}" alt="${p.name}">
-                    </div>
-                    <div class="details">
-                        <h3>${p.name}</h3>
-                        <p class="price">${p.price} ر.س</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-        load();
-    </script>
+    <div class="card">
+        <div style="font-size: 5rem;">⌚</div>
+        <h3>ساعة ذكية عصرية</h3>
+        <p style="color: #666; font-size: 0.9rem;">مقاومة للماء بهيكل كريستالي</p>
+        <span class="price">1,100 ر.س</span>
+        <button class="buy-btn">أضف للسلة</button>
+    </div>
+
+    <div class="card">
+        <div style="font-size: 5rem;">📷</div>
+        <h3>كاميرا فورية</h3>
+        <p style="color: #666; font-size: 0.9rem;">وثق لحظاتك بأناقة</p>
+        <span class="price">420 ر.س</span>
+        <button class="buy-btn">أضف للسلة</button>
+    </div>
+</div>
+
+<footer style="text-align: center; padding: 40px; color: #999; font-size: 0.8rem;">
+    &copy; 2026 متجر رد غلوس - الأناقة في البساطة
+</footer>
+
 </body>
 </html>
