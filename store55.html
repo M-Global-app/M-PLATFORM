@@ -2,103 +2,154 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M-PLATFORM | LUXE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;500;800;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الزجاج الأحمر الفاخر</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #ff3b30; --glow: rgba(255, 59, 48, 0.08); --bg: #ffffff; }
-        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
-        body { font-family: 'Alexandria', sans-serif; background: var(--bg); color: #000; overflow-x: hidden; }
-
-        /* هيدر سينمائي: عريض ونقي [cite: 2026-01-30] */
-        .glass-nav {
-            position: sticky; top: 0; background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(25px); z-index: 1000; padding: 20px 25px;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 0.5px solid rgba(0,0,0,0.05);
-        }
-        .logo { font-size: 24px; font-weight: 900; letter-spacing: -1.5px; color: #000; }
-
-        /* شبكة المنتجات بنظام الأبعاد الذهبية (Luxury Spacing) [cite: 2026-01-22] */
-        .luxury-feed { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 25px 20px 120px; }
-
-        .item-card { position: relative; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        .item-card:active { transform: scale(0.92); }
-
-        /* التوهج الرباعي "الملكي": ناعم، عميق وموحد [cite: 2026-01-31] */
-        .img-viewport {
-            width: 100%; aspect-ratio: 0.85; border-radius: 45px; /* انحناء فائق للراحة البصرية [cite: 2026-01-30] */
-            background: #f9f9fb; overflow: hidden; margin-bottom: 15px;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 50px var(--glow); /* التوهج المطلوب [cite: 2026-01-31] */
-            border: 1px solid rgba(0,0,0,0.02);
-        }
-        .img-viewport img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
-
-        /* زر الإضافة: مدمج بذكاء (Floating Capsule) [cite: 2026-01-31] */
-        .add-capsule {
-            position: absolute; bottom: 85px; left: 15px; width: 45px; height: 45px;
-            background: #000; color: #fff; border-radius: 20px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 26px; box-shadow: 0 12px 25px rgba(0,0,0,0.15); border: none;
+        :root {
+            --deep-red: #d90429;
+            --glass-red: rgba(217, 4, 41, 0.15); /* زيادة كثافة اللون الأحمر في الزجاج */
+            --glass-border: rgba(217, 4, 41, 0.3);
         }
 
-        .meta { padding: 0 5px; }
-        .meta h3 { font-size: 15px; font-weight: 600; color: #1c1c1e; margin-bottom: 5px; opacity: 0.9; }
-        .meta .price { font-size: 18px; font-weight: 900; color: var(--accent); }
-
-        /* الـ Dock العائم: قمة الفخامة الرقمية [cite: 2026-01-30] */
-        .dock {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 85%; height: 72px; background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(20px); border-radius: 36px;
-            display: flex; justify-content: space-around; align-items: center;
-            z-index: 2000; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
         }
-        .dock-item { color: #fff; font-size: 24px; opacity: 0.4; transition: 0.4s; cursor: pointer; }
-        .dock-item.active { opacity: 1; transform: translateY(-5px); text-shadow: 0 0 10px #fff; }
+
+        body {
+            background: #ffffff;
+            /* إضافة دوائر حمراء في الخلفية لتظهر من خلف الزجاج وتثبت التأثير */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(217, 4, 41, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(217, 4, 41, 0.05) 0%, transparent 20%);
+            min-height: 100vh;
+            color: #2b2d42;
+        }
+
+        /* الهيدر الزجاجي الأحمر الواضح */
+        header {
+            background: rgba(217, 4, 41, 0.1); /* خلفية حمراء زجاجية */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--glass-border);
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .logo { font-weight: 900; font-size: 1.8rem; color: var(--deep-red); }
+
+        /* حاوية البطاقات */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 60px 8%;
+        }
+
+        /* بطاقة الزجاج الأحمر - التأثير المطلوب هنا */
+        .card {
+            background: rgba(217, 4, 41, 0.08); /* لون أحمر زجاجي */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid var(--glass-border); /* حدود حمراء شفافة */
+            border-radius: 30px;
+            padding: 40px 20px;
+            text-align: center;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            background: rgba(217, 4, 41, 0.15); /* يغمق اللون عند التمرير */
+            border-color: var(--deep-red);
+            box-shadow: 0 15px 35px rgba(217, 4, 41, 0.2);
+        }
+
+        .card .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            filter: drop-shadow(0 5px 15px rgba(217, 4, 41, 0.3));
+        }
+
+        .price {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--deep-red);
+            margin: 20px 0;
+        }
+
+        .buy-btn {
+            background: var(--deep-red);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(217, 4, 41, 0.4);
+        }
+
+        .buy-btn:hover {
+            background: #800000;
+            transform: scale(1.1);
+        }
+
+        /* تمويج خلف البطاقة ليظهر التغبيش */
+        .glass-bg-effect {
+            position: absolute;
+            top: -10%; left: -10%;
+            width: 40px; height: 40px;
+            background: var(--deep-red);
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0.2;
+        }
     </style>
 </head>
 <body>
 
-    <nav class="glass-nav">
-        <div style="font-size:24px;">☰</div>
-        <div class="logo">M PREMIUM</div>
-        <div style="font-size:24px;">🛒</div>
+<header>
+    <div class="logo">RED<span>GLOSS</span></div>
+    <nav style="display: flex; gap: 20px;">
+        <span style="font-weight: bold; cursor: pointer;">الرئيسية</span>
+        <span style="font-weight: bold; cursor: pointer;">المتجر</span>
     </nav>
+    <div style="font-size: 1.5rem; cursor: pointer;">🛒</div>
+</header>
 
-    <main class="luxury-feed" id="pGrid"></main>
-
-    <div class="dock">
-        <div class="dock-item active">🏠</div>
-        <div class="dock-item">🔍</div>
-        <div class="dock-item">📦</div>
-        <div class="dock-item">👤</div>
+<div class="container">
+    <div class="card">
+        <div class="glass-bg-effect"></div>
+        <div class="icon">💎</div>
+        <h3>خاتم الياقوت</h3>
+        <span class="price">2,500 ر.س</span>
+        <button class="buy-btn">اقتنِ الآن</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
-        
-        async function load() {
-            const { data } = await _s.from('products').select('*').order('created_at', {ascending: false});
-            const grid = document.getElementById('pGrid');
-            const imgBase = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
+    <div class="card">
+        <div class="glass-bg-effect" style="right: -10%; left: auto; background: #000;"></div>
+        <div class="icon">🏎️</div>
+        <h3>سيارة تحكم ذكية</h3>
+        <span class="price">890 ر.س</span>
+        <button class="buy-btn">اقتنِ الآن</button>
+    </div>
 
-            grid.innerHTML = data.map(p => `
-                <div class="item-card">
-                    <div class="img-viewport">
-                        <img src="${p.image_url ? (p.image_url.includes('http') ? p.image_url : imgBase + p.image_url) : 'https://via.placeholder.com/600'}" alt="${p.name}">
-                    </div>
-                    <button class="add-capsule">+</button>
-                    <div class="meta">
-                        <h3>${p.name}</h3>
-                        <p class="price">${p.price} ر.س</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-        load();
-    </script>
+    <div class="card">
+        <div class="glass-bg-effect" style="bottom: -10%; top: auto;"></div>
+        <div class="icon">🌹</div>
+        <h3>عطر الورد الأحمر</h3>
+        <span class="price">350 ر.س</span>
+        <button class="buy-btn">اقتنِ الآن</button>
+    </div>
+</div>
+
 </body>
 </html>
