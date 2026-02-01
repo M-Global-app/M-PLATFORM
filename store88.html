@@ -10,12 +10,12 @@
         
         body { background: #fff; color: #333; }
 
-        /* الهيدر النحيف الذي طلبته */
+        /* الهيدر: نحيف جداً، يحتوي الاسم واللوقو والسلة فقط */
         header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(217, 4, 41, 0.1);
-            padding: 8px 5%; /* نحيف جداً */
+            padding: 8px 5%; /* تقليل الارتفاع */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -23,39 +23,38 @@
         }
 
         .brand { display: flex; align-items: center; gap: 8px; }
-        .logo-sq { width: 28px; height: 28px; background: #d90429; border-radius: 5px; }
+        .logo-sq { width: 25px; height: 25px; background: #d90429; border-radius: 5px; }
         .store-name { font-size: 1.1rem; font-weight: 900; color: #d90429; }
 
         .cart-icon { font-size: 1.2rem; display: flex; align-items: center; gap: 4px; color: #d90429; }
         .count { background: #d90429; color: #fff; font-size: 0.7rem; padding: 1px 6px; border-radius: 50%; }
 
-        /* تصغير المنتجات في شبكة منظمة */
+        /* شبكة المنتجات: مصغرة (منتجين في الصف) */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* منتجين في الصف الواحد */
+            grid-template-columns: repeat(2, 1fr); 
             gap: 15px;
             padding: 20px 5%;
         }
 
         .card {
-            background: #fff;
-            border: 1px solid #f0f0f0;
+            background: rgba(217, 4, 41, 0.03); /* العودة للزجاج الأحمر الخفيف */
+            border: 1px solid rgba(217, 4, 41, 0.1);
             border-radius: 20px;
             padding: 12px;
             text-align: center;
-            transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            backdrop-filter: blur(5px);
         }
 
         .card img {
             width: 100%;
-            height: 130px; /* ارتفاع مصغر */
+            height: 120px; /* تصغير الصورة */
             object-fit: contain;
             border-radius: 12px;
             margin-bottom: 8px;
         }
 
-        .card h3 { font-size: 0.9rem; margin-bottom: 5px; color: #222; }
+        .card h3 { font-size: 0.9rem; margin-bottom: 5px; }
         
         .price {
             display: block;
@@ -76,12 +75,6 @@
             font-weight: 700;
             cursor: pointer;
         }
-
-        /* لمسة زجاجية خفيفة جداً كما طلبت سابقاً */
-        .glass-effect {
-            background: rgba(217, 4, 41, 0.03);
-            border: 1px solid rgba(217, 4, 41, 0.1);
-        }
     </style>
 </head>
 <body>
@@ -97,31 +90,17 @@
 </header>
 
 <div class="products-grid">
-    <div class="card glass-effect">
+    <div class="card">
         <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300" alt="">
         <h3>ساعة أورورا</h3>
         <span class="price">1,200 ر.س</span>
         <button class="buy-btn">أضف للسلة</button>
     </div>
 
-    <div class="card glass-effect">
+    <div class="card">
         <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" alt="">
         <h3>سماعات بريميوم</h3>
         <span class="price">850 ر.س</span>
-        <button class="buy-btn">أضف للسلة</button>
-    </div>
-
-    <div class="card glass-effect">
-        <img src="https://via.placeholder.com/300x300?text=LUXE" alt="">
-        <h3>منتج حصري</h3>
-        <span class="price">300 ر.س</span>
-        <button class="buy-btn">أضف للسلة</button>
-    </div>
-
-    <div class="card glass-effect">
-        <img src="https://via.placeholder.com/300x300?text=RED" alt="">
-        <h3>إصدار خاص</h3>
-        <span class="price">150 ر.س</span>
         <button class="buy-btn">أضف للسلة</button>
     </div>
 </div>
