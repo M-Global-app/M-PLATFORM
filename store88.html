@@ -3,98 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر النخبة</title>
+    <title>المتجر الأيقوني | Black Glass Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background: #fff; color: #333; }
+        :root {
+            --primary: #d90429;
+            --glass-black: rgba(0, 0, 0, 0.85); /* زجاج أسود داكن */
+            --glass-border: rgba(0, 0, 0, 0.1);
+        }
 
-        /* الهيدر: نحيف جداً ويحتوي المطلوب فقط */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background: #ffffff; /* خلفية بيضاء ناصعة */
+            color: #1a1a1a;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* هيدر نحيف وعائم باللون الأسود الزجاجي */
         header {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #eee;
-            padding: 5px 5%; /* تقليل المساحة جداً ليكون نحيفاً */
+            background: var(--glass-black);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            margin: 10px 5%;
+            padding: 10px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky; top: 0; z-index: 1000;
+            border-radius: 20px;
+            position: sticky;
+            top: 10px;
+            z-index: 1000;
+            color: #fff;
         }
 
-        .brand { display: flex; align-items: center; gap: 8px; }
-        .logo-sq { width: 25px; height: 25px; background: #d90429; border-radius: 5px; } /* المربع الأحمر */
-        .store-name { font-size: 1rem; font-weight: 900; color: #d90429; }
+        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: 1px; }
+        .logo span { color: var(--primary); }
 
-        .cart { display: flex; align-items: center; gap: 5px; font-size: 1.1rem; }
-        .cart-num { background: #d90429; color: #fff; border-radius: 50%; padding: 1px 6px; font-size: 0.7rem; }
+        nav { display: flex; gap: 15px; }
+        nav a { text-decoration: none; color: #ccc; font-size: 0.85rem; transition: 0.3s; }
+        nav a:hover { color: #fff; }
 
-        /* المنتجات: تصغير الحجم لتظهر بشكل أرشق */
-        .products-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* منتجين بجانب بعض للجوال */
-            gap: 15px;
+        /* قسم الهيرو مصغر */
+        .hero {
+            padding: 60px 10% 30px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 900;
+            color: #000;
+            margin-bottom: 10px;
+        }
+
+        /* حاوية المنتجات: توزيع تلقائي (2 بجانب بعض في الجوال) */
+        .container {
             padding: 20px 5%;
+            display: grid;
+            /* التوزيع التلقائي: في الجوال 1fr 1fr وفي الكمبيوتر يمتد حسب المساحة */
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 15px;
+        }
+
+        /* للكمبيوتر والشاشات الكبيرة */
+        @media (min-width: 768px) {
+            .container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 25px;
+            }
         }
 
         .card {
-            background: rgba(217, 4, 41, 0.03); /* زجاج أحمر خفيف جداً */
-            border: 1px solid rgba(217, 4, 41, 0.1);
-            border-radius: 15px;
-            padding: 10px;
-            text-align: center;
+            background: var(--glass-black);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 15px;
+            color: #fff;
+            transition: 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
 
         .card img {
             width: 100%;
-            height: 120px; /* تصغير الصورة */
-            object-fit: contain;
-            border-radius: 10px;
-            margin-bottom: 8px;
+            height: 150px; /* حجم مصغر متناسق */
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            background: #f9f9f9;
         }
 
-        .card h3 { font-size: 0.85rem; margin-bottom: 5px; }
-        .price { color: #d90429; font-weight: 700; font-size: 0.95rem; display: block; margin-bottom: 8px; }
+        .card h3 { font-size: 0.95rem; margin-bottom: 5px; height: 2.5em; overflow: hidden; }
 
-        .buy-btn {
-            background: #d90429;
-            color: white;
-            border: none;
-            padding: 6px 0;
-            width: 100%;
-            border-radius: 8px;
-            font-size: 0.8rem;
+        .price-tag {
+            font-size: 1.1rem;
             font-weight: 700;
+            color: var(--primary);
+            margin: 8px 0;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: #fff;
+            padding: 10px 0;
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
             cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover { background: #b91c1c; }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.6;
+            font-size: 0.75rem;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="cart">
-        <span class="cart-num">3</span> 🛒
-    </div>
-    <div class="brand">
-        <div class="store-name">LUXE STORE</div>
-        <div class="logo-sq"></div>
-    </div>
+    <div style="cursor: pointer; font-size: 1.1rem;">🛒</div>
+    <nav>
+        <a href="#">الرئيسية</a>
+        <a href="#">المتجر</a>
+    </nav>
+    <div class="logo">ICONIC<span>.</span></div>
 </header>
 
-<div class="products-container">
+<section class="hero">
+    <h1>أناقة الأسود والذهب</h1>
+    <p style="opacity: 0.7; font-size: 0.9rem;">تصميم زجاجي داكن على خلفية بيضاء نقية.</p>
+</section>
+
+<div class="container">
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300" alt="">
-        <h3>ساعة أورورا</h3>
-        <span class="price">1,200 ر.س</span>
-        <button class="buy-btn">أضف للسلة</button>
+        <img src="https://images.unsplash.com/photo-1542491595-30158bf607d5?w=400" alt="ساعة">
+        <div>
+            <h3>ساعة بلاك إيديشن</h3>
+            <span class="price-tag">1,499 ر.س</span>
+        </div>
+        <button class="btn">إضافة للسلة</button>
     </div>
 
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" alt="">
-        <h3>سماعات برو</h3>
-        <span class="price">850 ر.س</span>
-        <button class="buy-btn">أضف للسلة</button>
+        <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400" alt="سماعات">
+        <div>
+            <h3>سماعات هاي-ريس</h3>
+            <span class="price-tag">920 ر.س</span>
+        </div>
+        <button class="btn">إضافة للسلة</button>
+    </div>
+
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=400" alt="ساعة">
+        <div>
+            <h3>إصدار رويال هيريتج</h3>
+            <span class="price-tag">2,300 ر.س</span>
+        </div>
+        <button class="buy-btn btn">إضافة للسلة</button>
+    </div>
+
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1524333892444-2103734a1012?w=400" alt="محفظة">
+        <div>
+            <h3>محفظة جلدية فاخرة</h3>
+            <span class="price-tag">350 ر.س</span>
+        </div>
+        <button class="btn">إضافة للسلة</button>
     </div>
 </div>
+
+<footer>
+    &copy; 2026 ICONIC STORE - مظهر عصري بنظام التوزيع التلقائي
+</footer>
 
 </body>
 </html>
