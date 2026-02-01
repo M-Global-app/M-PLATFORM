@@ -3,199 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المتجر الأيقوني | Black Glass Edition</title>
+    <title>المتجر الأيقوني | الزجاج الشفاف</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #d90429;
-            --glass-black: rgba(0, 0, 0, 0.85); /* زجاج أسود داكن */
+            /* زجاج أسود شفاف جداً */
+            --glass-black: rgba(0, 0, 0, 0.08); 
             --glass-border: rgba(0, 0, 0, 0.1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
 
         body {
-            background: #ffffff; /* خلفية بيضاء ناصعة */
+            background: #ffffff;
             color: #1a1a1a;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        /* هيدر نحيف وعائم باللون الأسود الزجاجي */
+        /* هيدر نحيف وزجاج شفاف أسود */
         header {
-            background: var(--glass-black);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            margin: 10px 5%;
-            padding: 10px 25px;
+            background: rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 10px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 20px;
-            position: sticky;
-            top: 10px;
-            z-index: 1000;
-            color: #fff;
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky; top: 0; z-index: 1000;
         }
 
-        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: 1px; }
+        .logo { font-weight: 900; font-size: 1.2rem; color: #000; }
         .logo span { color: var(--primary); }
 
-        nav { display: flex; gap: 15px; }
-        nav a { text-decoration: none; color: #ccc; font-size: 0.85rem; transition: 0.3s; }
-        nav a:hover { color: #fff; }
+        .cart-icon { font-size: 1.2rem; cursor: pointer; color: #000; }
 
-        /* قسم الهيرو مصغر */
-        .hero {
-            padding: 60px 10% 30px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: clamp(1.8rem, 5vw, 3rem);
-            font-weight: 900;
-            color: #000;
-            margin-bottom: 10px;
-        }
-
-        /* حاوية المنتجات: توزيع تلقائي (2 بجانب بعض في الجوال) */
+        /* شبكة المنتجات: 2 بجانب بعض تلقائياً */
         .container {
-            padding: 20px 5%;
             display: grid;
-            /* التوزيع التلقائي: في الجوال 1fr 1fr وفي الكمبيوتر يمتد حسب المساحة */
-            grid-template-columns: repeat(2, 1fr); 
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
+            padding: 20px 5%;
         }
 
-        /* للكمبيوتر والشاشات الكبيرة */
-        @media (min-width: 768px) {
-            .container {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 25px;
-            }
+        /* للكمبيوتر */
+        @media (min-width: 992px) {
+            .container { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
         }
 
+        /* الكرت بنمط الزجاج الشفاف الأسود */
         .card {
             background: var(--glass-black);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 15px;
-            color: #fff;
-            transition: 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            text-align: center;
+            transition: 0.3s;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.12);
+            border-color: var(--primary);
         }
 
         .card img {
             width: 100%;
-            height: 150px; /* حجم مصغر متناسق */
-            object-fit: cover;
-            border-radius: 15px;
-            margin-bottom: 12px;
-            background: #f9f9f9;
+            height: 130px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 10px;
         }
 
-        .card h3 { font-size: 0.95rem; margin-bottom: 5px; height: 2.5em; overflow: hidden; }
+        .card h3 { font-size: 0.9rem; margin-bottom: 5px; color: #000; }
 
-        .price-tag {
-            font-size: 1.1rem;
-            font-weight: 700;
+        .price {
+            display: block;
             color: var(--primary);
-            margin: 8px 0;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 10px;
         }
 
         .btn {
-            background: var(--primary);
+            background: #000; /* زر أسود أنيق */
             color: #fff;
-            padding: 10px 0;
-            width: 100%;
             border: none;
-            border-radius: 12px;
+            padding: 8px 0;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 0.8rem;
             font-weight: 700;
-            font-size: 0.85rem;
             cursor: pointer;
-            transition: 0.3s;
         }
 
-        .btn:hover { background: #b91c1c; }
-
-        footer {
-            text-align: center;
-            padding: 40px;
-            opacity: 0.6;
-            font-size: 0.75rem;
-        }
     </style>
 </head>
 <body>
 
 <header>
-    <div style="cursor: pointer; font-size: 1.1rem;">🛒</div>
-    <nav>
-        <a href="#">الرئيسية</a>
-        <a href="#">المتجر</a>
-    </nav>
+    <div class="cart-icon">🛒</div>
     <div class="logo">ICONIC<span>.</span></div>
 </header>
 
-<section class="hero">
-    <h1>أناقة الأسود والذهب</h1>
-    <p style="opacity: 0.7; font-size: 0.9rem;">تصميم زجاجي داكن على خلفية بيضاء نقية.</p>
-</section>
-
 <div class="container">
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1542491595-30158bf607d5?w=400" alt="ساعة">
-        <div>
-            <h3>ساعة بلاك إيديشن</h3>
-            <span class="price-tag">1,499 ر.س</span>
-        </div>
-        <button class="btn">إضافة للسلة</button>
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300" alt="">
+        <h3>ساعة أورورا</h3>
+        <span class="price">1,200 ر.س</span>
+        <button class="btn">إضافة</button>
     </div>
 
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400" alt="سماعات">
-        <div>
-            <h3>سماعات هاي-ريس</h3>
-            <span class="price-tag">920 ر.س</span>
-        </div>
-        <button class="btn">إضافة للسلة</button>
-    </div>
-
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=400" alt="ساعة">
-        <div>
-            <h3>إصدار رويال هيريتج</h3>
-            <span class="price-tag">2,300 ر.س</span>
-        </div>
-        <button class="buy-btn btn">إضافة للسلة</button>
-    </div>
-
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1524333892444-2103734a1012?w=400" alt="محفظة">
-        <div>
-            <h3>محفظة جلدية فاخرة</h3>
-            <span class="price-tag">350 ر.س</span>
-        </div>
-        <button class="btn">إضافة للسلة</button>
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" alt="">
+        <h3>سماعات برو</h3>
+        <span class="price">850 ر.س</span>
+        <button class="btn">إضافة</button>
     </div>
 </div>
-
-<footer>
-    &copy; 2026 ICONIC STORE - مظهر عصري بنظام التوزيع التلقائي
-</footer>
 
 </body>
 </html>
