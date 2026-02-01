@@ -3,72 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر النخبة | LUXE STORE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>متجر النخبة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        
+        body { background: #fff; color: #333; }
 
-        body {
-            background-color: #fffafa;
-            color: #333;
-        }
-
-        /* هيدر نحيف وعصري */
+        /* الهيدر النحيف الذي طلبته */
         header {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(217, 4, 41, 0.1);
-            padding: 10px 5%; /* تقليل البادينج لجعل الهيدر أنحف */
+            padding: 8px 5%; /* نحيف جداً */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            position: sticky; top: 0; z-index: 1000;
         }
 
-        .brand { display: flex; align-items: center; gap: 10px; }
-        .logo-img { width: 35px; height: 35px; background: #d90429; border-radius: 8px; } /* لوقو رمزي */
-        .store-name { font-size: 1.2rem; font-weight: 700; color: #d90429; }
+        .brand { display: flex; align-items: center; gap: 8px; }
+        .logo-sq { width: 28px; height: 28px; background: #d90429; border-radius: 5px; }
+        .store-name { font-size: 1.1rem; font-weight: 900; color: #d90429; }
 
-        .cart-section { font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .cart-count { background: #d90429; color: white; border-radius: 50%; padding: 2px 7px; font-size: 0.8rem; }
+        .cart-icon { font-size: 1.2rem; display: flex; align-items: center; gap: 4px; color: #d90429; }
+        .count { background: #d90429; color: #fff; font-size: 0.7rem; padding: 1px 6px; border-radius: 50%; }
 
-        /* حاوية المنتجات المصغرة */
-        .container {
+        /* تصغير المنتجات في شبكة منظمة */
+        .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* تصغير عرض البطاقات */
-            gap: 20px;
-            padding: 30px 5%;
+            grid-template-columns: repeat(2, 1fr); /* منتجين في الصف الواحد */
+            gap: 15px;
+            padding: 20px 5%;
         }
 
-        .product-card {
-            background: white;
-            border: 1px solid rgba(217, 4, 41, 0.1);
+        .card {
+            background: #fff;
+            border: 1px solid #f0f0f0;
             border-radius: 20px;
-            padding: 15px;
+            padding: 12px;
             text-align: center;
             transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
 
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-
-        .product-card img {
+        .card img {
             width: 100%;
-            height: 150px; /* تصغير ارتفاع الصورة */
+            height: 130px; /* ارتفاع مصغر */
             object-fit: contain;
-            margin-bottom: 10px;
-            border-radius: 15px;
+            border-radius: 12px;
+            margin-bottom: 8px;
         }
 
-        .product-card h3 { font-size: 1rem; margin-bottom: 5px; color: #1a1a1a; }
+        .card h3 { font-size: 0.9rem; margin-bottom: 5px; color: #222; }
         
         .price {
             display: block;
             color: #d90429;
             font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 12px;
+            font-size: 1rem;
+            margin-bottom: 10px;
         }
 
         .buy-btn {
@@ -77,50 +71,57 @@
             border: none;
             padding: 8px 0;
             width: 100%;
-            border-radius: 12px;
-            font-size: 0.9rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
             font-weight: 700;
             cursor: pointer;
+        }
+
+        /* لمسة زجاجية خفيفة جداً كما طلبت سابقاً */
+        .glass-effect {
+            background: rgba(217, 4, 41, 0.03);
+            border: 1px solid rgba(217, 4, 41, 0.1);
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="brand">
-        <div class="logo-img"></div> <div class="store-name">LUXE STORE</div>
+    <div class="cart-icon">
+        <span class="count">3</span> 🛒
     </div>
-    <div class="cart-section">
-        🛒 <span class="cart-count">3</span>
+    <div class="brand">
+        <div class="store-name">LUXE STORE</div>
+        <div class="logo-sq"></div>
     </div>
 </header>
 
-<div class="container">
-    <div class="product-card">
-        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300" alt="ساعة">
-        <h3>ساعة أورورا الذهبية</h3>
+<div class="products-grid">
+    <div class="card glass-effect">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300" alt="">
+        <h3>ساعة أورورا</h3>
         <span class="price">1,200 ر.س</span>
         <button class="buy-btn">أضف للسلة</button>
     </div>
 
-    <div class="product-card">
-        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" alt="سماعات">
-        <h3>سماعات بريميوم عازلة</h3>
+    <div class="card glass-effect">
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" alt="">
+        <h3>سماعات بريميوم</h3>
         <span class="price">850 ر.س</span>
         <button class="buy-btn">أضف للسلة</button>
     </div>
 
-    <div class="product-card">
-        <img src="https://via.placeholder.com/300x250?text=Product" alt="منتج">
-        <h3>منتج إضافي 1</h3>
-        <span class="price">400 ر.س</span>
+    <div class="card glass-effect">
+        <img src="https://via.placeholder.com/300x300?text=LUXE" alt="">
+        <h3>منتج حصري</h3>
+        <span class="price">300 ر.س</span>
         <button class="buy-btn">أضف للسلة</button>
     </div>
 
-    <div class="product-card">
-        <img src="https://via.placeholder.com/300x250?text=Product" alt="منتج">
-        <h3>منتج إضافي 2</h3>
-        <span class="price">250 ر.س</span>
+    <div class="card glass-effect">
+        <img src="https://via.placeholder.com/300x300?text=RED" alt="">
+        <h3>إصدار خاص</h3>
+        <span class="price">150 ر.س</span>
         <button class="buy-btn">أضف للسلة</button>
     </div>
 </div>
