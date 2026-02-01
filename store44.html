@@ -2,101 +2,184 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M-ULTIMATE | 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;600;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المتجر الكريستالي | القمة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --p: #ff3b30; --g: rgba(255, 59, 48, 0.08); --bg: #ffffff; }
-        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
-        body { font-family: 'Alexandria', sans-serif; background: var(--bg); color: #000; }
-
-        /* الهيدر: شفافية مطلقة مع التركيز على الهوية [cite: 2026-01-30] */
-        .nav {
-            position: sticky; top: 0; background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(20px); z-index: 1000; padding: 25px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .nav h1 { font-size: 24px; font-weight: 900; letter-spacing: -1.5px; }
-
-        /* الشبكة: نظام المسافات الواسعة (Editorial Grid) [cite: 2026-01-22] */
-        .feed { padding: 0 20px 120px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-
-        .card { position: relative; transition: 0.5s cubic-bezier(0.1, 0.9, 0.2, 1); }
-        .card:active { transform: scale(0.92); }
-
-        /* التوهج الرباعي "السحابي": سر الفخامة [cite: 2026-01-31] */
-        .img-box {
-            width: 100%; aspect-ratio: 1/1.2; border-radius: 45px; /* انحناء فائق [cite: 2026-01-30] */
-            background: #f8f8f8; overflow: hidden; margin-bottom: 15px;
-            box-shadow: 0 0 50px var(--g); border: 1px solid rgba(0,0,0,0.01);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* أيقونة الإضافة: تصميم "الكبسولة" [cite: 2026-01-31] */
-        .add {
-            position: absolute; bottom: 85px; left: 15px; width: 45px; height: 45px;
-            background: #000; color: #fff; border-radius: 20px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        :root {
+            --royal-red: #d90429;
+            --glass-red: rgba(217, 4, 41, 0.12);
+            --crystal-white: #ffffff;
         }
 
-        .info { padding: 0 5px; }
-        .info h3 { font-size: 15px; font-weight: 600; color: #1d1d1f; margin-bottom: 5px; }
-        .info .price { font-size: 18px; font-weight: 900; color: var(--p); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
 
-        /* الـ Dock العائم: تصميم مستوحى من أنظمة التشغيل الحديثة [cite: 2026-01-30] */
-        .dock {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 85%; height: 70px; background: rgba(0,0,0,0.92);
-            backdrop-filter: blur(25px); border-radius: 35px;
-            display: flex; justify-content: space-around; align-items: center;
-            z-index: 2000; box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        body {
+            background-color: #fcfcfc;
+            /* خلفية فنية ناعمة جداً */
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(217, 4, 41, 0.03) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(217, 4, 41, 0.03) 0px, transparent 50%);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-        .dock i { color: #fff; font-size: 26px; opacity: 0.5; transition: 0.3s; }
-        .dock i.active { opacity: 1; transform: translateY(-5px); }
+
+        /* هيدر سينمائي */
+        header {
+            padding: 30px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 2rem; font-weight: 900; color: var(--royal-red); letter-spacing: -1px; }
+
+        /* حاوية العرض الرئيسية */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+            padding: 40px 10%;
+        }
+
+        /* البطاقة الكريستالية الحمراء */
+        .crystal-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(217, 4, 41, 0.05));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(217, 4, 41, 0.2);
+            border-radius: 40px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden; /* لقص تأثير اللمعان */
+        }
+
+        /* تأثير اللمعان المتحرك */
+        .crystal-card::after {
+            content: "";
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(217, 4, 41, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: 0.8s;
+        }
+
+        .crystal-card:hover::after {
+            left: 100%;
+        }
+
+        .crystal-card:hover {
+            transform: translateY(-20px);
+            border-color: var(--royal-red);
+            box-shadow: 0 30px 60px rgba(217, 4, 41, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* أيقونة المنتج مع توهج أحمر خلفي */
+        .product-visual {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-visual::before {
+            content: "";
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px; height: 100px;
+            background: var(--royal-red);
+            filter: blur(50px);
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        h3 { font-size: 1.6rem; color: #1a1a1a; margin-bottom: 10px; }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--royal-red);
+            margin: 15px 0;
+            display: block;
+        }
+
+        /* زر شراء بتصميم سائل */
+        .buy-btn {
+            background: var(--royal-red);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.4s;
+            width: 100%;
+        }
+
+        .buy-btn:hover {
+            background: #000;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transform: scale(1.02);
+        }
+
+        /* عناصر زجاجية طائرة في الخلفية لتعزيز الشعور بالعمق */
+        .floating-blob {
+            position: fixed;
+            z-index: -1;
+            background: rgba(217, 4, 41, 0.05);
+            border-radius: 50%;
+            filter: blur(60px);
+        }
+
     </style>
 </head>
 <body>
 
-    <header class="nav">
-        <div style="font-size:24px;">☰</div>
-        <h1>M PREMIUM</h1>
-        <div style="font-size:24px;">🛒</div>
-    </header>
+<div class="floating-blob" style="width: 300px; height: 300px; top: -100px; left: -100px;"></div>
+<div class="floating-blob" style="width: 200px; height: 200px; bottom: 50px; right: 10%;"></div>
 
-    <main class="feed" id="pGrid"></main>
+<header>
+    <div class="logo">LUXE<span>.</span>RED</div>
+    <div style="font-weight: bold; font-size: 1.2rem; cursor: pointer; color: #555;">القائمة ☰</div>
+</header>
 
-    <nav class="dock">
-        <i class="active">🏠</i>
-        <i>🔍</i>
-        <i>📦</i>
-        <i>👤</i>
-    </nav>
+<div style="text-align: center; padding: 60px 0;">
+    <h1 style="font-weight: 900; font-size: 3.5rem; color: #1a1a1a;">فن <span style="color: var(--royal-red);">الاقتناء</span></h1>
+    <p style="color: #888; letter-spacing: 2px;">منتجات حصرية بتصاميم زجاجية نادرة</p>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const _s = supabase.createClient('https://wwbyzuvbqamucptnnlpf.supabase.co', 'sb_publishable_-hyuI4B77eb_uorLPMhfAg_8SvHM7Z2');
-        
-        async function load() {
-            const { data } = await _s.from('products').select('*').order('created_at', {ascending: false});
-            const grid = document.getElementById('pGrid');
-            const imgBase = "https://wwbyzuvbqamucptnnlpf.supabase.co/storage/v1/object/public/products-bucket/";
+<div class="container">
+    <div class="crystal-card">
+        <div class="product-visual">🍷</div>
+        <h3>كأس الكريستال</h3>
+        <span class="price">120 ر.س</span>
+        <button class="buy-btn">أضف للحقيبة</button>
+    </div>
 
-            grid.innerHTML = data.map(p => `
-                <div class="card">
-                    <div class="img-box">
-                        <img src="${p.image_url ? (p.image_url.includes('http') ? p.image_url : imgBase + p.image_url) : 'https://via.placeholder.com/600'}" alt="${p.name}">
-                    </div>
-                    <div class="add">+</div>
-                    <div class="info">
-                        <h3>${p.name}</h3>
-                        <p class="price">${p.price} ر.س</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-        load();
-    </script>
+    <div class="crystal-card">
+        <div class="product-visual">💄</div>
+        <h3>أحمر شفاه ملكي</h3>
+        <span class="price">210 ر.س</span>
+        <button class="buy-btn">أضف للحقيبة</button>
+    </div>
+
+    <div class="crystal-card">
+        <div class="product-visual">🧧</div>
+        <h3>محفظة جلدية حمراء</h3>
+        <span class="price">450 ر.س</span>
+        <button class="buy-btn">أضف للحقيبة</button>
+    </div>
+</div>
+
+<footer style="text-align: center; padding: 60px; color: #bbb;">
+    &copy; 2026 تم التصميم بأعلى معايير الأناقة الرقمية
+</footer>
+
 </body>
 </html>
